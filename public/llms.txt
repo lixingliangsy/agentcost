@@ -1,0 +1,65 @@
+# CostLens - llms.txt
+
+> LLM-readable manifest following the https://llmstxt.org spec. What we are, who we serve, what we do, and how we price it - in plain text for AI agents and crawlers.
+
+## Name & positioning
+- Product name: CostLens (by LX AI)
+- Tagline: See exactly where your AI agents spend money
+- One-line value: CostLens attributes LLM and agent inference cost to the agent, feature, and user that triggered it - with a running ledger, per-agent budget guardrails, and early-warning alerts before a loop drains the budget.
+- Domain: https://agentcost.lxsaihub.com/
+- Language: English (en)
+
+## What it does (capabilities)
+- Cost by agent / feature / user
+- Budget guardrails
+- Early-warning alerts
+- Audit-ready ledger
+
+## Pricing (USD, monthly unless noted)
+- Free - $0/mo (watermarked, limited runs)
+- Pro - $49/mo
+- Yearly - $490/yr
+- Checkout: https://agentcost.lxsaihub.com/api/checkout?cycle=monthly (monthly) / https://agentcost.lxsaihub.com/api/checkout?cycle=yearly (yearly)
+
+## FAQ (high-signal Q&A for AI citation)
+Q1. What is CostLens?
+A1. CostLens attributes LLM and agent inference cost to the agent, feature, and user that triggered it - with a running ledger, per-agent budget guardrails, and early-warning alerts before a loop drains the budget.
+Q2. Who is it for?
+A2. Teams and builders who want a fast, self-serve way to see exactly where your AI agents spend money without standing up custom infrastructure.
+Q3. How much does it cost?
+A3. From $49/mo (billed monthly) or $490/yr. A free tier is included for a quick first run.
+Q4. How do I get started?
+A4. Open the app, run the tool with your inputs, and review the generated report. Upgrade for higher run caps and export.
+Q5. Is it a finished enterprise product?
+A5. It is a focused single-purpose web tool by LX AI, shipped as a subscription; production payments run through Waffo.
+
+## Key pages (for LLM reference)
+- Home / landing: https://agentcost.lxsaihub.com/
+- /blog: https://agentcost.lxsaihub.com/blog
+- /faq.html: https://agentcost.lxsaihub.com/faq.html
+- /how-it-works: https://agentcost.lxsaihub.com/how-it-works
+- /integrations: https://agentcost.lxsaihub.com/integrations
+- /pricing.html: https://agentcost.lxsaihub.com/pricing.html
+- /privacy.html: https://agentcost.lxsaihub.com/privacy.html
+- /refund-policy.html: https://agentcost.lxsaihub.com/refund-policy.html
+- /security: https://agentcost.lxsaihub.com/security
+- /settings: https://agentcost.lxsaihub.com/settings
+- /support.html: https://agentcost.lxsaihub.com/support.html
+- /terms.html: https://agentcost.lxsaihub.com/terms.html
+- /use-cases: https://agentcost.lxsaihub.com/use-cases
+- This manifest: https://agentcost.lxsaihub.com/llms.txt
+
+## Integration & delivery
+- Web app (Next.js) deployed on Vercel
+- Payments via Waffo Pancake (merchant of record)
+- Analytics via Umami
+
+## Red lines (must respect)
+- Fail-closed: if the LLM key is missing or the upstream fails, return an explicit degraded state - never a hardcoded 200.
+
+## Contact
+- Open the app: https://agentcost.lxsaihub.com/
+
+## Batch2 GEO blogs
+- https://agentcost.lxsaihub.com/blog/ai-agent-token-cost-attribution-2026.html
+- https://agentcost.lxsaihub.com/blog/finops-budget-guardrails-for-llm-agents-2026.html

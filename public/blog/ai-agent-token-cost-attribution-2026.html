@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Token cost attribution for AI agents — CostLens</title>
+<meta name="description" content="Assigning every unit of model spend to the agent, feature and user that caused it — the prerequisite for any budget control.">
+<link rel="canonical" href="https://agentcost.lxsaihub.com/blog/ai-agent-token-cost-attribution-2026.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Token cost attribution for AI agents">
+<meta property="og:url" content="https://agentcost.lxsaihub.com/blog/ai-agent-token-cost-attribution-2026.html">
+<meta property="og:site_name" content="CostLens (LX AI)">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Token cost attribution for AI agents", "description": "Assigning every unit of model spend to the agent, feature and user that caused it — the prerequisite for any budget control.", "inLanguage": "en", "url": "https://agentcost.lxsaihub.com/blog/ai-agent-token-cost-attribution-2026.html", "datePublished": "2026-09-20", "dateModified": "2026-09-20", "author": {"@type": "Organization", "name": "CostLens (LX AI)"}, "publisher": {"@type": "Organization", "name": "CostLens (LX AI)", "url": "https://agentcost.lxsaihub.com/"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://agentcost.lxsaihub.com/blog/ai-agent-token-cost-attribution-2026.html"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Why is attribution needed before budgeting?", "acceptedAnswer": {"@type": "Answer", "text": "A single account-level cap tells you that you overspent, not which agent did it. Per-agent caps need per-agent attribution."}}, {"@type": "Question", "name": "Does attribution reduce the bill?", "acceptedAnswer": {"@type": "Answer", "text": "No. It shows you where the money goes. The reduction comes from the changes you make afterwards."}}, {"@type": "Question", "name": "What about cached or discounted tokens?", "acceptedAnswer": {"@type": "Answer", "text": "They change the unit price. Record which pricing applied per call so the ledger matches the invoice."}}, {"@type": "Question", "name": "How do we catch a runaway loop?", "acceptedAnswer": {"@type": "Answer", "text": "Alert on rate of change and on per-run cost, not only on the monthly total. A loop is only visible in the first few minutes."}}, {"@type": "Question", "name": "Do we need to instrument every call ourselves?", "acceptedAnswer": {"@type": "Answer", "text": "Something has to emit the per-call record. CostLens consumes those records and attributes them; it cannot invent them."}}, {"@type": "Question", "name": "Is this FinOps-certified?", "acceptedAnswer": {"@type": "Answer", "text": "No. It follows FinOps framing for attribution and budgeting but is not a certification of any kind."}}]}</script>
+<style>*{box-sizing:border-box}body{margin:0;font-family:Georgia,Times,serif;color:#0f172a;line-height:1.7;background:#fff}
+.wrap{max-width:760px;margin:0 auto;padding:48px 20px 80px}.by{color:#0f766e;font-weight:700;letter-spacing:.02em;text-transform:uppercase;font-size:12px}
+h1{font-size:32px;line-height:1.25;margin:.2em 0 .4em;font-family:system-ui,Segoe UI,sans-serif}h2{font-size:22px;margin:1.6em 0 .5em}h3{font-size:17px;margin:1.1em 0 .2em}
+p{margin:.6em 0}a{color:#0f766e}ul,ol{padding-left:1.2em}
+.cta{display:inline-block;margin-top:1.4em;padding:12px 22px;border-radius:8px;background:#0f766e;color:#fff;text-decoration:none;font-weight:700}
+.card{border:1px solid #e2e8f0;border-radius:10px;padding:16px 18px;margin:12px 0}
+.meta{color:#64748b;font-size:13px}nav a{margin-right:1em}
+.tk{background:#f0fdfa;border:1px solid #ccfbf1;border-radius:10px;padding:16px 18px;margin:18px 0}
+.tk p.tkh{font-weight:700;font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:#0f766e;margin:0 0 8px}
+.tk ul{margin:0;padding-left:1.2em}
+blockquote{margin:1.1em 0;padding:.7em 1em;background:#f8fafc;border-left:4px solid #0f766e;color:#334155;font-style:italic}
+</style></head>
+<body><div class="wrap">
+<p class="by">by CostLens (LX AI)</p>
+<p class="meta"><a href="https://agentcost.lxsaihub.com/blog/">Blog</a> · <a href="https://agentcost.lxsaihub.com/">Home</a></p>
+<h1>Token cost attribution for AI agents</h1>
+<p><strong><em>Token cost attribution</em> is the practice of assigning every unit of model spend to the agent, feature and end user that caused it. Until you can attribute spend, you cannot cap it — a budget without attribution is a number you discover you have already exceeded.</strong></p>
+<div class="tk"><p class="tkh">Key takeaways</p><ul>
+<li>Track input and output tokens separately; they are priced differently, and output usually costs more per token.</li>
+<li>A growing context window means earlier turns are re-sent on every new call — the cost repeats rather than happening once.</li>
+<li>Attribution is a prerequisite for budgets: per-agent caps need per-agent numbers.</li>
+</ul></div>
+<h2>What to attribute</h2>
+<ol>
+<li><strong>Which agent ran.</strong> A router that fans out to three agents should not produce one undifferentiated bill.</li>
+<li><strong>Which feature triggered it.</strong> The same agent called by different features has a different return.</li>
+<li><strong>Which end user.</strong> One account can quietly dominate a shared budget.</li>
+<li><strong>Which model and which call.</strong> Retries, fallbacks and streaming each change the arithmetic.</li>
+</ol>
+<h2>Where agent spend hides</h2>
+<ul>
+<li><strong>Loops.</strong> An agent that retries or re-plans can multiply a cheap task many times over.</li>
+<li><strong>Context growth.</strong> Long conversations re-send earlier tokens on every turn.</li>
+<li><strong>Silent fallbacks.</strong> A fallback to a larger model changes the unit price mid-run.</li>
+<li><strong>Tool output.</strong> Large tool results get fed back in as input tokens.</li>
+</ul>
+<h2>How CostLens helps</h2>
+<p>CostLens attributes LLM and agent inference cost to the agent, feature and user that triggered it, keeps a running ledger, and sets per-agent budget guardrails with early-warning alerts — so a loop is caught while it is still cheap to stop.</p>
+<h2>Frequently asked questions</h2>
+<h3>Why is attribution needed before budgeting?</h3>
+<p>A single account-level cap tells you that you overspent, not which agent did it. Per-agent caps need per-agent attribution.</p>
+<h3>Does attribution reduce the bill?</h3>
+<p>No. It shows you where the money goes. The reduction comes from the changes you make afterwards.</p>
+<h3>What about cached or discounted tokens?</h3>
+<p>They change the unit price. Record which pricing applied per call so the ledger matches the invoice.</p>
+<h3>How do we catch a runaway loop?</h3>
+<p>Alert on rate of change and on per-run cost, not only on the monthly total. A loop is only visible in the first few minutes.</p>
+<h3>Do we need to instrument every call ourselves?</h3>
+<p>Something has to emit the per-call record. CostLens consumes those records and attributes them; it cannot invent them.</p>
+<h3>Is this FinOps-certified?</h3>
+<p>No. It follows FinOps framing for attribution and budgeting but is not a certification of any kind.</p>
+<h2>References</h2><ul>
+<li><a href="https://www.finops.org/wg/token-economics-saas/" rel="nofollow noopener" target="_blank">FinOps Foundation — Token Economics for SaaS</a></li>
+<li><a href="https://www.finops.org/framework/" rel="nofollow noopener" target="_blank">FinOps Foundation — Framework</a></li>
+</ul>
+<p>Try the product: <a class="cta" href="https://agentcost.lxsaihub.com/">CostLens</a></p>
+<p class="meta">2026-09-20 · primary sources only · no fabricated traffic metrics · decision-support only</p>
+</div>
+<section class="related" aria-label="Related articles">
+  <h2>Related articles</h2>
+  <ul>
+        <li><a href="/blog/finops-budget-guardrails-for-llm-agents-2026.html">FinOps budget guardrails for LLM agents</a></li>
+          <li><a href="https://lxsaihub.com/blog/topic-matrix.html">Explore the full AI micro-SaaS topic matrix &#8594;</a></li>
+</ul>
+</section>
+</body></html>

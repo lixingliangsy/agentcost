@@ -1,0 +1,62 @@
+import React from 'react'
+import Head from 'next/head'
+import Layout from '../components/Layout'
+import { PRODUCT } from '../lib/product'
+
+const Sec = ({ title, children }: { title: string; children: React.ReactNode }) => (
+  <section className="mb-10">
+    <h2 className="text-2xl font-extrabold mb-3 text-slate-900">{title}</h2>
+    <div className="text-slate-600 leading-relaxed space-y-2">{children}</div>
+  </section>
+)
+
+export default function SecurityPage() {
+  return (
+    <Layout>
+      <Head>
+        <title>{`${PRODUCT.name} — Security & Compliance`}</title>
+        <meta name="description" content="How CostLens handles your data and its honest compliance posture for AI agent cost tracking." />
+      </Head>
+      <div className="max-w-3xl">
+        <div className="text-xs font-bold tracking-widest uppercase text-indigo-600 mb-3">Security &amp; Compliance</div>
+        <h1 className="text-4xl font-extrabold tracking-tight mb-4">Your data, our posture</h1>
+        <p className="text-lg text-slate-600 mb-10">
+          CostLens processes agent descriptions, spend logs, and budget configuration data. This page states, plainly, what we handle and what we do not claim.
+        </p>
+
+        <Sec title="What we handle">
+          <p>
+            We process AI-agent <strong>descriptions</strong>, <strong>spend logs</strong>, and <strong>budget configuration</strong> data you submit for cost attribution. These may contain business-confidential information but are not typically special-category personal data.
+          </p>
+        </Sec>
+
+        <Sec title="Data handling commitments">
+          <ul className="list-disc pl-5 space-y-1">
+            <li>Submissions run the cost-attribution pipeline and are retained only as long as needed for your audit log (Pro) or until you delete the run.</li>
+            <li>We apply access controls consistent with <strong>GDPR Art. 32</strong> (security of processing).</li>
+            <li>BYOK keys are stored <strong>server-side only</strong> and never exposed to the browser.</li>
+          </ul>
+        </Sec>
+
+        <Sec title="Our compliance posture (honesty rule)">
+          <ul className="list-disc pl-5 space-y-1">
+            <li>CostLens is <strong>a cost-attribution tool</strong>, not a financial audit service. It provides cost tracking and alerting but does not replace professional financial management.</li>
+            <li>We do <strong>not</strong> guarantee accuracy, do <strong>not</strong> claim "100% accurate cost tracking", and do <strong>not</strong> state you will "never miss a budget breach". Cost attribution depends on the quality of the data you provide.</li>
+            <li>For binding financial advice, consult a qualified finance professional.</li>
+          </ul>
+        </Sec>
+
+        <Sec title="Subprocessors &amp; payments">
+          <ul className="list-disc pl-5 space-y-1">
+            <li>Payments are processed by <strong>Waffo Pancake</strong> (merchant of record).</li>
+            <li>See <a className="text-indigo-600 font-semibold underline" href="/privacy.html">Privacy</a> and <a className="text-indigo-600 font-semibold underline" href="/terms.html">Terms</a> for full terms.</li>
+          </ul>
+        </Sec>
+
+        <p className="text-xs text-slate-400 mt-8">
+          refs: GDPR Art. 32 · OWASP Top 10
+        </p>
+      </div>
+    </Layout>
+  )
+}

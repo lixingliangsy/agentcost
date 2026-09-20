@@ -1,0 +1,193 @@
+// pages/api/tool.ts — agentcost multi-step workflow + P0 anti-silent-mock matrix.
+import type { NextApiRequest, NextApiResponse } from 'next'
+import { PRODUCT } from '../../lib/product'
+import { AI_QUOTAS, checkAndConsumeQuota, defaultModel, resolvePlan } from '../../lib/aiGateway'
+import { getByokKey } from '../../lib/byokStore'
+import {
+  createRun,
+  loadRun,
+  saveRun,
+  nextStep,
+  finalizeRun,
+  appendSection,
+  getNextStep,
+  STEP_ORDER,
+  getStepLabel,
+  STEP_TOTAL,
+  StepId,
+  RunState,
+} from '../../lib/pipeline'
+import { writeAudit } from '../../lib/auditLog'
+import { runAllRules, RULESET_ID, RULESET_VERSION } from '../../lib/rules/agent-finops'
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })
+
+  let inputs: Record<string, string> = {}
+  try {
+    const body = (req.body || {}) as {
+      inputs?: Record<string, string>
+      useMock?: boolean
+      step?: string
+      runId?: string
+      action?: 'next' | 'confirm' | 'reject'
+      // plan / useByok from client are IGNORED (trust boundary — see aiGateway.resolvePlan)
+      useByok?: boolean
+      plan?: 'free' | 'pro' | 'enterprise'
+    }
+    inputs = body.inputs || {}
+    const useMock = !!body.useMock
+    const action = body.action || 'next'
+    const slug = String((PRODUCT as any).slug || 'agentcost')
+
+    const plan = resolvePlan(req)
+    // BYOK skips platform quota ONLY when server plan is enterprise AND key is stored.
+    // Naked body.useByok=true must NOT skip Fair Use.
+    const byokKey = plan === 'enterprise' ? getByokKey(slug) : null
+    const apiKey = byokKey || process.env.OPENAI_API_KEY || ''
+    const hasKey = !!apiKey
+
+    // --- Validate step (L1: no illegal skipping) ---
+    let currentStep: StepId
+    const step = String(body.step || '')
+    if (step) {
+      if (!STEP_ORDER.includes(step as StepId)) {
+        return res.status(400).json({
+          ok: false,
+          error: `Invalid step "${step}". Allowed: ${STEP_ORDER.join(' → ')}`,
+          allowed: STEP_ORDER,
+          code: 'INVALID_STEP',
+        })
+      }
+      currentStep = step as StepId
+    } else {
+      currentStep = STEP_ORDER[0]
+    }
+
+    let run: RunState
+    if (body.runId) {
+      const loaded = loadRun(slug, body.runId)
+      if (!loaded) {
+        return res.status(404).json({ ok: false, error: 'Run not found', code: 'RUN_NOT_FOUND' })
+      }
+      run = loaded
+    } else {
+      run = createRun(slug, inputs)
+    }
+    if (currentStep !== run.step) {
+      return res.status(400).json({
+        ok: false,
+        error: `Step out of order. Current step is "${run.step}". You requested "${currentStep}".`,
+        currentStep: run.step,
+        requested: currentStep,
+        code: 'STEP_ORDER',
+      })
+    }
+
+    // --- Explicit Demo mode: 200 + demo:true. Never silent. ---
+    const mockFn = typeof (PRODUCT as any).mock === 'function' ? (PRODUCT as any).mock : null
+    if (useMock) {
+      const text = mockFn
+        ? String(mockFn(inputs))
+        : `${(PRODUCT as any).name} DEMO\n\nPreview only. Add OPENAI_API_KEY for live runs.`
+      const rules = runAllRules(text)
+      const nextRun = nextStep(run, action)
+      const saved = saveRun(appendSection(nextRun, currentStep, { text, rules }))
+      const fr = getNextStep(saved.step) === null ? finalizeRun(saved) : saved
+      saveRun(fr)
+      await writeAudit({ slug, runId: fr.runId, step: currentStep, mode: 'demo', ok: true })
+      return res.status(200).json({
+        ok: true,
+        result: text,
+        rules,
+        ruleHits: rules,
+        ruleset: `${RULESET_ID}@${RULESET_VERSION}`,
+        rulesetVersion: RULESET_VERSION,
+        runId: fr.runId,
+        step: currentStep,
+        stepLabel: getStepLabel(currentStep),
+        stepIndex: STEP_ORDER.indexOf(currentStep) + 1,
+        stepTotal: STEP_TOTAL,
+        nextStep: getNextStep(currentStep),
+        demo: true,
+        mock: true,
+        source: 'Rule-based',
+      })
+    }
+
+    // --- No key: 503 (never a silent mock success) ---
+    if (!hasKey) {
+      await writeAudit({ slug, runId: run.runId, step: currentStep, mode: 'live', ok: false, error: 'no_key' })
+      return res.status(503).json({
+        ok: false,
+        error: 'AI is not configured. Add OPENAI_API_KEY or enable Demo mode.',
+        configured: false,
+        degraded: true,
+        code: 'AI_NOT_CONFIGURED',
+      })
+    }
+
+    // --- Quota / Fair use ---
+    const quota = checkAndConsumeQuota(slug, plan)
+    if (!quota.ok) {
+      await writeAudit({ slug, runId: run.runId, step: currentStep, mode: 'live', ok: false, error: 'quota' })
+      return res.status(429).json({
+        ok: false,
+        error: 'Fair use limit reached. Upgrade or wait for reset.',
+        code: 'QUOTA_EXCEEDED',
+        limits: AI_QUOTAS,
+      })
+    }
+
+    const inputText = PRODUCT.inputs
+      .map((f: any) => `${f.label}: ${inputs[f.key] || '(not provided)'}`)
+      .join('\n')
+
+    const base = process.env.OPENAI_BASE_URL || 'https://integrate.api.nvidia.com/v1'
+    const model = process.env.OPENAI_MODEL || defaultModel
+
+    let text = ''
+    try {
+      const text = await chatWithFallback(apiKey, base, [
+      { role: 'system', content: PRODUCT.systemPrompt },
+      { role: 'user', content: inputText },
+    ], { model, temperature: 0.7, maxTokens: quota.maxTokens || AI_QUOTAS[plan].maxTokens })
+    if (!text.trim()) throw new Error('Empty AI response')
+    } catch (e: any) {
+      await writeAudit({ slug, runId: run.runId, step: currentStep, mode: 'live', ok: false, error: 'upstream_fail' })
+      return res.status(502).json({
+        ok: false,
+        error: 'AI service call failed: ' + (e?.message || 'unknown error'),
+        degraded: true,
+        code: 'AI_UPSTREAM_FAILED',
+      })
+    }
+
+    // --- Rule-based evaluation (L3) is separate from the Model-assisted result ---
+    const rules = runAllRules(text)
+    const nextRun = nextStep(run, action)
+    const saved = saveRun(appendSection(nextRun, currentStep, { text, rules }))
+    const fr = getNextStep(saved.step) === null ? finalizeRun(saved) : saved
+    saveRun(fr)
+    await writeAudit({ slug, runId: fr.runId, step: currentStep, mode: 'live', ok: true, source: 'Model-assisted' })
+
+    return res.status(200).json({
+      ok: true,
+      result: text,
+      rules,
+      ruleset: `${RULESET_ID}@${RULESET_VERSION}`,
+      runId: fr.runId,
+      step: currentStep,
+      stepLabel: getStepLabel(currentStep),
+      stepIndex: STEP_ORDER.indexOf(currentStep) + 1,
+      stepTotal: STEP_TOTAL,
+      nextStep: getNextStep(currentStep),
+      demo: false,
+      mock: false,
+      source: 'Model-assisted',
+      model,
+    })
+  } catch (e: any) {
+    return res.status(500).json({ ok: false, error: 'Internal error: ' + (e?.message || 'unknown') })
+  }
+}
