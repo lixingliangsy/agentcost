@@ -1,0 +1,143 @@
+{
+  "title": "Token cost attribution for AI agents",
+  "eyebrow": "by CostLens (LX AI)",
+  "lead": "Token cost attribution means assigning every billed unit of model spend to the agent, feature, and end user that caused it. Without that mapping, a budget is only a number you discover after you have already exceeded it.",
+  "sections": [
+    {
+      "h2": "Why agent spend looks different from classic SaaS COGS",
+      "paras": [
+        "Classic software has predictable unit costs. An LLM agent does not. A single user action can trigger a planner, three tool calls, a critic loop, and a final synthesis pass. Each step may hit a different model with a different price table. Retries and silent fallbacks change the unit economics mid-run. Finance teams that only see a provider invoice at month-end cannot answer which product feature burned the money.",
+        "The FinOps Foundation frames cloud spend as something engineering owns continuously. Token economics extend that idea: inform → optimize → operate, with the builders of each agent seeing their own ledger. That framing is guidance, not a certification seal for any vendor tool."
+      ]
+    },
+    {
+      "h2": "The four dimensions you must record",
+      "paras": [
+        "- Which agent ran. A router that fans out to research, support, and billing agents should not produce one undifferentiated line on the invoice.\n\n- Which feature triggered the run. The same agent called from onboarding versus from a nightly batch has a different return profile.\n\n- Which end user or tenant. One power user can dominate a shared pool; without user keys you will blame the wrong roadmap item.\n\n- Which model and call shape. Streaming, tool-result reinjection, and fallback to a larger model each change arithmetic in ways a monthly average hides.",
+        "If your instrumentation only emits “tokens used,” you still cannot attribute. Emit a structured record per call: runId, agentId, featureId, userId, model, inputTokens, outputTokens, unitPriceApplied, timestamp."
+      ]
+    },
+    {
+      "h2": "Where spend hides in agent systems",
+      "paras": [
+        "Retry and re-plan loops",
+        "Agents that re-plan after a tool failure can multiply a cheap task tenfold. The first failure is often cheap; the tenth retry is where the bill spikes. Rate-of-change alerts matter more than monthly totals here because the damage window is minutes, not weeks.",
+        "Context growth across turns",
+        "Long conversations re-send prior tokens. A support agent that keeps the full thread in context will charge you again for turn one on turn twelve. Summarize or truncate deliberately, and record when truncation happened so attribution does not look like “mysterious” drops.",
+        "Silent model fallbacks",
+        "If your gateway falls back from a small model to a frontier model when latency spikes, the unit price jumps. Teams that only log success/fail miss the pricing change. Store the model id that actually served the request, not the model you intended.",
+        "Tool output reinjection",
+        "Large retrieval or browser results get fed back as input tokens. A 40k-token scrape followed by a short answer can cost more on the input side than the output side. Attribute tool payload size as a first-class cost driver."
+      ]
+    },
+    {
+      "h2": "A practical attribution workflow",
+      "paras": [
+        "Start with a sample spend log rather than a dashboard fantasy. Paste rows shaped like agent, feature, user, tokens and rank cost drivers along one focus dimension. That is enough to decide whether your next engineering hour should go to caching, model downgrades, or killing a loop.",
+        "- Collect raw call logs for a representative day (not a quiet weekend).\n\n- Normalize model names and currency (USD cents per 1k tokens is a durable unit).\n\n- Roll up by agent, then by feature, then by user — in that order for most product teams.\n\n- Flag outliers: runs above 3× median cost, or agents whose spend grew >50% week-over-week.\n\n- Propose one guardrail per top agent (ceiling + early-warning threshold).\n\n- Re-check the ledger after the change; attribution without a closed loop is sightseeing."
+      ]
+    },
+    {
+      "h2": "Honesty boundaries (read before you buy)",
+      "paras": [
+        "CostLens attributes spend and suggests guardrails. It does not guarantee 100% accurate attribution. It does not claim you will never miss a budget breach. Output quality depends on the completeness of the logs you provide. The product is not legal advice and not credit advice; do not treat cost reports as lending decisions, tax opinions, or certified audits."
+      ]
+    },
+    {
+      "h2": "How CostLens fits",
+      "paras": [
+        "CostLens is built for teams that need a fast path from messy spend samples to ranked cost drivers. You describe agents and tools, paste a spend sample, choose a focus (by agent / feature / user), and receive a breakdown plus a concrete early-warning rule. Pro plans keep an audit ledger; Enterprise can bring your own key (BYOK) stored server-side.",
+        "Live AI paths are labeled Model-assisted. If the model key is missing you get HTTP 503, not a fake success. Demo mode is explicit. That fail-closed behavior matters when finance stakeholders trust the numbers."
+      ]
+    },
+    {
+      "h2": "Worked example (illustrative template)",
+      "paras": [
+        "Suppose a day log shows three agents: support (42k tokens), research (180k), and billing-reconcile (12k). Focused by agent, research dominates. Focused by user, one tenant accounts for 61% of research spend because a browser tool returned oversized pages. The remediation is not “buy a bigger package” — it is truncate tool output and set a per-run ceiling on research. The dollar figures above are a teaching template, not a customer case study; we do not invent named customers or guaranteed savings."
+      ]
+    },
+    {
+      "h2": "Reconciling the ledger to the provider invoice",
+      "paras": [
+        "Attribution systems drift from vendor invoices for boring reasons: cached prompt discounts, batch APIs, free trial credits, and timezone cutoffs. Treat reconciliation as a monthly hygiene step, not a crisis. Start by summing attributed cost for the invoice window, then list unexplained deltas in three buckets: missing instrumentation (calls never logged), pricing table lag (you still price an old model rate), and provider-side adjustments (credits and true-ups).",
+        "A healthy target is not zero delta forever. A healthy target is a delta you can narrate in one paragraph to finance. When the gap grows week over week, prioritize instrumentation coverage on the highest-spend agents before polishing dashboards. CostLens can rank drivers from the sample you paste; it cannot invent calls that never left a record."
+      ]
+    },
+    {
+      "h2": "Choosing a unit of account",
+      "paras": [
+        "USD cents per 1,000 tokens is durable across providers. Some teams prefer “normalized tokens” that weight output higher than input; that helps product managers compare features, but finance still needs native ticket prices for invoice matching. Keep both views if you must, and label which one a chart uses. Mixing them silently is how teams argue about “wrong” numbers for weeks.",
+        "Currency conversion for multi-region billing should be stamped at ingestion time with the FX source and date. Retroactive FX edits make month-over-month charts lie. If you only operate in USD today, still store the currency field so a future region does not require a schema rewrite."
+      ]
+    },
+    {
+      "h2": "Anti-patterns that look sophisticated",
+      "paras": [
+        "- Publishing a single “AI COGS % of revenue” without agent breakdowns — executives cannot act on a blended ratio.\n\n- Setting one hard kill switch for the whole account — a noisy research agent then takes support offline.\n\n- Logging only completion tokens — input-heavy tool chains become invisible.\n\n- Treating vendor “usage export CSV” as attribution — exports rarely carry your feature and user identifiers.\n\n- Promising finance a fixed savings percentage from attribution alone — attribution informs; engineering saves."
+      ]
+    },
+    {
+      "h2": "Frequently asked questions",
+      "paras": [
+        "Why is attribution needed before budgeting?",
+        "A single account-level cap tells you that you overspent, not which agent did it. Per-agent caps need per-agent attribution.",
+        "Does attribution reduce the bill?",
+        "No. It shows you where the money goes. The reduction comes from the changes you make afterwards.",
+        "What about cached or discounted tokens?",
+        "They change the unit price. Record which pricing tier applied per call so the ledger can reconcile to the invoice.",
+        "How do we catch a runaway loop early?",
+        "Alert on rate of change and on per-run cost, not only on the monthly total. Most loops are only cheap to stop in the first few minutes.",
+        "Must we instrument every call ourselves?",
+        "Something has to emit the per-call record. CostLens consumes those records and attributes them; it cannot invent missing instrumentation.",
+        "Is this FinOps-certified?",
+        "No. It follows FinOps framing for attribution and budgeting but is not a certification of any kind.",
+        "Is CostLens legal or credit advice?",
+        "No. Reports are decision-support for engineering and FinOps teams only."
+      ]
+    },
+    {
+      "h2": "What this article is not",
+      "paras": [
+        "This is not a promise that your invoice will drop by a fixed percentage. It is not a substitute for your accountant, counsel, or credit underwriting process. It is a working guide to instrumenting and attributing LLM agent spend so you can act with eyes open."
+      ]
+    },
+    {
+      "h2": "References",
+      "paras": [
+        "- FinOps Foundation — Token Economics for SaaS\n\n- FinOps Foundation — Framework",
+        "Try the product: CostLens",
+        "2026-09-26 · primary sources only · no fabricated traffic metrics · not legal advice · not credit advice · decision-support only"
+      ]
+    },
+    {
+      "h2": "Related articles",
+      "paras": [
+        "- FinOps budget guardrails for LLM agents\n\n    - Explore the full AI micro-SaaS topic matrix →"
+      ]
+    }
+  ],
+  "faqs": [
+    {
+      "q": "Why agent spend looks different from classic SaaS COGS?",
+      "a": "Classic software has predictable unit costs. An LLM agent does not. A single user action can trigger a planner, three tool calls, a critic loop, and a final synthesis pass. Each step may hit a different model with a different price table. Retries and silent fallbacks change the unit economics mid-run. Finance teams that only see a provider invoice at month-end cannot answer which product feature burned the money."
+    },
+    {
+      "q": "What is The four dimensions you must record?",
+      "a": "If your instrumentation only emits “tokens used,” you still cannot attribute. Emit a structured record per call: runId, agentId, featureId, userId, model, inputTokens, outputTokens, unitPriceApplied, timestamp."
+    },
+    {
+      "q": "Where spend hides in agent systems?",
+      "a": "Agents that re-plan after a tool failure can multiply a cheap task tenfold. The first failure is often cheap; the tenth retry is where the bill spikes. Rate-of-change alerts matter more than monthly totals here because the damage window is minutes, not weeks."
+    },
+    {
+      "q": "What is A practical attribution workflow?",
+      "a": "Start with a sample spend log rather than a dashboard fantasy. Paste rows shaped like  agent, feature, user, tokens  and rank cost drivers along one focus dimension. That is enough to decide whether your next engineering hour should go to caching, model downgrades, or killing a loop."
+    },
+    {
+      "q": "What is Honesty boundaries (read before you buy)?",
+      "a": "CostLens attributes spend and suggests guardrails. It does  not  guarantee 100% accurate attribution. It does  not  claim you will never miss a budget breach. Output quality depends on the completeness of the logs you provide. The product is  not legal advice  and  not credit advice ; do not treat cost reports as lending decisions, tax opinions, or certified audits."
+    }
+  ],
+  "disclaimer": "Decision-support only. Not a billing or cost-guarantee certificate.",
+  "back": "Back to blog"
+}

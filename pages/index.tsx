@@ -1,6 +1,9 @@
 import React, { FormEvent, useEffect, useMemo, useState } from 'react'
 import Head from 'next/head'
 import { PRODUCT } from '../lib/product'
+import { buildProductJsonLd } from '../lib/schema'
+import { useT } from '../lib/i18n/provider'
+import LanguageSwitcher from '../components/LanguageSwitcher'
 
 type Lead = {
   id: string
@@ -19,73 +22,44 @@ const Check = () => (
 
 type DemoStep = { title: string; detail: string; preview?: string }
 
-/** Product-specific tour (Navattic 2025: short, ungated, personalized by use case). */
-function buildDemoSteps(): DemoStep[] {
-  const p = PRODUCT as any
-  const name = String(p.name || 'Product')
-  const tagline = String(p.tagline || p.description || '').trim()
-  const toolTitle = String(p.toolTitle || 'Live studio')
-  const cta = String(p.ctaLabel || 'Generate')
-  const resultLabel = String(p.resultLabel || 'Result')
-  const feats: string[] = Array.isArray(p.features) ? p.features : []
-  const inputs: Array<{ key: string; label: string; type?: string; placeholder?: string; options?: string[] }> = Array.isArray(p.inputs)
-    ? p.inputs
-    : []
-
-  const sampleInputs: Record<string, string> = {}
-  for (const f of inputs) {
-    const ph = String(f.placeholder || '').replace(/^e\.g\.\s*/i, '')
-    if (f.type === 'select' && f.options && f.options.length) {
-      sampleInputs[f.key] = String(f.options[0])
-    } else if (ph) {
-      sampleInputs[f.key] = ph
-    } else {
-      sampleInputs[f.key] = `Sample ${f.label}`
-    }
-  }
-
-  let mockPreview = ''
-  try {
-    if (typeof p.mock === 'function') {
-      mockPreview = String(p.mock(sampleInputs)).replace(/\\n/g, '\n').slice(0, 360)
-    }
-  } catch {
-    /* ignore mock errors in demo */
-  }
-
-  const inputLines = inputs.slice(0, 3).map((f) => {
-    const v = (sampleInputs[f.key] || '').split('\n')[0]
-    return `${f.label}: ${v || '…'}`
-  })
-
+/** Product-specific tour — copy from i18n (home.demo*). */
+function buildDemoSteps(
+  t: (path: string, vars?: Record<string, string | number>) => string,
+  name: string,
+  preview?: string,
+): DemoStep[] {
   return [
+    { title: t('home.demo1Title', { name }), detail: t('home.demo1Detail', { name }) },
+    { title: t('home.demo2Title'), detail: t('home.demo2Detail') },
+    { title: t('home.demo3Title'), detail: t('home.demo3Detail') },
     {
-      title: `Welcome to ${name}`,
-      detail: tagline || `A 60-second tour of how ${name} delivers value.`,
+      title: t('home.demo4Title'),
+      detail: preview ? t('home.demo4Detail') : t('home.demo4DetailEmpty'),
+      preview: preview || undefined,
     },
-    {
-      title: `Open ${toolTitle}`,
-      detail: inputLines.length ? inputLines.join('\n') : `Enter a real brief for ${name} in the studio.`,
-    },
-    {
-      title: `Click “${cta}”`,
-      detail: feats.length ? `Powered by: ${feats.slice(0, 3).join(' · ')}` : `${name} drafts a structured ${resultLabel.toLowerCase()}.`,
-    },
-    {
-      title: `${resultLabel} preview`,
-      detail: mockPreview
-        ? 'Sample output from this product’s mock pipeline:'
-        : feats.slice(0, 3).join(' · ') || `Your ${resultLabel.toLowerCase()} appears here — copy or refine.`,
-      preview: mockPreview || undefined,
-    },
-    {
-      title: 'Your turn',
-      detail: `Try the live studio, or start free with ${name}.`,
-    },
+    { title: t('home.demo5Title'), detail: t('home.demo5Detail', { name }) },
   ]
 }
 
+
+
 export default function Home() {
+  const { t, catalog, locale } = useT()
+  const faqItems = ((catalog as any)?.faq?.items || []) as Array<{ q: string; a: string }>
+  const geoFaqItems = ((catalog as any)?.faq?.geoItems || []) as Array<{ q: string; a: string }>
+  const faqLd = geoFaqItems.length
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "@id": ((PRODUCT as any).slug || "") + ".lxsaihub.com/#faq-geo",
+        inLanguage: locale,
+        mainEntity: geoFaqItems.map((x) => ({
+          "@type": "Question",
+          name: x.q,
+          acceptedAnswer: { "@type": "Answer", text: x.a }
+        }))
+      }
+    : null;
   const [menuOpen, setMenuOpen] = useState(false)
   const [toast, setToast] = useState('')
   const [email, setEmail] = useState('')
@@ -107,9 +81,28 @@ export default function Home() {
   const [demoPlaying, setDemoPlaying] = useState(false)
   const price = (PRODUCT as any).priceMonthly ?? 29
   const priceYearly = (PRODUCT as any).priceYearly ?? Math.round(price * 10)
+  const priceYearlyMonthly = Math.round(priceYearly / 12)
   const features: string[] = (PRODUCT as any).features || []
   const mark = (PRODUCT.name || 'A').trim().charAt(0).toUpperCase()
-  const demoSteps = useMemo(() => buildDemoSteps(), [])
+    const demoPreview = useMemo(() => {
+    const p = PRODUCT as any
+    const inputs: Array<{ key: string; label: string; type?: string; placeholder?: string; options?: string[] }> = Array.isArray(p.inputs) ? p.inputs : []
+    const sampleInputs: Record<string, string> = {}
+    for (const f of inputs) {
+      const ph = String(f.placeholder || '').replace(/^e\.g\.\s*/i, '')
+      if (f.type === 'select' && f.options && f.options.length) sampleInputs[f.key] = String(f.options[0])
+      else if (ph) sampleInputs[f.key] = ph
+      else sampleInputs[f.key] = `Sample ${f.label}`
+    }
+    try {
+      if (typeof p.mock === 'function') return String(p.mock(sampleInputs)).replace(/\\n/g, '\n').slice(0, 360)
+    } catch { /* ignore */ }
+    return ''
+  }, [])
+  const demoSteps = useMemo(
+    () => buildDemoSteps(t, String((PRODUCT as any).name || 'Product'), demoPreview),
+    [t, locale, demoPreview],
+  )
 
   function showToast(msg: string) {
     setToast(msg)
@@ -163,6 +156,26 @@ export default function Home() {
     return () => accs.forEach((a) => a.removeEventListener('toggle', onToggle))
   }, [])
 
+
+  useEffect(() => {
+    try {
+      const q = new URLSearchParams(window.location.search)
+      const err = q.get('checkout_error')
+      if (err) {
+        showToast(
+          err === 'missing_product_id'
+            ? 'Checkout is not configured for this plan yet. Please contact support.'
+            : 'Checkout temporarily unavailable. Please try again in a moment.'
+        )
+        const url = new URL(window.location.href)
+        url.searchParams.delete('checkout_error')
+        window.history.replaceState({}, '', url.pathname + url.search + url.hash)
+      }
+    } catch {
+      /* ignore */
+    }
+  }, [])
+
   async function submitLead(plan: 'free' | 'pro' | 'enterprise' | 'sales', source: string, note?: string) {
     const value = email.trim().toLowerCase()
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
@@ -179,6 +192,10 @@ export default function Home() {
       })
       const data = await r.json()
       if (!r.ok || !data.ok) throw new Error(data.error || 'Signup failed')
+      if (plan === 'free') {
+        window.location.href = '/api/checkout'
+        return data.lead as Lead
+      }
       setSignupMsg("You're in — opening the studio…")
       showToast('Lead saved: ' + value)
       await loadLeads()
@@ -206,7 +223,7 @@ export default function Home() {
       const inputMap: Record<string, string> = { topic }
       const fields = Array.isArray((PRODUCT as any).inputs) ? (PRODUCT as any).inputs : []
       if (fields[0]?.key) inputMap[fields[0].key] = topic
-      for (const k of ['text', 'code', 'url', 'pattern', 'schema', 'instance', 'commits', 'notes', 'events', 'log']) {
+      for (const k of ['text', 'code', 'url', 'pattern', 'schema', 'instance', 'commits', 'notes']) {
         if (!inputMap[k]) inputMap[k] = topic
       }
       const r = await fetch('/api/tool', {
@@ -253,57 +270,242 @@ export default function Home() {
   }
 
   const filteredHint = useMemo(() => {
-    if (!planFilter && !leadFilter) return `${leads.length} leads`
-    return `${leads.length} filtered`
-  }, [leads, planFilter, leadFilter])
+    if (!planFilter && !leadFilter) return t('home.leadsCount', { n: String(leads.length) })
+    return t('home.leadsFiltered', { n: String(leads.length) })
+  }, [leads, planFilter, leadFilter, t, locale])
 
-  const featCards = (features.length ? features : ['Fast setup', 'Clear results', 'Export anytime', 'Cancel anytime']).slice(0, 4)
+  const featCards = [t('home.feat1'), t('home.feat2'), t('home.feat3'), t('home.feat4')]
 
   return (
     <>
       <Head>
-        <title>{`${PRODUCT.name} — ${PRODUCT.tagline}`}</title>
+        {/* title via _app meta */}<title>{t('meta.title')}</title>
         <meta name="description" content={PRODUCT.description} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="canonical" href="https://agentcost.lxsaihub.com/" />
-        <script type="application/ld+json">{`{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What does CostLens measure?", "acceptedAnswer": {"@type": "Answer", "text": "Token and API spend per run, tool call, and model, with a daily fair-use cap and anomaly flags."}}, {"@type": "Question", "name": "Does it need my own OpenAI key?", "acceptedAnswer": {"@type": "Answer", "text": "Free and Pro use the platform key; Enterprise can bring your own key (BYOK) kept server-side."}}, {"@type": "Question", "name": "How are costs attributed?", "acceptedAnswer": {"@type": "Answer", "text": "Each run carries a runId; spend is rolled up by runId, tool, and model."}}, {"@type": "Question", "name": "Can I set a budget alert?", "acceptedAnswer": {"@type": "Answer", "text": "Enterprise supports caps; Pro surfaces HTTP 429 when fair-use limits are hit."}}, {"@type": "Question", "name": "Which models are supported?", "acceptedAnswer": {"@type": "Answer", "text": "Any OpenAI-compatible endpoint configured via OPENAI_BASE_URL."}}, {"@type": "Question", "name": "Is it real-time?", "acceptedAnswer": {"@type": "Answer", "text": "Near-real-time; dashboards refresh per run."}}]}`}</script>
-
-      </Head>
+        <link rel="alternate" type="text/plain" href="https://agentcost.lxsaihub.com/llms.txt" title="LLM manifest" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+        "@context": "https://schema.org",
+        "@graph": [
+                {
+                        "@type": "Organization",
+                        "@id": "https://agentcost.lxsaihub.com/#organization",
+                        "name": "CostLens",
+			"parentOrganization": {"@type":"Organization","@id":"https://lxsaihub.com/#organization","name":"LX AI Micro-SaaS Factory","url":"https://lxsaihub.com/","email":"lixingliangsy@163.com"},
+                        "alternateName": "CostLens by LX AI Micro-SaaS Factory",
+                        "url": "https://agentcost.lxsaihub.com/",
+                        "logo": "https://agentcost.lxsaihub.com/og-cover.svg",
+                        "sameAs": [
+                                "https://lxsaihub.com/tools/agentcost.html",
+                                "https://lxsaihub.com/"
+                        ]
+                },
+                {
+                        "@type": "WebSite",
+                        "@id": "https://agentcost.lxsaihub.com/#website",
+                        "url": "https://agentcost.lxsaihub.com/",
+                        "name": "CostLens",
+                        "publisher": {
+                                "@id": "https://agentcost.lxsaihub.com/#organization"
+                        },
+                        "inLanguage": "en",
+                        "potentialAction": {
+                                "@type": "SearchAction",
+                                "target": {
+                                        "@type": "EntryPoint",
+                                        "urlTemplate": "https://agentcost.lxsaihub.com/?q={search_term_string}"
+                                },
+                                "query-input": "required name=search_term_string"
+                        }
+                },
+                {
+                        "@type": "SoftwareApplication",
+                        "name": "CostLens",
+                        "dateModified": "2026-09-11",
+                        "alternateName": "CostLens by LX AI Micro-SaaS Factory",
+                        "sameAs": [
+                                "https://lxsaihub.com/tools/agentcost.html"
+                        ],
+                        "url": "https://agentcost.lxsaihub.com/",
+                        "applicationCategory": "DeveloperApplication",
+                        "operatingSystem": "Web",
+                        "offers": [
+                                {
+                                        "@type": "Offer",
+                                        "name": "Free",
+                                        "price": "0",
+                                        "priceCurrency": "USD"
+                                },
+                                {
+                                        "@type": "Offer",
+                                        "name": "Pro",
+                                        "price": String(price),
+                                        "priceCurrency": "USD"
+                                },
+                                {
+                                        "@type": "Offer",
+                                        "name": "Pro (Yearly)",
+                                        "price": String(priceYearly),
+                                        "priceCurrency": "USD"
+                                }
+                        ],
+                        "creator": {
+                                "@id": "https://agentcost.lxsaihub.com/#organization"
+                        }
+                },
+                {
+                        "@type": "FAQPage",
+                        "@id": "https://agentcost.lxsaihub.com/#faq",
+                        "inLanguage": "en",
+                        "mainEntity": [
+                                {
+                                        "@type": "Question",
+                                        "name": "What is CostLens?",
+                                        "acceptedAnswer": {
+                                                "@type": "Answer",
+                                                "text": "CostLens turns natural-language company policies — security, data handling, acceptable use, AI governance — into machine-enforceable rules that guard your AI agents."
+                                        }
+                                },
+                                {
+                                        "@type": "Question",
+                                        "name": "How does it work?",
+                                        "acceptedAnswer": {
+                                                "@type": "Answer",
+                                                "text": "You describe a policy in plain language; CostLens's policy-to-rules engine produces enforceable checks, a compliance checklist, and an EU AI Act mapping, all exportable as configuration."
+                                        }
+                                },
+                                {
+                                        "@type": "Question",
+                                        "name": "Which policies can I encode?",
+                                        "acceptedAnswer": {
+                                                "@type": "Answer",
+                                                "text": "Security boundaries, data-handling rules, acceptable-use policies, and EU AI Act obligations — anything your agents must obey at runtime."
+                                        }
+                                },
+                                {
+                                        "@type": "Question",
+                                        "name": "What are the pricing tiers?",
+                                        "acceptedAnswer": {
+                                                "@type": "Answer",
+                                                "text": "Free ($0) includes core policy-to-rules. Pro is $29/mo. Team is $79/mo and adds shared rule libraries and audit exports."
+                                        }
+                                },
+                                {
+                                        "@type": "Question",
+                                        "name": "Can I export rules to my own stack?",
+                                        "acceptedAnswer": {
+                                                "@type": "Answer",
+                                                "text": "Yes. Generated rules export as configuration/JSON you can wire into your agent runtime or a guardrails layer."
+                                        }
+                                },
+                                {
+                                        "@type": "Question",
+                                        "name": "Does it map to the EU AI Act?",
+                                        "acceptedAnswer": {
+                                                "@type": "Answer",
+                                                "text": "Yes. CostLens maps obligations such as Art. 9 (risk management), Art. 11 (technical documentation), and Art. 14 (human oversight) to enforceable checks."
+                                        }
+                                },
+                                {
+                                        "@type": "Question",
+                                        "name": "Does CostLens enforce at runtime, or just generate rules?",
+                                        "acceptedAnswer": {
+                                                "@type": "Answer",
+                                                "text": "It generates and validates the rules; enforcement plugs into your existing agent runtime or guardrails middleware."
+                                        }
+                                },
+                                {
+                                        "@type": "Question",
+                                        "name": "Who is CostLens for?",
+                                        "acceptedAnswer": {
+                                                "@type": "Answer",
+                                                "text": "AI platform teams, compliance and ops leads, and startups shipping autonomous or semi-autonomous agents."
+                                        }
+                                },
+                                {
+                                        "@type": "Question",
+                                        "name": "Is it self-hosted or cloud?",
+                                        "acceptedAnswer": {
+                                                "@type": "Answer",
+                                                "text": "CostLens is a cloud SaaS; subscriptions are handled through Waffo (merchant of record)."
+                                        }
+                                },
+                                {
+                                        "@type": "Question",
+                                        "name": "Does the free tier have limits?",
+                                        "acceptedAnswer": {
+                                                "@type": "Answer",
+                                                "text": "Free includes the core policy-to-rules engine and checklist; higher-volume and team features require Pro or Team."
+                                        }
+                                }
+                        ]
+                }
+        ]
+})
+          }}
+        />
+              <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(buildProductJsonLd(PRODUCT, "https://agentcost.lxsaihub.com")) }}
+        />
+              <link rel="alternate" hrefLang="en" href="https://agentcost.lxsaihub.com/" />
+        <link rel="alternate" hrefLang="x-default" href="https://agentcost.lxsaihub.com/" />
+                      {faqLd && (
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
+        )}
+</Head>
 
       <div className="min-h-screen bg-white text-slate-900">
         <header className="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-slate-200">
+      <a href="https://lxsaihub.com" data-back-to-hub="1" style={{display:"inline-flex",alignItems:"center",gap:"4px",marginRight:"12px",fontWeight:600,color:"inherit",textDecoration:"none"}}>← {t('nav.backToHub')}</a>
           <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
             <a href="#top" className="flex items-center gap-2 font-extrabold text-lg">
               <span className="w-9 h-9 rounded-xl bg-indigo-600 text-white grid place-items-center">{mark}</span>
               {PRODUCT.name}
             </a>
-            <nav className="hidden md:flex gap-7 text-sm font-semibold text-slate-500">
-              <a href="#features" className="hover:text-slate-900">Features</a>
-              <a href="/use-cases" className="hover:text-slate-900">Use Cases</a>
-              <a href="/integrations" className="hover:text-slate-900">Integrations</a>
-              <a href="/security" className="hover:text-slate-900">Security</a>
-              <a href="/blog" className="hover:text-slate-900">Blog</a>
-              <a href="#pricing" className="hover:text-slate-900">Pricing</a>
+            <nav className="hidden md:flex gap-5 text-sm font-semibold text-slate-500 items-center">
+              <a href="#features" className="hover:text-slate-900">{t('nav.features')}</a>
+              <a href="/use-cases" className="hover:text-slate-900">{t('nav.useCases')}</a>
+              <a href="/integrations" className="hover:text-slate-900">{t('nav.integrations')}</a>
+              <a href="#how" className="hover:text-slate-900">{t('nav.howItWorks')}</a>
+              <a href="/security" className="hover:text-slate-900">{t('nav.security')}</a>
+              <a href="#pricing" className="hover:text-slate-900">{t('nav.pricing')}</a>
+              <a href="/blog" className="hover:text-slate-900">{t('nav.blog')}</a>
+              <a href="#faq" className="hover:text-slate-900">{t('nav.faq')}</a>
+              <a href="/feedback" className="hover:text-slate-900">{t('nav.feedback')}</a>
+              <LanguageSwitcher />
             </nav>
-            <div className="hidden md:flex gap-3">
-              <a href="#signup" className="px-4 py-2 rounded-full border border-slate-200 font-semibold text-sm">Sign in</a>
-              <a href="#signup" className="px-4 py-2 rounded-full bg-indigo-600 text-white font-semibold text-sm">Start free trial</a>
+            <div className="hidden md:flex gap-3 items-center">
+              <a href="#signup" className="px-4 py-2 rounded-full border border-slate-200 font-semibold text-sm">{t('nav.signIn')}</a>
+              <a href="#signup" className="px-4 py-2 rounded-full bg-indigo-600 text-white font-semibold text-sm">{t('nav.subscribe')}</a>
             </div>
-            <button type="button" className="md:hidden p-2" aria-label="Menu" onClick={() => setMenuOpen((v) => !v)}>
+            <button type="button" className="md:hidden p-2" aria-label={t('common.menu')} onClick={() => setMenuOpen((v) => !v)}>
               <span className="block w-6 h-0.5 bg-slate-900 mb-1" />
               <span className="block w-6 h-0.5 bg-slate-900 mb-1" />
               <span className="block w-6 h-0.5 bg-slate-900" />
             </button>
           </div>
+          <div className="md:hidden px-6 py-2 flex justify-end border-b border-slate-100">
+            <LanguageSwitcher />
+          </div>
           {menuOpen ? (
             <div className="md:hidden px-6 pb-4 flex flex-col gap-2 border-b border-slate-200">
-              <a href="#features" onClick={() => setMenuOpen(false)} className="py-2 font-semibold text-slate-600">Features</a>
-              <a href="/use-cases" onClick={() => setMenuOpen(false)} className="py-2 font-semibold text-slate-600">Use Cases</a>
-              <a href="/integrations" onClick={() => setMenuOpen(false)} className="py-2 font-semibold text-slate-600">Integrations</a>
-              <a href="/security" onClick={() => setMenuOpen(false)} className="py-2 font-semibold text-slate-600">Security</a>
-              <a href="/blog" onClick={() => setMenuOpen(false)} className="py-2 font-semibold text-slate-600">Blog</a>
-              <a href="#pricing" onClick={() => setMenuOpen(false)} className="py-2 font-semibold text-slate-600">Pricing</a>
-              <a href="#signup" onClick={() => setMenuOpen(false)} className="py-2 font-semibold text-slate-600">Start free trial</a>
+              {[
+                ['features', t('nav.features')],
+                ['how', t('nav.howItWorks')],
+                ['studio', t('nav.studio')],
+                ['pricing', t('nav.pricing')],
+                ['faq', t('nav.faq')],
+                ['signup', t('nav.subscribe')],
+              ].map(([id, label]) => (
+                <a key={id} href={`#${id}`} onClick={() => setMenuOpen(false)} className="py-2 font-semibold text-slate-600">
+                  {label}
+                </a>
+              ))}
+              <a href="/feedback" onClick={() => setMenuOpen(false)} className="py-2 font-semibold text-slate-600">{t('nav.feedback')}</a>
+              <a href="/blog" onClick={() => setMenuOpen(false)} className="py-2 font-semibold text-slate-600">{t('nav.blog')}</a>
             </div>
           ) : null}
         </header>
@@ -311,16 +513,27 @@ export default function Home() {
         <section id="top" className="py-16 bg-gradient-to-br from-indigo-50 via-white to-violet-50">
           <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-10 items-center">
             <div>
-              <div className="text-xs font-bold tracking-widest uppercase text-indigo-600 mb-3">Micro SaaS</div>
-              <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">{PRODUCT.tagline}</h1>
-              <p className="text-lg text-slate-600 mb-6">{PRODUCT.description}</p>
+              <div className="text-xs font-bold tracking-widest uppercase text-indigo-600 mb-3">{t('hero.badge')}</div>
+              <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">{t('hero.title')}</h1>
+              <div className="mt-6 bg-white border border-slate-200 rounded-xl p-5 max-w-2xl" data-geo="key-takeaways">
+                <p className="text-sm font-bold text-indigo-900 uppercase tracking-wide mb-2">{t('hero.keyTakeaways')}</p>
+                <ul className="list-disc pl-5 space-y-1 text-slate-700 text-[15px] leading-relaxed">
+                        <li>{t('hero.takeaway1')}</li>
+                        <li>{t('hero.takeaway2')}</li>
+                        <li>{t('hero.takeaway3')}</li>
+                </ul>
+              </div>
+              <p className="text-lg text-slate-600 mb-6">{t('hero.subtitle')}</p>
               <div className="flex flex-wrap gap-3">
-                <a href="#signup" className="px-6 py-3 rounded-full bg-indigo-600 text-white font-bold">Start Free Trial</a>
+                <a href="#signup" className="px-6 py-3 rounded-full bg-indigo-600 text-white font-bold">{t('hero.ctaPrimary')}</a>
+                <a href="#studio" className="px-6 py-3 rounded-full border border-indigo-200 text-indigo-700 font-bold bg-white">
+                  {t('benchmark.ctaStudio')}
+                </a>
                 <button type="button" onClick={openDemo} className="px-6 py-3 rounded-full border border-slate-200 font-bold bg-white">
-                  ▶ Watch Demo
+                  ▶ {t('hero.ctaSecondary')}
                 </button>
               </div>
-              <p className="mt-4 text-sm text-slate-500">No credit card required · Cancel anytime</p>
+              <p className="mt-4 text-sm text-slate-500">{t('hero.note')}</p>
             </div>
             <button type="button" onClick={openDemo} className="text-left rounded-2xl border border-slate-200 bg-white shadow-xl overflow-hidden group cursor-pointer">
               <div className="flex gap-2 px-4 py-3 bg-slate-50 border-b border-slate-200 items-center justify-between">
@@ -329,49 +542,117 @@ export default function Home() {
                   <i className="w-3 h-3 rounded-full bg-amber-400 block" />
                   <i className="w-3 h-3 rounded-full bg-emerald-400 block" />
                 </div>
-                <span className="text-xs font-bold text-indigo-600 group-hover:underline">Play demo ▶</span>
+                <span className="text-xs font-bold text-indigo-600 group-hover:underline">{t('hero.playDemo')}</span>
               </div>
               <div className="p-6 space-y-3 relative min-h-[180px]">
                 <div className="h-3 bg-slate-100 rounded w-4/5 animate-pulse" />
                 <div className="h-3 bg-slate-100 rounded w-3/5 animate-pulse" />
                 <div className="h-3 bg-slate-100 rounded w-2/5" />
-                <div className="mt-4 text-sm font-semibold text-indigo-600">{PRODUCT.name} · Click to watch walkthrough</div>
+                <div className="mt-4 text-sm font-semibold text-indigo-600">{PRODUCT.name} · {t('hero.walkthrough')}</div>
               </div>
             </button>
           </div>
         </section>
 
-        <section className="bg-slate-950 text-white py-10">
-          <div className="max-w-6xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-            {[['10k+', 'Builders'], ['4.9★', 'Avg rating'], ['99.9%', 'Uptime'], ['<2 min', 'Time to value']].map(([n, l]) => (
-              <div key={l}>
-                <div className="text-3xl font-black text-indigo-300">{n}</div>
-                <div className="text-slate-400 text-sm font-semibold mt-1">{l}</div>
-              </div>
-            ))}
+        {/* Honest framework chips — replaces fabricated customer/uptime stats (honesty rule). */}
+        <section id="frameworks" className="bg-slate-950 text-white py-12">
+          <div className="max-w-6xl mx-auto px-6">
+            <div className="text-center mb-8">
+              <div className="text-xs font-bold tracking-widest uppercase text-indigo-300 mb-2">{t('benchmark.frameworksEyebrow')}</div>
+              <h2 className="text-2xl md:text-3xl font-extrabold">{t('benchmark.frameworksTitle')}</h2>
+              <p className="text-slate-400 text-sm mt-2 max-w-2xl mx-auto">{t('benchmark.frameworksNote')}</p>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+              {[t('benchmark.fw1'), t('benchmark.fw2'), t('benchmark.fw3'), t('benchmark.fw4')].map((label) => (
+                <div key={label} className="rounded-xl border border-slate-700 bg-slate-900/60 px-3 py-4">
+                  <div className="text-sm font-bold text-indigo-200">{label}</div>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
         <section id="definition" className="py-20 bg-slate-50">
           <div className="max-w-6xl mx-auto px-6">
-            <div className="text-xs font-bold tracking-widest uppercase text-indigo-600 mb-3">What it is</div>
-            <h2 className="text-3xl md:text-4xl font-extrabold mb-4">CostLens - definition</h2>
+            <div className="text-xs font-bold tracking-widest uppercase text-indigo-600 mb-3">{t('legal.whatItIs')}</div>
+            <h2 className="text-3xl md:text-4xl font-extrabold mb-4">{t('legal.definitionTitle')}</h2>
             <p className="text-lg text-slate-600 max-w-3xl">{(PRODUCT as any).definitionLead}</p>
+            <div className="mt-8 rounded-2xl border border-amber-200 bg-amber-50 p-5 max-w-3xl">
+              <h3 className="font-bold text-amber-900 mb-2">{t('legal.whatNotTitle')}</h3>
+              <ul className="list-disc pl-5 space-y-1 text-sm text-amber-900/90">
+                <li>{t('legal.whatNot1')}</li>
+                <li>{t('legal.whatNot2')}</li>
+                <li>{t('legal.whatNot3')}</li>
+              </ul>
+              <p className="mt-3 text-sm text-amber-800">
+                <span className="font-semibold">{t('legal.controller')}</span>
+                {' / '}
+                <span className="font-semibold">{t('legal.processor')}</span>
+                {' — '}
+                {t('legal.rolesHint')}
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section id="pain" className="py-16">
+          <div className="max-w-6xl mx-auto px-6">
+            <div className="text-center mb-10">
+              <div className="text-xs font-bold tracking-widest uppercase text-indigo-600 mb-2">{t('benchmark.painEyebrow')}</div>
+              <h2 className="text-3xl md:text-4xl font-extrabold">{t('benchmark.painTitle')}</h2>
+            </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+              {[
+                [t('benchmark.pain1Title'), t('benchmark.pain1Body')],
+                [t('benchmark.pain2Title'), t('benchmark.pain2Body')],
+                [t('benchmark.pain3Title'), t('benchmark.pain3Body')],
+                [t('benchmark.pain4Title'), t('benchmark.pain4Body')],
+              ].map(([title, body]) => (
+                <div key={title} className="rounded-2xl border border-slate-200 p-5 bg-white">
+                  <h3 className="font-bold mb-2">{title}</h3>
+                  <p className="text-sm text-slate-600">{body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="what-you-get" className="py-16 bg-indigo-50/40">
+          <div className="max-w-6xl mx-auto px-6">
+            <div className="text-center mb-10">
+              <div className="text-xs font-bold tracking-widest uppercase text-indigo-600 mb-2">{t('benchmark.getEyebrow')}</div>
+              <h2 className="text-3xl md:text-4xl font-extrabold mb-3">{t('benchmark.getTitle')}</h2>
+              <p className="text-slate-600 max-w-2xl mx-auto">{t('benchmark.getLead')}</p>
+            </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+              {[
+                [t('benchmark.get1Title'), t('benchmark.get1Body')],
+                [t('benchmark.get2Title'), t('benchmark.get2Body')],
+                [t('benchmark.get3Title'), t('benchmark.get3Body')],
+                [t('benchmark.get4Title'), t('benchmark.get4Body')],
+              ].map(([title, body]) => (
+                <div key={title} className="rounded-2xl border border-indigo-100 bg-white p-5 shadow-sm">
+                  <h3 className="font-bold mb-2">{title}</h3>
+                  <p className="text-sm text-slate-600">{body}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
         <section id="features" className="py-20">
           <div className="max-w-6xl mx-auto px-6">
             <div className="text-center mb-12">
-              <div className="text-xs font-bold tracking-widest uppercase text-indigo-600 mb-3">Why {PRODUCT.name}</div>
-              <h2 className="text-3xl md:text-4xl font-extrabold mb-3">Everything you need to ship faster</h2>
+              <div className="text-xs font-bold tracking-widest uppercase text-indigo-600 mb-3">{t('benchmark.featuresEyebrow')}</div>
+              <h2 className="text-3xl md:text-4xl font-extrabold mb-3">{t('benchmark.featuresTitle')}</h2>
+              <p className="text-slate-600 max-w-2xl mx-auto">{t('benchmark.featuresBlurb')}</p>
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
               {featCards.map((f) => (
                 <div key={f} className="rounded-2xl border border-slate-200 p-6 shadow-sm hover:-translate-y-1 transition bg-white">
                   <div className="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 grid place-items-center font-black mb-4">✦</div>
                   <h3 className="font-bold mb-2">{f}</h3>
-                  <p className="text-sm text-slate-600">Built for founders who need results without a learning curve.</p>
+                  <p className="text-sm text-slate-600">{t('benchmark.featuresBlurb')}</p>
                 </div>
               ))}
             </div>
@@ -381,18 +662,18 @@ export default function Home() {
         <section id="how" className="py-20 bg-slate-50">
           <div className="max-w-6xl mx-auto px-6">
             <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-extrabold">From idea to result in 3 steps</h2>
+              <h2 className="text-3xl md:text-4xl font-extrabold">{t('benchmark.howTitle')}</h2>
             </div>
             <div className="grid md:grid-cols-3 gap-6">
               {[
-                ['1', 'Input', 'Describe your goal in plain language.'],
-                ['2', 'Process', PRODUCT.name + ' structures the work and runs the workflow.'],
-                ['3', 'Ship', 'Copy, export, or upgrade for unlimited runs.'],
-              ].map(([n, t, d]) => (
+                ['1', t('benchmark.how1Title'), t('benchmark.how1Body')],
+                ['2', t('benchmark.how2Title'), t('benchmark.how2Body')],
+                ['3', t('benchmark.how3Title'), t('benchmark.how3Body')],
+              ].map(([n, title, body]) => (
                 <div key={n} className="bg-white rounded-2xl border border-slate-200 p-6">
                   <div className="w-10 h-10 rounded-full bg-indigo-600 text-white grid place-items-center font-black mb-4">{n}</div>
-                  <h3 className="font-bold text-lg mb-2">{t}</h3>
-                  <p className="text-slate-600 text-sm">{d}</p>
+                  <h3 className="font-bold text-lg mb-2">{title}</h3>
+                  <p className="text-slate-600 text-sm">{body}</p>
                 </div>
               ))}
             </div>
@@ -402,10 +683,10 @@ export default function Home() {
         <section id="studio" className="py-20">
           <div className="max-w-6xl mx-auto px-6">
             <div className="text-center mb-12">
-              <div className="text-xs font-bold tracking-widest uppercase text-indigo-600 mb-3">Live studio</div>
-              <h2 className="text-3xl md:text-4xl font-extrabold">Try it on this page</h2>
+              <div className="text-xs font-bold tracking-widest uppercase text-indigo-600 mb-3">{t('home.studioEyebrow')}</div>
+              <h2 className="text-3xl md:text-4xl font-extrabold">{t('home.studioHeading')}</h2>
               <p className="text-slate-600 mt-2">
-                <button type="button" className="text-indigo-600 font-bold underline" onClick={openDemo}>Watch demo</button>
+                <button type="button" className="text-indigo-600 font-bold underline" onClick={openDemo}>{t('home.studioWatchDemo')}</button>
                 {' '}or generate below.
               </p>
             </div>
@@ -441,9 +722,6 @@ export default function Home() {
                   >
                     Copy
                   </button>
-                  <a href={`/api/runs?format=json`} className="px-4 py-2 rounded-full border border-slate-200 font-semibold">
-                    Export runs (JSON)
-                  </a>
                   <a href="/api/checkout" onClick={(e) => goCheckout('/api/checkout', e)} className="px-4 py-2 rounded-full bg-indigo-600 text-white font-semibold">
                     ${price}/mo — Upgrade
                   </a>
@@ -453,73 +731,89 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="testimonials" className="py-20 bg-slate-50">
+                <section id="testimonials" className="py-20 bg-slate-50">
           <div className="max-w-6xl mx-auto px-6">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-center mb-12">Loved by operators who ship</h2>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-center mb-4">{t('home.socialHeading')}</h2>
+            <p className="text-center text-slate-600 mb-12 max-w-2xl mx-auto">
+              {t('home.socialNote')}
+            </p>
             <div className="grid md:grid-cols-3 gap-5">
               {[
-                ['AL', 'Alex R.', 'Indie founder', '"Cut my first-pass work in half."'],
-                ['MK', 'Maya K.', 'Ops lead', '"Clear pricing and a demo that actually works."'],
-                ['JT', 'Jordan T.', 'Consultant', '"FAQ answered every objection before checkout."'],
-              ].map(([av, nm, role, q]) => (
-                <div key={nm} className="bg-white rounded-2xl border border-slate-200 p-6">
-                  <div className="text-amber-400 mb-3">★★★★★</div>
-                  <p className="text-slate-700 mb-4">{q}</p>
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-indigo-600 text-white grid place-items-center font-bold">{av}</div>
-                    <div>
-                      <div className="font-bold text-sm">{nm}</div>
-                      <div className="text-xs text-slate-500">{role}</div>
-                    </div>
-                  </div>
+                ['Role', 'Security / privacy lead', 'PENDING REAL QUOTE — replace with a consented customer quote.'],
+                ['Role', 'Engineering manager', 'PENDING REAL QUOTE — outcome metric as template only ([X]+ hours saved).'],
+                ['Role', 'Founder', 'PENDING REAL QUOTE — no fabricated names or logos.'],
+              ].map(([eyebrow, role, q]) => (
+                <div key={role} className="bg-white rounded-2xl border border-slate-200 p-6">
+                  <div className="text-xs font-bold tracking-widest uppercase text-slate-400 mb-2">{eyebrow}</div>
+                  <p className="text-slate-700 mb-4">&ldquo;{q}&rdquo;</p>
+                  <div className="font-bold text-sm text-slate-900">{role}</div>
+                  <div className="text-xs text-slate-500">Template · see content-modules/social-proof.md</div>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
+        <section id="honesty" className="py-12 bg-white border-y border-slate-100">
+          <div className="max-w-3xl mx-auto px-6 text-center">
+            <h2 className="text-2xl font-extrabold mb-3">{t('benchmark.honestyTitle')}</h2>
+            <p className="text-slate-600 text-sm">{t('benchmark.honestyLead')}</p>
+          </div>
+        </section>
+
         <section id="pricing" className="py-20">
           <div className="max-w-6xl mx-auto px-6">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-extrabold">Simple plans that scale</h2>
+            <div className="text-center mb-8">
+              <h2 className="text-3xl md:text-4xl font-extrabold">{t('pricing.heading')}</h2>
+            </div>
+            <div className="mb-10 rounded-2xl border border-slate-200 bg-slate-50 p-6">
+              <h3 className="font-bold text-center mb-4">{t('benchmark.allPlansTitle')}</h3>
+              <ul className="grid sm:grid-cols-2 gap-2 text-sm text-slate-700 max-w-3xl mx-auto">
+                {[t('benchmark.allPlans1'), t('benchmark.allPlans2'), t('benchmark.allPlans3'), t('benchmark.allPlans4')].map((item) => (
+                  <li key={item} className="flex gap-2 items-start">
+                    <Check />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
             <div className="grid md:grid-cols-3 gap-6">
               <div className="rounded-2xl border border-slate-200 p-6">
                 <div className="font-bold text-lg">Free</div>
                 <div className="text-4xl font-black my-3">$0</div>
                 <ul className="space-y-2 text-sm text-slate-600 mb-6">
-                  <li className="flex gap-2"><Check /> Limited daily AI runs (10/day · 50/mo)</li>
-                  <li className="flex gap-2"><Check /> Studio demo (no extra LLM fee)</li>
+                  <li className="flex gap-2"><Check /> {t('pricing.freeFeat1')}</li>
+                  <li className="flex gap-2"><Check /> {t('pricing.freeFeat2')}</li>
                 </ul>
-                <button type="button" className="w-full py-3 rounded-full border border-slate-200 font-bold" onClick={() => document.getElementById('signup')?.scrollIntoView({ behavior: 'smooth' })}>
-                  Get started free
+                <button type="button" className="w-full py-3 rounded-full border border-slate-200 font-bold" onClick={() => document.getElementById('studio')?.scrollIntoView({ behavior: 'smooth' })}>
+                  {t('pricing.getStarted')}
                 </button>
               </div>
               <div className="rounded-2xl border-2 border-indigo-600 p-6 relative shadow-lg">
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 text-xs font-bold bg-indigo-600 text-white px-3 py-1 rounded-full">Most popular</div>
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 text-xs font-bold bg-indigo-600 text-white px-3 py-1 rounded-full">{t('pricing.mostPopular')}</div>
                 <div className="font-bold text-lg">Pro</div>
                 <div className="text-4xl font-black my-3">
                   ${price}
                   <span className="text-base font-semibold text-slate-500">/mo</span>
                 </div>
                 <ul className="space-y-2 text-sm text-slate-600 mb-6">
-                  <li className="flex gap-2"><Check /> AI included: 300 gens/mo · fair use (gpt-4o-mini)</li>
-                  <li className="flex gap-2"><Check /> No separate ChatGPT subscription required</li>
-                  <li className="flex gap-2"><Check /> Priority support · Yearly ${priceYearly}</li>
+                  <li className="flex gap-2"><Check /> {t('pricing.proFeat1')}</li>
+                  <li className="flex gap-2"><Check /> {t('pricing.proFeat2')}</li>
+                  <li className="flex gap-2"><Check /> {t('pricing.proFeat3')}</li>
                 </ul>
                 <a href="/api/checkout" onClick={(e) => goCheckout('/api/checkout', e)} className="block text-center w-full py-3 rounded-full bg-indigo-600 text-white font-bold">
-                  Start free trial
+                  {t('pricing.getPro')}
                 </a>
                 <a href="/api/checkout?cycle=yearly" onClick={(e) => goCheckout('/api/checkout?cycle=yearly', e)} className="block text-center mt-3 text-sm font-semibold text-indigo-600">
-                  Or pay yearly
+                  {t('pricing.orYearly', { amount: String(priceYearlyMonthly) })}
                 </a>
               </div>
               <div className="rounded-2xl border border-slate-200 p-6">
                 <div className="font-bold text-lg">Enterprise</div>
-                <div className="text-4xl font-black my-3">Custom</div>
+                <div className="text-4xl font-black my-3">{t('pricing.custom')}</div>
                 <ul className="space-y-2 text-sm text-slate-600 mb-6">
-                  <li className="flex gap-2"><Check /> Team seats · API access (roadmap)</li>
-                  <li className="flex gap-2"><Check /> Optional BYOK (your OpenAI key)</li>
+                  <li className="flex gap-2"><Check /> {t('pricing.entFeat1')}</li>
+                  <li className="flex gap-2"><Check /> {t('pricing.entFeat2')}</li>
                 </ul>
                 <button
                   type="button"
@@ -528,23 +822,24 @@ export default function Home() {
                     await submitLead('sales', 'pricing_contact', 'enterprise')
                   }}
                 >
-                  Contact sales
+                  {t('pricing.contactSales')}
                 </button>
                 <a href="/settings" className="block text-center mt-3 text-sm font-semibold text-indigo-600">
-                  Configure BYOK
+                  {t('pricing.configureByok')}
                 </a>
               </div>
             </div>
           </div>
         </section>
 
-        <section id="product-faq" className="py-20">
-          <div className="max-w-3xl mx-auto px-6">
-            <h2 className="text-3xl font-extrabold text-center mb-10">CostLens - frequently asked questions</h2>
+        
+        <section id="geo-faq" className="py-16 bg-white">
+          <div className="max-w-6xl mx-auto px-6">
+            <h2 className="text-3xl font-extrabold mb-8">{t('faq.geoTitle')}</h2>
             <div className="space-y-3">
-              {((PRODUCT as any).geoFaq || []).map((f: { q?: string; a?: string; question?: string; answer?: string }) => (
-                <details key={f.q} className="acc bg-white border border-slate-200 rounded-xl p-4">
-                  <summary className="font-bold cursor-pointer">{f.q}</summary>
+              {(geoFaqItems || []).map((f: { q?: string; a?: string }) => (
+                <details key={f.q} className="rounded-xl border border-slate-200 p-4">
+                  <summary className="font-semibold cursor-pointer">{f.q}</summary>
                   <p className="mt-2 text-slate-600 text-sm">{f.a}</p>
                 </details>
               ))}
@@ -554,55 +849,86 @@ export default function Home() {
 
         <section id="faq" className="py-20 bg-slate-50">
           <div className="max-w-3xl mx-auto px-6">
-            <h2 className="text-3xl font-extrabold text-center mb-10">FAQ</h2>
+            <h2 className="text-3xl font-extrabold text-center mb-10">{t('faq.title')}</h2>
             <div className="space-y-3">
-              {[
-                ['Can I cancel anytime?', 'Yes. Self-serve plans cancel anytime; access continues until period end.'],
-                ['Do I need a credit card for the free trial?', 'No. Start with email signup, then upgrade when ready.'],
-                [
-                  'Do I need my own ChatGPT / OpenAI subscription?',
-                  'No for Free/Pro. AI runs are included in your plan (fair use) via our platform key. Enterprise can optionally bring your own OpenAI key (BYOK) — configure it at /settings (key stays server-side only).',
-                ],
-                [
-                  'What is Fair Use / what if I hit the AI limit?',
-                  'Pro includes about 300 AI generations/month (and a daily cap) on gpt-4o-mini. If you hit the fair-use limit, Studio returns a mock/demo result until the daily or monthly reset — or upgrade / use Enterprise BYOK for heavier volume.',
-                ],
-                ['Is checkout secure?', 'Payments are processed by Waffo Pancake (merchant of record).'],
-                ['What happens after I pay?', 'You receive access confirmation; fulfillment is tracked via webhook + order logs.'],
-              ].map(([q, a]) => (
-                <details key={q} className="acc bg-white border border-slate-200 rounded-xl p-4">
-                  <summary className="font-bold cursor-pointer">{q}</summary>
-                  <p className="mt-2 text-slate-600 text-sm">{a}</p>
+              {faqItems.map((item) => (
+                <details key={item.q} className="acc bg-white border border-slate-200 rounded-xl p-4">
+                  <summary className="font-bold cursor-pointer">{item.q}</summary>
+                  <p className="mt-2 text-slate-600 text-sm">{item.a}</p>
                 </details>
               ))}
             </div>
           </div>
+        
+          {(() => {
+  const qa = [1,2,3,4,5].map((i) => t(`home.geoQa${i}` as any)).filter((s) => s && !s.startsWith('home.geoQa'))
+  const lt = [1,2,3,4,5].map((i) => t(`home.geoLt${i}` as any)).filter((s) => s && !s.startsWith('home.geoLt'))
+  const cmpRows = [1,2,3,4].map((i) => [t(`home.geoCmp${i}Dim` as any), t(`home.geoCmp${i}Manual` as any), t(`home.geoCmp${i}Tool` as any)])
+  const whenNot = t('home.geoWhenNot')
+  if (!qa.length && !cmpRows.length && !lt.length) return null
+  return (
+    <div data-geo-render="v1" className="mt-10">
+      {qa.length > 0 && (
+        <div className="p-5 bg-slate-50 border border-slate-200 rounded-xl mb-6">
+          <h3 className="font-bold mb-3">{t('home.quickAnswers')}</h3>
+          <ul className="space-y-2 text-sm text-slate-700">
+            {qa.map((s: string, i: number) => (<li key={i}>{s}</li>))}
+          </ul>
+        </div>
+      )}
+      {cmpRows.length > 0 && (
+        <div className="p-5 bg-white border border-slate-200 rounded-xl mb-6">
+          <h3 className="font-bold mb-3">{t('home.howCompares')}</h3>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead><tr className="text-left border-b"><th className="py-2 pr-4">{t('home.dimension')}</th><th className="py-2 pr-4">{t('home.manual')}</th><th className="py-2">{PRODUCT.name}</th></tr></thead>
+              <tbody>
+                {cmpRows.map((r: string[], i: number) => (
+                  <tr key={i} className="border-b"><td className="py-2 pr-4 font-medium">{r[0]}</td><td className="py-2 pr-4">{r[1]}</td><td className="py-2">{r[2]}</td></tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          {whenNot && (<p className="mt-3 text-sm text-amber-700">{t('home.whenNotToUse')} {whenNot}</p>)}
+        </div>
+      )}
+      {lt.length > 0 && (
+        <div className="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+          <h3 className="font-bold mb-3">{t('home.peopleAlsoSearch')}</h3>
+          <div className="flex flex-wrap gap-2">
+            {lt.slice(0, 12).map((w: string, i: number) => (<span key={i} className="text-xs px-2 py-1 bg-white border border-slate-200 rounded-full text-slate-600">{w}</span>))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+})()}
         </section>
 
         <section className="py-20">
           <div id="signup" className="max-w-3xl mx-auto px-6 text-center rounded-3xl bg-slate-950 text-white p-10">
-            <h2 className="text-3xl font-extrabold mb-3">Start smarter today</h2>
-            <p className="text-slate-300 mb-6">Join builders using {PRODUCT.name}. Free to try — no card needed.</p>
+            <h2 className="text-3xl font-extrabold mb-3">{t('signup.title')}</h2>
+            <p className="text-slate-300 mb-6">{t('signup.subtitle')}</p>
             <form onSubmit={onSignup} className="flex flex-col sm:flex-row gap-3 justify-center">
-              <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter your email" className="px-4 py-3 rounded-full text-slate-900 min-w-[260px]" />
+              <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder={t('signup.emailPlaceholder')} className="px-4 py-3 rounded-full text-slate-900 min-w-[260px]" />
               <button type="submit" disabled={signupBusy} className="px-6 py-3 rounded-full bg-indigo-500 font-bold disabled:opacity-60">
-                {signupBusy ? 'Saving…' : 'Get started'}
+                {signupBusy ? t('signup.saving') : t('signup.cta')}
               </button>
             </form>
-            <p className="text-sm text-slate-400 mt-4">{signupMsg || 'Trusted · Cancel anytime'}</p>
+            <p className="text-sm text-slate-400 mt-4">{signupMsg || t('signup.trust')}</p>
           </div>
         </section>
 
         <section className="pb-16">
           <div className="max-w-6xl mx-auto px-6 rounded-2xl border border-slate-200 p-6">
             <div className="flex flex-wrap gap-3 items-center justify-between mb-4">
-              <h3 className="font-bold">Leads inbox (demo CRUD)</h3>
+              <h3 className="font-bold">{t('home.leadsInbox')}</h3>
               <div className="text-sm text-slate-500">{filteredHint}</div>
             </div>
             <div className="flex flex-wrap gap-3 mb-4">
-              <input className="border border-slate-200 rounded-lg px-3 py-2 text-sm" placeholder="Filter email…" value={leadFilter} onChange={(e) => setLeadFilter(e.target.value)} />
+              <input className="border border-slate-200 rounded-lg px-3 py-2 text-sm" placeholder={t('home.filterEmail')} value={leadFilter} onChange={(e) => setLeadFilter(e.target.value)} />
               <select className="border border-slate-200 rounded-lg px-3 py-2 text-sm" value={planFilter} onChange={(e) => setPlanFilter(e.target.value)}>
-                <option value="">All plans</option>
+                <option value="">{t('home.allPlans')}</option>
                 <option value="free">free</option>
                 <option value="pro">pro</option>
                 <option value="enterprise">enterprise</option>
@@ -610,15 +936,15 @@ export default function Home() {
               </select>
             </div>
             {leads.length === 0 ? (
-              <div className="text-sm text-slate-500">No leads yet — submit the signup form.</div>
+              <div className="text-sm text-slate-500">{t('home.noLeads')}</div>
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="text-left text-slate-500 border-b">
-                      <th className="py-2">Email</th>
-                      <th>Plan</th>
-                      <th>Source</th>
+                      <th className="py-2">{t('home.colEmail')}</th>
+                      <th>{t('home.colPlan')}</th>
+                      <th>{t('home.colSource')}</th>
                       <th></th>
                     </tr>
                   </thead>
@@ -630,7 +956,7 @@ export default function Home() {
                         <td>{l.source}</td>
                         <td>
                           <button type="button" className="text-red-600 font-semibold" onClick={() => deleteLeadRow(l.id)}>
-                            Delete
+                            {t('home.delete')}
                           </button>
                         </td>
                       </tr>
@@ -642,33 +968,45 @@ export default function Home() {
           </div>
         </section>
 
-        <footer className="border-t border-slate-200 py-10">
+        <section className="max-w-3xl mx-auto px-6 py-10" data-geo="related-reading">
+      <h2 className="text-xl font-bold text-slate-900 mb-3">{t('home.relatedReading')}</h2>
+            <ul className="space-y-1 text-[15px]">
+      <li><a href="https://lxsaihub.com/blog/ai-wrapper-vs-moat.html" className="text-indigo-700 hover:underline">{t('home.related1Title')}</a> &mdash; {t('home.related1Desc')}</li>
+      <li><a href="https://lxsaihub.com/blog/eu-ai-act-compliance-checklist.html" className="text-indigo-700 hover:underline">{t('home.related2Title')}</a> &mdash; {t('home.related2Desc')}</li>
+      <li><a href="https://lxsaihub.com/blog/wave1-launch.html" className="text-indigo-700 hover:underline">{t('home.related3Title')}</a> &mdash; {t('home.related3Desc')}</li>
+      </ul>
+    </section>
+
+<footer className="border-t border-slate-200 py-10">
           <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-4 gap-8 text-sm">
             <div>
               <div className="font-extrabold text-lg mb-2">{PRODUCT.name}</div>
-              <p className="text-slate-500">{PRODUCT.tagline}</p>
+              <p className="text-slate-500">{t('common.tagline')}</p>
             </div>
             <div className="flex flex-col gap-2 text-slate-600">
-              <div className="font-bold text-slate-900">Product</div>
-              <a href="#features">Features</a>
-              <a href="/use-cases">Use Cases</a>
-              <a href="/integrations">Integrations</a>
-              <a href="#pricing">Pricing</a>
+              <div className="font-bold text-slate-900">{t('footer.product')}</div>
+              <a href="#features">{t('nav.features')}</a>
+              <a href="/use-cases">{t('nav.useCases')}</a>
+              <a href="/integrations">{t('nav.integrations')}</a>
+              <a href="/security">{t('nav.security')}</a>
+              <a href="/blog">{t('nav.blog')}</a>
+              <a href="#pricing">{t('nav.pricing')}</a>
+              <a href="#studio">{t('nav.studio')}</a>
+              <a href="#faq">{t('nav.faq')}</a>
             </div>
             <div className="flex flex-col gap-2 text-slate-600">
-              <div className="font-bold text-slate-900">Resources</div>
-              <a href="/security">Security</a>
-              <a href="/blog">Blog</a>
-              <a href="#faq">FAQ</a>
+              <div className="font-bold text-slate-900">{t('footer.company')}</div>
+              <a href="#top">{t('footer.about')}</a>
+              <a href="mailto:lixingliangsy@163.com">{t('footer.contact')}</a>
             </div>
             <div className="flex flex-col gap-2 text-slate-600">
-              <div className="font-bold text-slate-900">Legal</div>
-              <a href="/privacy.html">Privacy</a>
-              <a href="/terms.html">Terms</a>
-              <a href="/support.html">Support</a>
+              <div className="font-bold text-slate-900">{t('footer.legal')}</div>
+              <a href="/privacy.html">{t('footer.privacy')}</a>
+              <a href="/terms.html">{t('footer.terms')}</a>
+              <a href="/support.html">{t('footer.support')}</a>
             </div>
           </div>
-          <div className="max-w-6xl mx-auto px-6 mt-8 text-slate-400 text-xs">© 2026 {PRODUCT.name}. All rights reserved.</div>
+          <div className="max-w-6xl mx-auto px-6 mt-8 text-slate-400 text-xs">© 2026 {PRODUCT.name}. {t('footer.rights')}</div>
         </footer>
 
         {toast ? <div className="fixed bottom-6 right-6 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-lg font-semibold z-50">{toast}</div> : null}
@@ -678,7 +1016,7 @@ export default function Home() {
             <div className="bg-white rounded-2xl max-w-2xl w-full overflow-hidden shadow-2xl">
               <div className="flex items-center justify-between px-5 py-3 border-b border-slate-200 bg-slate-50">
                 <div>
-                  <div className="font-bold">{PRODUCT.name} · Product tour</div>
+                  <div className="font-bold">{PRODUCT.name} · {t('home.productTour')}</div>
                   <div className="text-xs text-slate-500">{(PRODUCT as any).tagline || (PRODUCT as any).slug}</div>
                 </div>
                 <button type="button" className="font-bold text-slate-500" onClick={() => setDemoOpen(false)}>
@@ -688,7 +1026,7 @@ export default function Home() {
               <div className="p-6">
                 <div className="rounded-xl border border-slate-200 bg-slate-950 text-white p-5 min-h-[260px]">
                   <div className="text-xs text-slate-400 mb-3">
-                    PRODUCT DEMO · {PRODUCT.slug} · step {demoStep + 1}/{demoSteps.length}
+                    {t('home.productDemo')} · {PRODUCT.slug} · {t('home.stepOf', { n: String(demoStep + 1), total: String(demoSteps.length) })}
                   </div>
                   <div className="text-lg font-bold mb-2">{demoSteps[demoStep]?.title}</div>
                   <div className="text-sm text-slate-300 whitespace-pre-wrap mb-4">{demoSteps[demoStep]?.detail}</div>
@@ -717,7 +1055,7 @@ export default function Home() {
                       setDemoStep(0)
                     }}
                   >
-                    Replay
+                    {t('home.replay')}
                   </button>
                   <button
                     type="button"
@@ -727,20 +1065,29 @@ export default function Home() {
                       document.getElementById('studio')?.scrollIntoView({ behavior: 'smooth' })
                     }}
                   >
-                    Try studio
+                    {t('home.tryStudio')}
                   </button>
                   <a
                     href="#signup"
                     className="px-4 py-2 rounded-full border border-slate-200 font-bold"
                     onClick={() => setDemoOpen(false)}
                   >
-                    Start free
+                    Create my account
                   </a>
                 </div>
               </div>
             </div>
           </div>
         ) : null}
+      <section className="mx-auto max-w-3xl px-4 py-10" aria-labelledby="what-not">
+        <h2 id="what-not" className="text-xl font-semibold text-gray-900">{t('legal.whatNotTitle')}</h2>
+        <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-gray-700">
+          <li>{t('legal.whatNot1')}</li>
+          <li>{t('legal.whatNot2')}</li>
+          <li>{t('legal.whatNot3')}</li>
+        </ul>
+      </section>
+
       </div>
     </>
   )

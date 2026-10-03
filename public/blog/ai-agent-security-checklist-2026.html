@@ -4,6 +4,12 @@
 <title>AI Agent Security Checklist 2026 - CostLens by LX AI</title>
 <meta name="description" content="A practical 7-point security checklist for teams shipping AI agents in 2026, mapped to the OWASP Top 10 for LLM Applications and the EU AI Act.">
 <link rel="canonical" href="https://agentcost.lxsaihub.com/blog/ai-agent-security-checklist-2026.html">
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="agentcost" />
+    <meta property="og:title" content="AI Agent Security Checklist 2026 - CostLens by LX AI" />
+    <meta property="og:description" content="A practical 7-point security checklist for teams shipping AI agents in 2026, mapped to the OWASP Top 10 for LLM Applications and the EU AI Act." />
+    <meta property="og:url" content="https://agentcost.lxsaihub.com/blog/ai-agent-security-checklist-2026.html" />
+    <meta property="og:image" content="https://agentcost.lxsaihub.com/og.png" />
 <style>*{box-sizing:border-box}body{margin:0;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#0f172a;line-height:1.7;background:#fff}
 .wrap{max-width:760px;margin:0 auto;padding:48px 20px 80px}.by{color:#6366f1;font-weight:700;letter-spacing:.02em;text-transform:uppercase;font-size:12px}
 h1{font-size:34px;line-height:1.2;margin:.2em 0 .4em}h2{font-size:23px;margin:1.8em 0 .5em;color:#1e1b4b}
@@ -82,6 +88,7 @@ ul{padding-left:1.2em}blockquote{margin:1em 0;padding:.8em 1em;background:#f8faf
 </head>
 <body><div class="wrap">
 <p class="by">by CostLens (LX AI)</p>
+<p class="meta" style="color:#64748b;font-size:12px;margin:.2em 0 .8em">Last updated: 2026-09-16</p>
 <h1>AI Agent Security Checklist 2026</h1>
 <h2>What is CostLens?</h2>
 <p>See exactly where your AI agents spend money</p>
@@ -134,4 +141,41 @@ ul{padding-left:1.2em}blockquote{margin:1em 0;padding:.8em 1em;background:#f8faf
     <li><a href="/blog/finops-budget-guardrails-for-llm-agents-2026.html">FinOps budget guardrails for LLM agents — CostLens</a></li>
     <li><a href="https://lxsaihub.com/blog/topic-matrix.html">The LX AI Micro-SaaS Topic Matrix</a></li>
   </ul>
-</section></div></body></html>
+</section></div><section class="faq" aria-label="FAQ">
+<h2>FAQ</h2>
+<h3>What is CostLens??</h3>
+<p>See exactly where your AI agents spend money</p>
+<h3>What is 5. Log every run with a runId?</h3>
+<p>Every agent run needs a stable runId and a ruleset version so a bad output is traceable to a specific input and policy. This is your audit trail. (EU AI Act Art. 11 - technical documentation.)</p>
+<h3>What is 6. Set a fair-use cost guard?</h3>
+<p>Cap token spend per run and per day. Unbounded agents turn a bug into a bill. Surface HTTP 429 when the guard trips instead of silently degrading. (OWASP LLM10 - unbounded consumption.)</p>
+<h3>What is 7. Keep a versioned ruleset?</h3>
+<p>Policy logic should be reviewable in a pull request, not buried in a prompt. Version each ruleset so regressions are diffable. (EU AI Act Art. 9 - risk management.)</p>
+<h3>What are Frequently asked questions?</h3>
+<p>List the system prompt, the tools the agent can call, and the data each tool touches. You cannot guard what you have not enumerated. (OWASP LLM06 - over-reliance; LLM01 - prompt injection surface.)</p>
+</section>
+
+<h2>Expanded 2026 agent security checklist</h2>
+<p>Start with inventory: list every agent, its model providers, tools, memory stores, and human owners. Without inventory, checklists become theater. Next, classify data each agent may touch (public, internal, secret). Secrets should never be pasted into third-party playgrounds. Then enforce tool allowlists: prefer explicit registries over open-ended “browse the web and act” defaults.</p>
+<p>Prompt-injection defenses belong at multiple layers. Treat untrusted retrieved text as data, not instructions. Separate system policy from user content. Log tool arguments. Add canary tests that try to override policy (“ignore previous instructions…”) and expect denial. Map each control to OWASP LLM Top 10 identifiers so audits stay comparable across quarters.</p>
+<p>Runtime controls: rate limits, budget caps, sandboxing for code tools, and kill switches. Fair-use quotas that short-circuit before model calls protect both cost and safety. When AI keys are missing, return a clear not-configured error instead of silent mock success—operators must see the truth.</p>
+<p>Post-run: retain traces long enough for incident review, redact secrets in logs, and define who triages severity. Red-team on a schedule; keep fixtures for known jailbreaks. Publish an internal “What this checklist is NOT” statement: it is not a legal opinion, not SOC 2 evidence by itself, and not a promise of zero incidents.</p>
+<h2>Minimum viable control set</h2>
+<ol>
+<li>Inventory + owner for every agent.</li>
+<li>Tool allowlist with deny-by-default.</li>
+<li>Untrusted content isolation for retrieval.</li>
+<li>Human approval for irreversible actions.</li>
+<li>Quota and key fail-closed behavior.</li>
+<li>Exportable evaluation fixtures.</li>
+</ol>
+<p>Use this page as a living document. Update RULESET dates when frameworks change. Prefer primary references over blog summaries when you cite requirements.</p>
+
+<section><h2>What this is NOT</h2><p>Cost and security checklists do not certify compliance outcomes.</p></section>
+<h2>Operator note 1</h2><p>Document the control owner, the last test date, the fixture path, and the expected fail-closed behavior when credentials or quotas are missing. Record whether results are rule-based or model-assisted, and never present demo output as live AI. Prefer primary standards links over secondary summaries. Keep customer metrics empty until verified. Re-run this checklist after framework updates and after major prompt or tool-registry changes. Store evidence in tickets with timestamps. Reject efficacy language such as absolute guarantees.</p>
+<h2>Operator note 2</h2><p>Document the control owner, the last test date, the fixture path, and the expected fail-closed behavior when credentials or quotas are missing. Record whether results are rule-based or model-assisted, and never present demo output as live AI. Prefer primary standards links over secondary summaries. Keep customer metrics empty until verified. Re-run this checklist after framework updates and after major prompt or tool-registry changes. Store evidence in tickets with timestamps. Reject efficacy language such as absolute guarantees.</p>
+<h2>Operator note 3</h2><p>Document the control owner, the last test date, the fixture path, and the expected fail-closed behavior when credentials or quotas are missing. Record whether results are rule-based or model-assisted, and never present demo output as live AI. Prefer primary standards links over secondary summaries. Keep customer metrics empty until verified. Re-run this checklist after framework updates and after major prompt or tool-registry changes. Store evidence in tickets with timestamps. Reject efficacy language such as absolute guarantees.</p>
+<h2>Operator note 4</h2><p>Document the control owner, the last test date, the fixture path, and the expected fail-closed behavior when credentials or quotas are missing. Record whether results are rule-based or model-assisted, and never present demo output as live AI. Prefer primary standards links over secondary summaries. Keep customer metrics empty until verified. Re-run this checklist after framework updates and after major prompt or tool-registry changes. Store evidence in tickets with timestamps. Reject efficacy language such as absolute guarantees.</p>
+<h2>Operator note 5</h2><p>Document the control owner, the last test date, the fixture path, and the expected fail-closed behavior when credentials or quotas are missing. Record whether results are rule-based or model-assisted, and never present demo output as live AI. Prefer primary standards links over secondary summaries. Keep customer metrics empty until verified. Re-run this checklist after framework updates and after major prompt or tool-registry changes. Store evidence in tickets with timestamps. Reject efficacy language such as absolute guarantees.</p>
+<h2>Operator note 6</h2><p>Document the control owner, the last test date, the fixture path, and the expected fail-closed behavior when credentials or quotas are missing. Record whether results are rule-based or model-assisted, and never present demo output as live AI. Prefer primary standards links over secondary summaries. Keep customer metrics empty until verified. Re-run this checklist after framework updates and after major prompt or tool-registry changes. Store evidence in tickets with timestamps. Reject efficacy language such as absolute guarantees.</p>
+</body></html>

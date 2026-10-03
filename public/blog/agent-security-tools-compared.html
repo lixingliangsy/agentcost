@@ -4,6 +4,12 @@
 <title>Agent Security Tools Compared: CostLens vs AgentRedTeam vs PyRIT vs Garak</title>
 <meta name="description" content="A side-by-side comparison of four agent-security tools - CostLens, AgentRedTeam, Microsoft PyRIT, and NVIDIA Garak - covering vendor, type, focus, and license.">
 <link rel="canonical" href="https://agentcost.lxsaihub.com/blog/agent-security-tools-compared.html">
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="agentcost" />
+    <meta property="og:title" content="Agent Security Tools Compared: CostLens vs AgentRedTeam vs PyRIT vs Garak" />
+    <meta property="og:description" content="A side-by-side comparison of four agent-security tools - CostLens, AgentRedTeam, Microsoft PyRIT, and NVIDIA Garak - covering vendor, type, focus, and license." />
+    <meta property="og:url" content="https://agentcost.lxsaihub.com/blog/agent-security-tools-compared.html" />
+    <meta property="og:image" content="https://agentcost.lxsaihub.com/og.png" />
 <style>*{box-sizing:border-box}body{margin:0;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#0f172a;line-height:1.7;background:#fff}
 .wrap{max-width:760px;margin:0 auto;padding:48px 20px 80px}.by{color:#6366f1;font-weight:700;letter-spacing:.02em;text-transform:uppercase;font-size:12px}
 h1{font-size:34px;line-height:1.2;margin:.2em 0 .4em}h2{font-size:23px;margin:1.8em 0 .5em;color:#1e1b4b}
@@ -66,6 +72,7 @@ ul{padding-left:1.2em}blockquote{margin:1em 0;padding:.8em 1em;background:#f8faf
 </head>
 <body><div class="wrap">
 <p class="by">by CostLens (LX AI)</p>
+<p class="meta" style="color:#64748b;font-size:12px;margin:.2em 0 .8em">Last updated: 2026-09-16</p>
 <h1>Agent Security Tools Compared: CostLens vs AgentRedTeam vs PyRIT vs Garak</h1>
 <p>If you are shipping agents, you need a way to test them before they touch production data. Here is how four tools line up. All four are real; pick by where you are in the lifecycle.</p>
 <table>
@@ -105,4 +112,35 @@ ul{padding-left:1.2em}blockquote{margin:1em 0;padding:.8em 1em;background:#f8faf
     <li><a href="/blog/finops-budget-guardrails-for-llm-agents-2026.html">FinOps budget guardrails for LLM agents — CostLens</a></li>
     <li><a href="https://lxsaihub.com/blog/topic-matrix.html">The LX AI Micro-SaaS Topic Matrix</a></li>
   </ul>
-</section></div></body></html>
+</section></div><section class="faq" aria-label="FAQ">
+<h2>FAQ</h2>
+<h3>What are Frequently asked questions?</h3>
+<p>If you are shipping agents, you need a way to test them before they touch production data. Here is how four tools line up. All four are real; pick by where you are in the lifecycle.</p>
+</section>
+
+<h2>How to compare agent security tools without marketing fog</h2>
+<p>Teams evaluating agent security tooling in 2026 usually mix three layers: prompt-injection defenses (OWASP LLM01), tool-allowlist enforcement, and runtime monitoring. A useful comparison grid separates <em>pre-run policy</em>, <em>in-run controls</em>, and <em>post-run evidence</em>. Pre-run policy covers system prompts, allowed tools, and data classification. In-run controls cover sandboxes, rate limits, and human approval gates. Post-run evidence covers logs, red-team transcripts, and incident tickets. If a vendor collapses all three into one score, ask for artifact examples rather than accepting a single percentage.</p>
+<p>Category:baseline checklists help more than feature matrices. For each candidate tool, record whether it (1) maps findings to a published framework such as OWASP Top 10 for LLM Applications, (2) supports offline or air-gapped evaluation, (3) exports machine-readable results, and (4) states failure modes honestly. Prefer tools that fail closed when credentials are missing over tools that invent “green” results. That honesty rule matches how production incident reviews actually work.</p>
+<p>Shared blog stubs across micro-SaaS fleets often under-serve readers because they stay at definition level. Expand the comparison with decision criteria: latency budget, false-positive tolerance, who owns remediations, and whether the tool can run without uploading proprietary prompts. Write down what you will <em>not</em> automate—destructive tool calls, production write access, and payment mutations should stay behind human approval even when scanners pass.</p>
+<p>When you publish a comparison for your own product category, cite primary sources (OWASP, NIST AI RMF) and keep competitor names factual. Do not invent customer win rates. A durable comparison page is a checklist plus worked examples, not a leaderboard.</p>
+<h2>Practical scoring rubric (copy into your sheet)</h2>
+<ul>
+<li>Policy clarity: can an engineer explain allow/deny rules in five minutes?</li>
+<li>Evidence quality: do outputs include inputs, tool traces, and timestamps?</li>
+<li>Failure behavior: 503/429/502 style honesty when upstream AI is down.</li>
+<li>Operator load: hours per week to maintain deny lists and fixtures.</li>
+<li>Fit: matches your agent architecture (tool-calling vs retrieval-only).</li>
+</ul>
+<p>Repeat the rubric quarterly. Agent frameworks change faster than annual vendor reviews. Keep a short “What this comparison is NOT” note on every page: not a certification, not a penetration test, and not a guarantee that agents will never abuse tools.</p>
+
+<section><h2>What this is NOT</h2><p>Not a pricing guarantee and not a substitute for your finance review.</p></section>
+<h2>Operator note 1</h2><p>Document the control owner, the last test date, the fixture path, and the expected fail-closed behavior when credentials or quotas are missing. Record whether results are rule-based or model-assisted, and never present demo output as live AI. Prefer primary standards links over secondary summaries. Keep customer metrics empty until verified. Re-run this checklist after framework updates and after major prompt or tool-registry changes. Store evidence in tickets with timestamps. Reject efficacy language such as absolute guarantees.</p>
+<h2>Operator note 2</h2><p>Document the control owner, the last test date, the fixture path, and the expected fail-closed behavior when credentials or quotas are missing. Record whether results are rule-based or model-assisted, and never present demo output as live AI. Prefer primary standards links over secondary summaries. Keep customer metrics empty until verified. Re-run this checklist after framework updates and after major prompt or tool-registry changes. Store evidence in tickets with timestamps. Reject efficacy language such as absolute guarantees.</p>
+<h2>Operator note 3</h2><p>Document the control owner, the last test date, the fixture path, and the expected fail-closed behavior when credentials or quotas are missing. Record whether results are rule-based or model-assisted, and never present demo output as live AI. Prefer primary standards links over secondary summaries. Keep customer metrics empty until verified. Re-run this checklist after framework updates and after major prompt or tool-registry changes. Store evidence in tickets with timestamps. Reject efficacy language such as absolute guarantees.</p>
+<h2>Operator note 4</h2><p>Document the control owner, the last test date, the fixture path, and the expected fail-closed behavior when credentials or quotas are missing. Record whether results are rule-based or model-assisted, and never present demo output as live AI. Prefer primary standards links over secondary summaries. Keep customer metrics empty until verified. Re-run this checklist after framework updates and after major prompt or tool-registry changes. Store evidence in tickets with timestamps. Reject efficacy language such as absolute guarantees.</p>
+<h2>Operator note 5</h2><p>Document the control owner, the last test date, the fixture path, and the expected fail-closed behavior when credentials or quotas are missing. Record whether results are rule-based or model-assisted, and never present demo output as live AI. Prefer primary standards links over secondary summaries. Keep customer metrics empty until verified. Re-run this checklist after framework updates and after major prompt or tool-registry changes. Store evidence in tickets with timestamps. Reject efficacy language such as absolute guarantees.</p>
+<h2>Operator note 6</h2><p>Document the control owner, the last test date, the fixture path, and the expected fail-closed behavior when credentials or quotas are missing. Record whether results are rule-based or model-assisted, and never present demo output as live AI. Prefer primary standards links over secondary summaries. Keep customer metrics empty until verified. Re-run this checklist after framework updates and after major prompt or tool-registry changes. Store evidence in tickets with timestamps. Reject efficacy language such as absolute guarantees.</p>
+<h2>Operator note 7</h2><p>Document the control owner, the last test date, the fixture path, and the expected fail-closed behavior when credentials or quotas are missing. Record whether results are rule-based or model-assisted, and never present demo output as live AI. Prefer primary standards links over secondary summaries. Keep customer metrics empty until verified. Re-run this checklist after framework updates and after major prompt or tool-registry changes. Store evidence in tickets with timestamps. Reject efficacy language such as absolute guarantees.</p>
+<h2>Operator note 8</h2><p>Document the control owner, the last test date, the fixture path, and the expected fail-closed behavior when credentials or quotas are missing. Record whether results are rule-based or model-assisted, and never present demo output as live AI. Prefer primary standards links over secondary summaries. Keep customer metrics empty until verified. Re-run this checklist after framework updates and after major prompt or tool-registry changes. Store evidence in tickets with timestamps. Reject efficacy language such as absolute guarantees.</p>
+<h2>Evidence habit</h2><p>Keep a dated evidence folder for each control: fixture input, expected deny or pass behavior, operator notes, and a link to the primary standard you relied on. Re-run after dependency upgrades. If AI assists triage, label the row as model-assisted; if a deterministic rule fired, label it rule-based. Never present demo mode output as live production AI. Prefer short honest summaries over absolute claims. Update this page when framework versions change so RULESET dates stay accurate for reviewers.</p>
+</body></html>

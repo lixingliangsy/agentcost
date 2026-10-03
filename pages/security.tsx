@@ -1,61 +1,46 @@
-import React from 'react'
 import Head from 'next/head'
 import Layout from '../components/Layout'
-import { PRODUCT } from '../lib/product'
+import { useT } from '../lib/i18n/provider'
 
-const Sec = ({ title, children }: { title: string; children: React.ReactNode }) => (
-  <section className="mb-10">
-    <h2 className="text-2xl font-extrabold mb-3 text-slate-900">{title}</h2>
-    <div className="text-slate-600 leading-relaxed space-y-2">{children}</div>
-  </section>
-)
+const SITE = 'https://agentcost.lxsaihub.com'
 
 export default function SecurityPage() {
+  const { t, locale } = useT()
+  const title = t('pages.secTitle')
+  const desc = t('pages.secDesc')
+  const data = [1, 2, 3].map((n) => t(`pages.secData${n}`))
+  const posture = [1, 2].map((n) => t(`pages.secPosture${n}`))
+  const subs = [1, 2].map((n) => t(`pages.secSub${n}`))
+  const ld = { '@context': 'https://schema.org', '@type': 'WebPage', name: title, url: SITE + '/security', description: desc, inLanguage: locale }
   return (
     <Layout>
       <Head>
-        <title>{`${PRODUCT.name} — Security & Compliance`}</title>
-        <meta name="description" content="How CostLens handles your data and its honest compliance posture for AI agent cost tracking." />
+        <title>{title}</title>
+        <meta name="description" content={desc} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
       </Head>
       <div className="max-w-3xl">
-        <div className="text-xs font-bold tracking-widest uppercase text-indigo-600 mb-3">Security &amp; Compliance</div>
-        <h1 className="text-4xl font-extrabold tracking-tight mb-4">Your data, our posture</h1>
-        <p className="text-lg text-slate-600 mb-10">
-          CostLens processes agent descriptions, spend logs, and budget configuration data. This page states, plainly, what we handle and what we do not claim.
-        </p>
-
-        <Sec title="What we handle">
-          <p>
-            We process AI-agent <strong>descriptions</strong>, <strong>spend logs</strong>, and <strong>budget configuration</strong> data you submit for cost attribution. These may contain business-confidential information but are not typically special-category personal data.
-          </p>
-        </Sec>
-
-        <Sec title="Data handling commitments">
-          <ul className="list-disc pl-5 space-y-1">
-            <li>Submissions run the cost-attribution pipeline and are retained only as long as needed for your audit log (Pro) or until you delete the run.</li>
-            <li>We apply access controls consistent with <strong>GDPR Art. 32</strong> (security of processing).</li>
-            <li>BYOK keys are stored <strong>server-side only</strong> and never exposed to the browser.</li>
-          </ul>
-        </Sec>
-
-        <Sec title="Our compliance posture (honesty rule)">
-          <ul className="list-disc pl-5 space-y-1">
-            <li>CostLens is <strong>a cost-attribution tool</strong>, not a financial audit service. It provides cost tracking and alerting but does not replace professional financial management.</li>
-            <li>We do <strong>not</strong> guarantee accuracy, do <strong>not</strong> claim "100% accurate cost tracking", and do <strong>not</strong> state you will "never miss a budget breach". Cost attribution depends on the quality of the data you provide.</li>
-            <li>For binding financial advice, consult a qualified finance professional.</li>
-          </ul>
-        </Sec>
-
-        <Sec title="Subprocessors &amp; payments">
-          <ul className="list-disc pl-5 space-y-1">
-            <li>Payments are processed by <strong>Waffo Pancake</strong> (merchant of record).</li>
-            <li>See <a className="text-indigo-600 font-semibold underline" href="/privacy.html">Privacy</a> and <a className="text-indigo-600 font-semibold underline" href="/terms.html">Terms</a> for full terms.</li>
-          </ul>
-        </Sec>
-
-        <p className="text-xs text-slate-400 mt-8">
-          refs: GDPR Art. 32 · OWASP Top 10
-        </p>
+        <div className="text-xs font-bold tracking-widest uppercase text-indigo-600 mb-3">{t('pages.secEyebrow')}</div>
+        <h1 className="text-4xl font-extrabold tracking-tight mb-4">{t('pages.secH1')}</h1>
+        <p className="text-lg text-slate-600 mb-10">{t('pages.secIntro')}</p>
+        <section className="mb-10">
+          <h2 className="text-2xl font-extrabold mb-3 text-slate-900">{t('pages.secHandleH2')}</h2>
+          <p className="text-slate-600">{t('pages.secHandleBody')}</p>
+        </section>
+        <section className="mb-10">
+          <h2 className="text-2xl font-extrabold mb-3 text-slate-900">{t('pages.secDataH2')}</h2>
+          <ul className="list-disc pl-5 space-y-1 text-slate-600">{data.map((x, i) => <li key={i}>{x}</li>)}</ul>
+        </section>
+        <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5 mb-10 text-sm text-amber-900">{t('pages.secHonesty')}</div>
+        <section className="mb-10">
+          <h2 className="text-2xl font-extrabold mb-3 text-slate-900">{t('pages.secPostureH2')}</h2>
+          <ul className="list-disc pl-5 space-y-1 text-slate-600">{posture.map((x, i) => <li key={i}>{x}</li>)}</ul>
+        </section>
+        <section className="mb-10">
+          <h2 className="text-2xl font-extrabold mb-3 text-slate-900">{t('pages.secSubH2')}</h2>
+          <ul className="list-disc pl-5 space-y-1 text-slate-600">{subs.map((x, i) => <li key={i}>{x}</li>)}</ul>
+        </section>
+        <p className="text-xs text-slate-400 mt-8">{t('pages.secRefs')}</p>
       </div>
     </Layout>
   )

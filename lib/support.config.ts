@@ -7,7 +7,7 @@ export const SUPPORT: SupportConfig = {
   feedbackEmail: process.env.FEEDBACK_TO_EMAIL || "lixingliangsy@163.com",
   kb: KB,
   chatHost: process.env.APP_URL || "https://agentcost.lxsaihub.com",
-  brandColor: "#2563EB",
+  brandColor: "#4f46e5",
   complianceDisclaimer:
-    "This assistant is for reference only and is not legal, tax, or professional advice.",
+    "This assistant is for reference only. It is not legal advice, not credit advice, and not tax or professional financial advice.",
 };

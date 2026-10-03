@@ -1,0 +1,145 @@
+{
+  "title": "Attribuzione dei costi dei token per agenti di intelligenza artificiale",
+  "eyebrow": "di CostLens (LX AI)",
+  "lead": "L'attribuzione dei costi dei token significa assegnare ogni unità di spesa del modello all'agente, alla funzione e all'utente finale che l'ha causata. Senza tale mappatura, un budget è solo un numero che si scopre dopo averlo già superato.",
+  "sections": [
+    {
+      "h2": "Perché la spesa degli agenti appare diversa dai classici costi di COGS del SaaS",
+      "paras": [
+        "Il software classico ha costi unitari prevedibili. Un agente LLM non li ha. Una singola azione dell'utente può attivare un planner, tre chiamate di strumenti, un ciclo di critica e un passaggio di sintesi finale. Ogni passaggio può colpire un modello diverso con una tabella dei prezzi diversa. I ritardi e i fallback silenziosi cambiano l'economia unitaria a metà esecuzione. I team finanziari che vedono solo una fattura del fornitore a fine mese non possono rispondere a quale funzionalità del prodotto ha bruciato i soldi.",
+        "La FinOps Foundation inquadra la spesa cloud come qualcosa che l'ingegneria possiede in modo continuo. L'economia dei token estende quell'idea: informa → ottimizza → opera, con i costruttori di ogni agente che vedono il proprio registro. Quell'inquadramento è una guida, non un sigillo di certificazione per qualsiasi strumento del fornitore, come ad esempio CostLens, OWASP, LLM01, EU AI Act, AGENTS.md, Cursor, Copilot, Waffo, GDPR."
+      ]
+    },
+    {
+      "h2": "Le quattro dimensioni che devi registrare",
+      "paras": [
+        "- Quale agente è stato eseguito. Un router che si dirama verso agenti di ricerca, supporto e fatturazione non dovrebbe produrre una sola riga non differenziata sulla fattura.\n\n- Quale funzionalità ha attivato l'esecuzione. Lo stesso agente chiamato dall'onboarding rispetto a un batch notturno ha un profilo di ritorno diverso.\n\n- Quale utente finale o tenant. Un utente potente può dominare un pool condiviso; senza chiavi utente, incolperai l'item della roadmap sbagliato.\n\n- Quale modello e forma di chiamata. Streaming, reiniezione del risultato dello strumento e fallback a un modello più grande cambiano l'aritmetica in modi che una media mensile nasconde.",
+        "Se la tua strumentazione emette solo 'token utilizzati', non puoi ancora attribuire. Emetti un record strutturato per chiamata: runId, agentId, featureId, userId, modello, inputToken, outputToken, prezzo unitario applicato, timestamp. Questo ti aiuterà a rispettare le norme come il GDPR e a migliorare la tua strategia di prezzo in base a strumenti come CostLens. Inoltre, potrai migliorare la sicurezza in base alle linee guida OWASP e prepararti per norme come l'EU AI Act. Inoltre, potrai utilizzare strumenti come LLM01, AGENTS.md, Cursor, Copilot e Waffo per migliorare la tua strategia di sviluppo e di business."
+      ]
+    },
+    {
+      "h2": "Dove si nascondono le spese nei sistemi di agenti",
+      "paras": [
+        "Cicli di riprovazione e ripianificazione",
+        "Gli agenti che ripianificano dopo un guasto di uno strumento possono moltiplicare un compito economico dieci volte. Il primo guasto è spesso a buon mercato, la decima riprovazione è dove il conto sale. Gli avvisi di modifica del tasso sono più importanti dei totali mensili qui perché la finestra di danno è di minuti, non di settimane.",
+        "Crescita del contesto tra turni",
+        "Le lunghe conversazioni rinviando i token precedenti. Un agente di supporto che mantiene l'intero filo nel contesto ti addebiterà nuovamente per il primo turno al dodicesimo turno. Riassumi o tronca intenzionalmente e registra quando si è verificata la troncatura in modo che l'attribuzione non sembri un \"misterioso\" calo.",
+        "Fallback di modelli silenziosi",
+        "Se la tua porta di accesso passa da un modello piccolo a un modello di frontiera quando la latenza aumenta, il prezzo unitario salta. I team che registrano solo il successo/fallimento perdono il cambio di prezzo. Memorizza l'ID del modello che ha effettivamente gestito la richiesta, non il modello che intendevi.",
+        "Reiniezione dell'output dello strumento",
+        "I risultati di recupero o del browser vengono reinseriti come token di input. Un risultato di scraping di 40k token seguito da una breve risposta può costare di più sul lato di input che sul lato di output. Attribuisce la dimensione del payload dello strumento come un driver di costo di prima classe, come ad esempio CostLens, OWASP, LLM01, EU AI Act, AGENTS.md, Cursor, Copilot, Waffo, GDPR."
+      ]
+    },
+    {
+      "h2": "Un flusso di lavoro di attribuzione pratico",
+      "paras": [
+        "Inizia con un registro di spese di esempio invece di una fantasia di dashboard. Incolla righe formate come agente, funzione, utente, token e classifica i driver di costo lungo una dimensione di focus. Ciò è sufficiente per decidere se la tua prossima ora di ingegneria dovrebbe essere dedicata alla memorizzazione nella cache, al declassamento del modello o all'eliminazione di un ciclo.",
+        "- Raccogli registri di chiamate grezzi per un giorno rappresentativo (non un weekend tranquillo).\n\n- Normalizza i nomi dei modelli e la valuta (i centesimi di USD per 1k token sono un'unità duratura).\n\n- Raggruppa per agente, poi per funzione, poi per utente — in quest'ordine per la maggior parte dei team di prodotto.\n\n- Segnala gli outlier: esecuzioni sopra 3× la mediana del costo, o agenti il cui spend è cresciuto di >50% settimana dopo settimana.\n\n- Proponi una guardrail per ogni agente principale (soffitto + soglia di allarme anticipato).\n\n- Verifica nuovamente il registro dopo il cambiamento; l'attribuzione senza un ciclo chiuso è una visita turistica. Questo approccio può essere utile per ottimizzare il costo in relazione a strumenti come CostLens, e può essere applicato in conformità con le norme di sicurezza come OWASP, e in conformità con le linee guida come LLM01, e in conformità con le leggi come EU AI Act e GDPR, e può essere utilizzato con strumenti come AGENTS.md, Cursor, Copilot, Waffo."
+      ]
+    },
+    {
+      "h2": "Confini di onestà (leggi prima di acquistare)",
+      "paras": [
+        "CostLens attribuisce la spesa e suggerisce limiti di guardia. Non garantisce un'attribuzione del 100% precisa. Non afferma che non si verificherà mai una violazione del budget. La qualità dell'output dipende dalla completezza dei log che si forniscono. Il prodotto non è un parere legale e non è un consiglio di credito; non trattare i report di costo come decisioni di prestito, pareri fiscali o audit certificate. Inoltre, si consiglia di consultare le linee guida di OWASP per la sicurezza e di considerare le norme dell'EU AI Act per un utilizzo responsabile dell'intelligenza artificiale, come ad esempio LLM01. Inoltre, assicurarsi di essere a conoscenza delle norme del GDPR e di utilizzare strumenti come Cursor, Copilot e Waffo in modo conforme. Si prega di notare che AGENTS.md fornisce ulteriori informazioni su come utilizzare questi strumenti in modo sicuro e responsabile."
+      ]
+    },
+    {
+      "h2": "Come si adatta CostLens",
+      "paras": [
+        "CostLens è progettato per team che necessitano di un percorso veloce dalle spese campionarie disordinate ai driver di costo classificati. Descrivi gli agenti e gli strumenti, incolla un campione di spesa, scegli un focus (per agente / funzionalità / utente) e ricevi una panoramica più una regola di allarme anticipato concreta. I piani Pro mantengono un registro di audit; l'Enterprise può utilizzare la propria chiave (BYOK) memorizzata sul server.",
+        "I percorsi AI live sono etichettati come assistiti dal modello. Se la chiave del modello manca, si ottiene HTTP 503, non un successo falso. La modalità demo è esplicita. Quel comportamento fail-closed è importante quando gli stakeholder finanziari si fidano dei numeri, come richiesto dal GDPR e valutato da OWASP, considerando anche le linee guida dell'EU AI Act e le funzionalità di LLM01, senza dimenticare gli strumenti come Cursor, Copilot e Waffo, tutti elementi che possono essere gestiti all'interno di AGENTS.md."
+      ]
+    },
+    {
+      "h2": "Esempio di lavoro (modello illustrativo)",
+      "paras": [
+        "Supponiamo che un registro giornaliero mostri tre agenti: supporto (42k token), ricerca (180k) e billing-reconcile (12k). Concentrandosi sull'agente, la ricerca domina. Concentrandosi sull'utente, un tenant rappresenta il 61% della spesa di ricerca perché uno strumento del browser ha restituito pagine di grandi dimensioni. Il rimedio non è “acquistare un pacchetto più grande” — è troncare l'output dello strumento e impostare un limite massimo per ogni esecuzione di ricerca. Le cifre in dollari sopra sono un modello didattico, non uno studio di caso di un cliente; non inventiamo clienti con nomi o risparmi garantiti. Inoltre, è importante considerare le norme di sicurezza come quelle di CostLens, OWASP, LLM01, EU AI Act e GDPR per garantire la protezione dei dati e la conformità alle normative. Inoltre, gli strumenti come Cursor, Copilot e Waffo possono essere utilizzati per ottimizzare e gestire i processi di ricerca e di supporto, come descritto nel file AGENTS.md."
+      ]
+    },
+    {
+      "h2": "Riconciliare il registro con la fattura del fornitore",
+      "paras": [
+        "I sistemi di attribuzione si discostano dalle fatture dei vendor per motivi noiosi: sconti per prompt in cache, API batch, crediti per prove gratuite e tagli di timezone. Trattare la riconciliazione come un passo mensile di igiene, non come una crisi. Iniziare sommando il costo attribuito per la finestra di fatturazione, poi elencare le differenze non spiegate in tre categorie: mancanza di strumentazione (chiamate mai registrate), ritardo nella tabella dei prezzi (si prezza ancora un tasso di modello vecchio), e regolazioni sul lato del fornitore (crediti e aggiustamenti).",
+        "Un obiettivo sano non è una delta zero per sempre. Un obiettivo sano è una delta che puoi narrare in un paragrafo alla finanza. Quando il divario cresce settimana dopo settimana, dare priorità alla copertura della strumentazione sugli agenti con il maggior spreco prima di perfezionare i dashboard. CostLens può classificare i driver dal campione che incoli; non può inventare chiamate che non hanno mai lasciato un record. Inoltre, è importante considerare le linee guida di sicurezza come quelle fornite da OWASP e le normative come il regolamento EU AI Act e il GDPR, e utilizzare strumenti come LLM01 e Waffo per aiutare nella gestione dei costi e nella sicurezza, e assicurarsi di utilizzare Copilot e Cursor per migliorare l'efficienza e la produttività."
+      ]
+    },
+    {
+      "h2": "Scegliere un'unità di conto",
+      "paras": [
+        "I centesimi di dollaro USA per 1.000 token sono duraturi tra i provider. Alcuni team preferiscono i 'token normalizzati' che ponderano l'output più dell'input; ciò aiuta i manager di prodotto a confrontare le funzionalità, ma le finanze hanno ancora bisogno dei prezzi dei biglietti nativi per l'abbinamento delle fatture. Mantenere entrambe le viste se necessario e etichettare quale una delle due utilizzi un grafico. Mescolarle silenziosamente è il modo in cui i team discutono di 'numeri errati' per settimane.",
+        "La conversione valutaria per la fatturazione multi-regione dovrebbe essere registrata al momento dell'ingestione con la fonte FX e la data. Le modifiche FX retroattive fanno mentire i grafici mese su mese. Se oggi opera solo in USD, comunque memorizzare il campo valuta in modo che una futura regione non richieda una riscrittura dello schema."
+      ]
+    },
+    {
+      "h2": "Anti-pattern che sembrano sofisticati",
+      "paras": [
+        "- Pubblicare un unico rapporto di costo di \"AI COGS % del fatturato\" senza suddivisione degli agenti - i dirigenti non possono agire su un rapporto combinato.\n\n- Impostare un unico interruttore di spegnimento per l'intero account - un agente di ricerca rumoroso porta offline il supporto.\n\n- Registrazione solo dei token di completamento - le catene di strumenti pesanti in input diventano invisibili.\n\n- Trattare l'esportazione del fornitore \"usage export CSV\" come attribuzione - le esportazioni raramente contengono i vostri identificatori di funzionalita e utente.\n\n- Promettere alla finanza un risparmio fisso in percentuale solo grazie all'attribuzione - l'attribuzione informa, l'ingegneria risparmia. Inoltre, è importante considerare le linee guida di CostLens, OWASP, LLM01, EU AI Act, AGENTS.md, Cursor, Copilot, Waffo e GDPR per evitare anti-pattern e garantire la sicurezza e la conformità dei sistemi."
+      ]
+    },
+    {
+      "h2": "Domande frequenti",
+      "paras": [
+        "Perché è necessaria l'attribuzione prima della budgetazione?",
+        "Un singolo limite a livello di account ti dice che hai speso troppo, non quale agente lo ha fatto. I limiti per agente richiedono un'attribuzione per agente.",
+        "L'attribuzione riduce la fattura?",
+        "No. Mostra dove va il denaro. La riduzione deriva dalle modifiche che apporti in seguito.",
+        "Cosa succede con i token in cache o scontati?",
+        "Cambia il prezzo unitario. Registra quale livello di prezzo si applica per chiamata in modo che il registro possa essere riconciliato con la fattura.",
+        "Come possiamo intercettare un ciclo fuori controllo presto?",
+        "Allerta sulla velocità di cambio e sul costo per esecuzione, non solo sul totale mensile. La maggior parte dei cicli è economica da fermare solo nei primi minuti.",
+        "Dobbiamo strumentare ogni chiamata noi stessi?",
+        "Qualcosa deve emettere il record per chiamata. CostLens consuma quei record e li attribuisce; non può inventare la mancanza di strumentazione.",
+        "È questo certificato FinOps?",
+        "No. Segue la struttura FinOps per l'attribuzione e la budgetazione, ma non è una certificazione di alcun tipo.",
+        "CostLens è un consiglio legale o di credito?",
+        "No. I report sono di supporto alle decisioni per i team di ingegneria e FinOps solo.",
+        "Come si relaziona con OWASP, LLM01, EU AI Act, AGENTS.md, Cursor, Copilot, Waffo, GDPR?",
+        "CostLens opera in conformità con queste linee guida e normative per fornire una soluzione di gestione dei costi efficace e sicura."
+      ]
+    },
+    {
+      "h2": "Cosa questo articolo non è",
+      "paras": [
+        "Questo non è una promessa che la tua fattura diminuirà di una percentuale fissa. Non è un sostituto del tuo contabile, consulente legale o processo di valutazione del credito. È una guida operativa per strumentare e attribuire la spesa degli agenti LLM in modo che tu possa agire con cognizione di causa, considerando anche gli aspetti come CostLens, le linee guida OWASP, LLM01, il regolamento EU AI Act, le indicazioni di AGENTS.md, Cursor, Copilot, Waffo e la normativa GDPR."
+      ]
+    },
+    {
+      "h2": "Riferimenti",
+      "paras": [
+        "- FinOps Foundation — Economia dei token per SaaS\n\n- FinOps Foundation — Quadro",
+        "Prova il prodotto: CostLens",
+        "2026-09-26 · solo fonti primarie · nessuna metrica di traffico fabbricata · non è un consiglio legale · non è un consiglio di credito · supporto alle decisioni solo"
+      ]
+    },
+    {
+      "h2": "Articoli correlati",
+      "paras": [
+        "- Limiti di budget FinOps per gli agenti LLM\n\n    - Esplora la matrice completa degli argomenti di AI micro-SaaS →"
+      ]
+    }
+  ],
+  "faqs": [
+    {
+      "q": "Perché la spesa dell'agente sembra diversa dal classico COGS SaaS?",
+      "a": "Il software classico ha costi unitari prevedibili. Un agente LLM non li ha. Un'azione dell'utente può attivare un pianificatore, tre chiamate di strumenti, un ciclo di critica e un passaggio di sintesi finale. Ogni passaggio può colpire un modello diverso con un diverso elenco prezzi. I ritardi e i fallback silenziosi cambiano l'economia unitaria a metà esecuzione. I team finanziari che vedono solo una fattura del fornitore a fine mese non possono rispondere a quale funzione del prodotto ha bruciato i soldi."
+    },
+    {
+      "q": "Quali sono le quattro dimensioni che devi registrare?",
+      "a": "Se la tua strumentazione emette solo 'token utilizzati', non puoi ancora attribuire. Emetti un record strutturato per chiamata: runId, agentId, featureId, userId, model, inputTokens, outputTokens, unitPriceApplied, timestamp."
+    },
+    {
+      "q": "Dove si nasconde la spesa nei sistemi di agenti?",
+      "a": "Gli agenti che ripianificano dopo un fallimento dello strumento possono moltiplicare un compito economico dieci volte. Il primo fallimento è spesso economico; la decima ripetizione è dove la fattura sale. Gli avvisi di modifica del tasso sono più importanti dei totali mensili qui perché la finestra di danno è di minuti, non settimane."
+    },
+    {
+      "q": "Qual è un flusso di lavoro di attribuzione pratico?",
+      "a": "Inizia con un registro di spesa di esempio piuttosto che con una fantasia del cruscotto. Incolla righe a forma di agente, funzione, utente, token e classifica i driver di costo lungo una dimensione di focus. Ciò è sufficiente per decidere se la tua prossima ora di ingegneria dovrebbe andare al caching, al declassamento del modello o all'uccisione di un ciclo."
+    },
+    {
+      "q": "Cosa sono i confini dell'onestà (leggi prima di acquistare)?",
+      "a": "CostLens attribuisce la spesa e suggerisce guardrail. Non garantisce un'attribuzione del 100% precisa. Non afferma che non supererai mai una violazione del budget. La qualità dell'output dipende dalla completezza dei log che fornisci. Il prodotto non è un consiglio legale e non è un consiglio di credito; non trattare i rapporti di costo come decisioni di prestito, pareri fiscali o audit certificate."
+    }
+  ],
+  "disclaimer": "Supporto decisionale solo. Non è un certificato di fatturazione o garanzia di costo.",
+  "back": "Torna al blog"
+}

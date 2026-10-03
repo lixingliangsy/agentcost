@@ -1,0 +1,70 @@
+// lib/schema.ts — L1 structured output schemas (zod) for agentcost steps.
+import { z } from 'zod'
+
+export const CostIngestSchema = z.object({
+  parsedRows: z.number().int().nonnegative(),
+  focus: z.string(),
+  source: z.string().optional(),
+})
+
+export const CostAttributionSchema = z.object({
+  drivers: z.array(z.object({ name: z.string(), pct: z.number() })),
+  total: z.number(),
+})
+
+export const CostReportSchema = z.object({
+  summary: z.string(),
+  topDriver: z.string().optional(),
+  guardrail: z.string().optional(),
+  savings: z.string().optional(),
+})
+
+export const Schemas: Record<string, z.ZodTypeAny> = {
+  ingest: CostIngestSchema,
+  attribution: CostAttributionSchema,
+  report: CostReportSchema,
+}
+
+export function getSchema(step: string): z.ZodTypeAny | null {
+  return Schemas[step] || null
+}
+
+// --- GEO JSON-LD helpers (server-side Head injection) ---
+export interface FaqItem {
+  question: string
+  answer: string
+}
+
+export interface HowToStep {
+  name: string
+  text: string
+}
+
+export function buildFaqJsonLd(items: FaqItem[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((it) => ({
+      "@type": "Question",
+      name: it.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: it.answer,
+      },
+    })),
+  }
+}
+
+export function buildHowToJsonLd(name: string, steps: HowToStep[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name,
+    step: steps.map((s, i) => ({
+      "@type": "HowToStep",
+      position: i + 1,
+      name: s.name,
+      text: s.text,
+    })),
+  }
+}

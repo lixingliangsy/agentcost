@@ -1,0 +1,662 @@
+// locales/de.ts — CostLens German catalog (mirrors en.ts shape).
+// Terms: Datenschutzerklärung / Richtlinie erstellen (Termly DE);
+// Verantwortlicher / Auftragsverarbeiter / Verarbeitung (DSGVO Art.4).
+
+import type { Messages } from '../types'
+
+const de = {
+  meta: {
+    title: 'CostLens · Entscheidungshilfe-Studio',
+    description:
+      'CostLens liest Ihren Richtlinientext und erzeugt agentenaufrufbare Regelprüfungen plus Compliance-Checkliste — mit Bezug zu Pflichten der EU-KI-Verordnung, damit Richtlinien ausführbar werden, nicht nur ein PDF.',
+  },
+  common: {
+    appName: 'CostLens',
+    tagline: 'Unternehmensrichtlinien in agenten-durchsetzbare Regeln verwandeln',
+    microSaas: 'Micro SaaS',
+    menu: 'Menü',
+  },
+  nav: {
+    backToHub: 'Zurück zum Hub',
+    home: 'Start',
+    features: 'Funktionen',
+    useCases: 'Anwendungsfälle',
+    integrations: 'Integrationen',
+    howItWorks: 'So funktioniert’s',
+    studio: 'Studio',
+    security: 'Sicherheit',
+    pricing: 'Preise',
+    blog: 'Blog',
+    faq: 'FAQ',
+    feedback: 'Feedback',
+    support: 'Support',
+    signIn: 'Anmelden',
+    subscribe: 'Abonnieren',
+    getStarted: 'Loslegen',
+  },
+  hero: {
+    badge: 'Micro SaaS',
+    title: 'Unternehmensrichtlinien in agenten-durchsetzbare Regeln verwandeln',
+    subtitle:
+      'CostLens liest Ihren Richtlinientext und erzeugt agentenaufrufbare Regelprüfungen plus Compliance-Checkliste — mit Bezug zu Pflichten der EU-KI-Verordnung, damit Richtlinien ausführbar werden, nicht nur ein PDF.',
+    keyTakeaways: 'Kernaussagen',
+    takeaway1: 'Richtlinien in agenten-durchsetzbare Regeln verwandeln — ohne Code.',
+    takeaway2: 'Leitplanken binden an Agent-Workflows und scheitern bei Verstößen geschlossen.',
+    takeaway3: 'Loslegen; Pro ab 29 $/Monat.',
+    ctaPrimary: 'Abonnieren',
+    ctaSecondary: 'Demo ansehen',
+    note: 'Keine Kreditkarte nötig · Jederzeit kündbar',
+    playDemo: 'Demo abspielen ▶',
+    walkthrough: 'Klicken für den Rundgang',
+  },
+  stats: {
+    builders: 'Builder',
+    avgRating: 'Ø Bewertung',
+    uptime: 'Verfügbarkeit',
+    timeToValue: 'Zeit bis Nutzen',
+  },
+  pricing: {
+    heading: 'Einfache Pläne, die mitwachsen',
+    monthly: 'Monatlich',
+    yearly: 'Jährlich',
+    perMonth: '/Mon.',
+    mostPopular: 'Am beliebtesten',
+    getPro: 'Pro holen',
+    orYearly: 'Oder jährlich — ${{amount}}/Mon.',
+    custom: 'Individuell',
+    contactSales: 'Vertrieb kontaktieren',
+    configureByok: 'BYOK konfigurieren',
+    getStarted: 'Loslegen',
+    freeForever: 'dauerhaft kostenlos',
+    billedMonthly: 'monatlich abgerechnet',
+    save: 'sparen',
+    freeFeat1: 'Begrenzte tägliche KI-Läufe (10/Tag · 50/Mon.)',
+    freeFeat2: 'Studio-Demo (ohne extra LLM-Gebühr)',
+    proFeat1: 'KI inklusive: 300 Generierungen/Mon. · Fair Use (gpt-4o-mini)',
+    proFeat2: 'Kein separates ChatGPT-Abo nötig',
+    proFeat3: 'Priority-Support · 2 Monate gratis bei Jahreszahlung',
+    entFeat1: 'Team-Sitze · API-Zugang (Roadmap)',
+    entFeat2: 'Optional BYOK (Ihr OpenAI-Schlüssel)',
+  },
+  faq: {
+    title: 'Ihre Fragen — beantwortet',
+    geoTitle: 'CostLens — häufig gestellte Fragen',
+    items: [
+      {
+        q: 'Was erzeugt CostLens?',
+        a: 'Agentenaufrufbare Richtlinienprüfungen, eine Compliance-Checkliste und Themenbezüge zur EU-KI-Verordnung zum Export — im Ablauf ähnlich einem Datenschutzerklärung-Generator (einfügen → erzeugen → prüfen), aber für Agent-Leitplanken statt einer öffentlichen Datenschutzerklärung.',
+      },
+      {
+        q: 'Ist das Rechtsberatung oder eine Zertifizierung?',
+        a: 'Nein. Ausgaben sind Entscheidungsunterstützung. Lassen Sie Counsel und Risikoeigner vor Produktion prüfen. Wir beanspruchen keine ISO-, CMP- oder Aufsichtszertifizierung.',
+      },
+      {
+        q: 'Kann ich jederzeit kündigen?',
+        a: 'Ja. Self-Serve-Pläne sind jederzeit kündbar; der Zugang bleibt bis Periodenende.',
+      },
+      {
+        q: 'Brauche ich eine Kreditkarte zum Start?',
+        a: 'Nein. Mit E-Mail starten oder Demo-Modus im Studio nutzen, später upgraden.',
+      },
+      {
+        q: 'Brauche ich ein eigenes ChatGPT-/OpenAI-Abo?',
+        a: 'Nein für Free/Pro. KI-Läufe sind im Plan (Fair Use) über unseren Plattform-Schlüssel enthalten. Enterprise kann optional den eigenen OpenAI-Schlüssel (BYOK) unter /settings hinterlegen (nur serverseitig).',
+      },
+      {
+        q: 'Was ist Fair Use / was passiert bei KI-Limit?',
+        a: 'Pro umfasst etwa 300 KI-Generierungen/Monat (plus Tagescap) auf gpt-4o-mini. Bei Limit liefert Studio Mock/Demo bis Reset — oder Upgrade / Enterprise-BYOK für höheres Volumen.',
+      },
+      {
+        q: 'Ist der Checkout sicher?',
+        a: 'Zahlungen laufen über Waffo Pancake (Merchant of Record).',
+      },
+      {
+        q: 'Was passiert nach der Zahlung?',
+        a: 'Sie erhalten eine Zugangsbestätigung; Erfüllung wird per Webhook und Auftragslog getrackt.',
+      },
+    ],
+  
+    geoItems: [
+      {
+        q: 'Was erzeugt CostLens?',
+        a: 'Einen strukturierten Policy-Entwurf zu Tools, Datenhandling und Eskalationspfaden zum Weiterbearbeiten.',
+      },
+      {
+        q: 'Ist das Rechtsberatung?',
+        a: 'Nein. Es ist eine Entwurfshilfe. Policies müssen von Counsel und Risk Ownern geprüft werden.',
+      },
+      {
+        q: 'Wie funktioniert der Demo-Modus?',
+        a: 'Demo ohne Live-AI; Live-Modus braucht einen konfigurierten Key.',
+      },
+      {
+        q: 'Mappt es auf den EU AI Act?',
+        a: 'Narrative können Governance-Themen referenzieren; es zertifiziert keine Act-Konformität.',
+      },
+      {
+        q: 'Können Policies versioniert werden?',
+        a: 'Läufe speichern rulesetVersion und runId zur Nachverfolgung.',
+      },
+      {
+        q: 'Wer sollte es nutzen?',
+        a: 'Platform- und Compliance-Engineers, die Agent-Guardrails vor Produktion definieren.',
+      },
+      {
+        q: 'In welchen Ländern/Regionen nutzbar?',
+        a: 'Weltweit als Cloud-App; Waffo-Pancake-Zahlungen können regional variieren.',
+      },
+      {
+        q: 'Ist CostLens DSGVO-/Privacy-konform?',
+        a: 'Eingaben erzeugen nur Ihre Ausgabe und werden nicht verkauft. Siehe Privacy; Enterprise kann DPA/NDA umfassen.',
+      },
+      {
+        q: 'Welche Sprachen unterstützt CostLens?',
+        a: 'Die UI unterstützt zehn Locales. Entwürfe folgen der gewählten UI-Sprache, wenn Live-AI konfiguriert ist.',
+      },
+    ],
+},
+  footer: {
+    product: 'Produkt',
+    company: 'Unternehmen',
+    resources: 'Ressourcen',
+    legal: 'Rechtliches',
+    about: 'Über uns',
+    contact: 'Kontakt',
+    privacy: 'Datenschutz',
+    terms: 'AGB',
+    refund: 'Erstattung',
+    support: 'Support',
+    feedback: 'Feedback',
+    rights: 'Alle Rechte vorbehalten.',
+    partOfFleet: 'Teil der LX AI Micro-SaaS-Flotte.',
+  },
+  signup: {
+    title: 'Heute smarter starten',
+    subtitle: 'Teams nutzen CostLens. Kostenlos testen — ohne Karte.',
+    emailPlaceholder: 'E-Mail eingeben',
+    saving: 'Speichern…',
+    cta: 'Loslegen',
+    trust: 'Vertrauenswürdig · Jederzeit kündbar',
+  },
+  feedback: {
+    open: 'Feedback',
+    title: 'Feedback senden',
+    blurb: 'Sagen Sie uns, was funktioniert hat, was kaputt war oder was Sie als Nächstes brauchen.',
+    fullPage: 'Lieber eine ganze Seite?',
+    openPage: '/feedback öffnen',
+    close: 'Feedback schließen',
+    helpful: 'War dieses Ergebnis hilfreich?',
+    yes: 'Ja',
+    no: 'Nein',
+    thanks: 'Danke für Ihr Feedback.',
+    commentPlaceholder: 'Optionaler Einzeiler',
+    generalTitle: 'Allgemeines Feedback',
+    generalSub: 'Sagen Sie uns Ihre Meinung',
+    generalPh: 'Was hat Ihnen gefallen, missfallen oder ist aufgefallen?',
+    ideaTitle: 'Ich habe eine Idee',
+    ideaSub: 'Feature oder Verbesserung vorschlagen',
+    ideaPh: 'Beschreiben Sie Ihre Idee und das Problem, das sie löst…',
+    issueTitle: 'Ich habe ein Problem gefunden',
+    issueSub: 'Bug oder Störung melden',
+    issuePh: 'Was ist passiert, was erwartet, und wie reproduzieren?',
+    submit: 'Feedback absenden',
+    submitting: 'Senden…',
+    done: 'Danke — Feedback erhalten.',
+    emailOptional: 'E-Mail (optional)',
+    category: 'Kategorie',
+    yourFeedback: 'Ihr Feedback',
+    attachment: 'Anhang (optional)',
+
+    back: '← Zurück zur Feedback-Art',
+    pickTitle: 'Welches Feedback haben Sie?',
+    pickSub: 'Wählen Sie eine Option. Details und Kategorie folgen im nächsten Schritt.',
+    thanksTitle: 'Danke für Ihr Feedback!',
+    thanksBody: 'Wir haben es erhalten und melden uns bald. Sie können jederzeit erneut senden.',
+    submitAnother: 'Weiteres absenden',
+    detailed: 'Detailliertes Feedback',
+    send: 'Senden',
+    sending: 'Senden...',
+    thanksInline: 'Danke — gespeichert. Wir lesen jedes Feedback.',
+    errorInline: 'Senden gerade nicht möglich. Bitte Feedback-Button oder /feedback nutzen.',
+    inlineCommentPh: 'Ein Zeile: was verbessern? (optional)',
+  },
+  legal: {
+    privacyPolicy: 'Datenschutzerklärung',
+    generatePolicy: 'Richtlinie erstellen',
+    controller: 'Verantwortlicher',
+    processor: 'Auftragsverarbeiter',
+    processing: 'Verarbeitung',
+    personalData: 'Personenbezogene Daten',
+    dataSubject: 'Betroffene Person',
+    dpo: 'Datenschutzbeauftragter',
+    checklist: 'Compliance-Checkliste',
+    policyChecks: 'Richtlinienprüfungen',
+    encodePolicy: 'Richtlinie kodieren',
+    definitionTitle: 'CostLens — Definition',
+    whatItIs: 'Was es ist',
+    whatNotTitle: 'Was das NICHT ist',
+    whatNot1: 'Keine Kanzlei, keine GRC-Plattform und keine ISO-Zertifizierungsstelle.',
+    whatNot2: 'Keine Garantie, dass entworfene Richtlinien jeden Aufsichts- oder Prüfer bestehen.',
+    whatNot3: 'Keine Rechtsberatung — lassen Sie kritische Agent-Policy-Pakete von Counsel prüfen.',
+    rolesHint:
+      'Wenn Pakete Datenschutzrollen nennen, nutzen wir DSGVO-Art.-4-Begriffe: Verantwortlicher und Auftragsverarbeiter (nur Entscheidungsunterstützung).',
+  },
+  benchmark: {
+    frameworksEyebrow: 'Rahmenwerk-Zuordnung',
+    frameworksTitle: 'Komplexe Regeln. Einfache Policy-Pakete.',
+    frameworksNote:
+      'Themen zur Entscheidungsunterstützung — keine Zertifizierung, kein CMP-Badge und kein Rechtsgutachten.',
+    fw1: 'EU-KI-Verordnung',
+    fw2: 'NIST AI RMF',
+    fw3: 'OWASP LLM Top 10',
+    fw4: 'DSGVO Art.4 Rollen',
+    painEyebrow: 'Warum Pakete stocken',
+    painTitle: 'Richtlinien ändern sich. Agentenlücken kommen spät.',
+    pain1Title: 'Neue Regeln, neues Risiko',
+    pain1Body: 'Jedes regulatorische Update kann Agent-Tools, Datenklassen und Eskalationspfade aus dem Takt bringen.',
+    pain2Title: 'Dokument vs. Runtime',
+    pain2Body: 'Lebt das PDF getrennt vom Agenten-Runtime, entstehen Blindspots erst in Produktion.',
+    pain3Title: 'Manuelle Umschreibungen',
+    pain3Body: 'Checklisten von Hand für jede Domäne kosten Engineering- und Compliance-Zeit.',
+    pain4Title: 'Probleme nach dem Go-live',
+    pain4Body: 'Lücken fallen oft erst bei Audit, Vorfall oder Kundenfragebogen auf.',
+    getEyebrow: 'Was Sie erhalten',
+    getTitle: 'Einfügen. Erzeugen. Exportieren.',
+    getLead:
+      'Generator-ähnliche Liefergegenstände für Agent-Governance — vor Produktion mit Counsel prüfen.',
+    get1Title: 'Richtlinienprüfungen',
+    get1Body: 'Bedingung + Aktion-Regeln, die ein Agenten-Runtime auswerten kann.',
+    get2Title: 'Compliance-Checkliste',
+    get2Body: 'Menschenlesbare Pflichten, damit Owner Lücken vor dem Go-live sehen.',
+    get3Title: 'EU-KI-Verordnung Mapping',
+    get3Body: 'Themenhinweise zu Hochrisiko-Pflichten — keine Konformitätszertifizierung.',
+    get4Title: 'Exportierbare Regeln',
+    get4Body: 'Strukturierte Ausgabe zum Einbinden in Guardrails oder Middleware.',
+    featuresEyebrow: 'Warum CostLens',
+    featuresTitle: 'Alles, um Policy-Pakete zu kodieren',
+    featuresBlurb: 'Für Plattform- und Compliance-Teams, die durchsetzbare Checks ohne Lernkurve brauchen.',
+    howTitle: 'Vom Richtlinientext zu durchsetzbaren Checks in 3 Schritten',
+    how1Title: 'Einfügen',
+    how1Body: 'Richtlinientext einfügen und Domäne wählen (Finance, HR, Safety, General).',
+    how2Title: 'Erzeugen',
+    how2Body: 'Agentenaufrufbare Checks plus Compliance-Checkliste und Rahmenwerk-Themen erzeugen.',
+    how3Title: 'Einbinden',
+    how3Body: 'Regeln in Ihr Agenten-Runtime exportieren; Menschen für Ausnahmen und Rechtsprüfung behalten.',
+    allPlansTitle: 'Alle bezahlten Pläne enthalten',
+    allPlans1: 'Policy-to-Rules Studio',
+    allPlans2: 'Export der Compliance-Checkliste',
+    allPlans3: 'Themenmapping zur EU-KI-Verordnung (Entscheidungsunterstützung)',
+    allPlans4: 'E-Mail-Support bei bezahlten Plänen — keine versteckten Add-ons fürs Kern-Studio',
+    honestyTitle: 'Ehrliche Grenzen',
+    honestyLead:
+      'Wie ein professioneller Datenschutzerklärung-Generator ist CostLens eine Entwurfshilfe: anpassen, prüfen und mit Counsel aktualisieren.',
+    ctaStudio: 'Studio öffnen',
+  },
+  home: {
+    whyEyebrow: 'Warum {{name}}',
+    featuresHeading: 'Alles für durchsetzbare Agenten-Policies',
+    featuresCardBlurb: 'Für Compliance- und Plattform-Engineers, die durchsetzbare Agentenregeln brauchen.',
+    howHeading: 'Vom Policy-Text zu durchsetzbaren Regeln in 3 Schritten',
+    how1Title: 'Policy einfügen',
+    how1Desc: 'Firmenrichtlinien, Tool-Allowlists oder Agent-Runbooks einfügen.',
+    how2Title: 'Regeln erzeugen',
+    how2Desc: 'Deterministische Checks plus modellgestützte Policy-Packs.',
+    how3Title: 'Durchsetzen',
+    how3Desc: 'Agentenfertige Regeln mit Zitaten und Audit-Trail exportieren.',
+    studioEyebrow: 'Live-Studio',
+    studioHeading: 'Direkt auf dieser Seite ausprobieren',
+    studioWatchDemo: 'Demo ansehen',
+    studioOrRun: 'oder unten einen Check ausführen.',
+    studioFormTitle: 'Agent-Policy-Check',
+    demoMode: 'Demo-Modus (keine Live-KI)',
+    socialHeading: 'Vertraut von Compliance-Engineers',
+    quickAnswers: 'Kurzantworten',
+    howCompares: 'Vergleich',
+    dimension: 'Dimension',
+    manual: 'Manuell',
+    whenNotToUse: 'Wann nicht nutzen:',
+    peopleAlsoSearch: 'Weitere Suchen',
+    socialNote: 'Social Proof nutzt Vorlagen, bis echte, freigegebene Testimonials vorliegen. Vertraut von [X]+ Compliance- und Agent-Plattform-Teams.',
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    leadsInbox: "Lead-Posteingang (Demo-CRUD)",
+    filterEmail: "E-Mail filtern…",
+    allPlans: "Alle Pläne",
+    noLeads: "Noch keine Leads — senden Sie das Anmeldeformular.",
+    colEmail: "E-Mail",
+    colPlan: "Plan",
+    colSource: "Quelle",
+    delete: "Löschen",
+    deleteLeadTitle: "Lead löschen",
+    deleteLeadWarn: "Diese Aktion kann nicht rückgängig gemacht werden.",
+    deleteLeadBody: "Diesen Lead wirklich löschen? Die E-Mail wird dauerhaft aus Ihren Kontakten entfernt.",
+    cancel: "Abbrechen",
+    relatedReading: "Weiterführende Artikel",
+    productTour: "Produktrundgang",
+    productDemo: "PRODUKTDEMO",
+    stepOf: "Schritt {{n}}/{{total}}",
+    replay: "Wiederholen",
+    tryStudio: "Studio öffnen",
+    leadsCount: "{{n}} Leads",
+    leadsFiltered: "{{n}} gefiltert",
+    geoCmpDim: "Dimension",
+    geoCmpManual: "Manuell",
+    geoCmp1Dim: "Geschwindigkeit",
+    geoCmp1Manual: "Stunden bis Tage",
+    geoCmp1Tool: "Minuten pro Lauf",
+    geoCmp2Dim: "Konsistenz",
+    geoCmp2Manual: "Variiert je Person",
+    geoCmp2Tool: "Gleiches Regelsatz jedes Mal",
+    geoCmp3Dim: "Ausgabe",
+    geoCmp3Manual: "Freiform",
+    geoCmp3Tool: "Strukturiertes, exportierbares Ergebnis",
+    geoCmp4Dim: "Am besten für",
+    geoCmp4Manual: "Finale Freigabe",
+    geoCmp4Tool: "Erste Entscheidungsunterstützung",
+    related1Title: "AI-Wrapper vs. Moat",
+    related1Desc: "Policy-Durchsetzung als nachhaltiger Burggraben.",
+    related2Title: "EU-AI-Act-Compliance-Checkliste",
+    related2Desc: "Agentenpflichten auf Act-Themen abbilden.",
+    related3Title: "Wave-1-Launch",
+    related3Desc: "CostLens startet mit dem Governance-Cluster.",
+    feat1: "Policy-zu-Regeln",
+    feat2: "Compliance-Checkliste",
+    feat3: "EU-AI-Act-Mapping",
+    feat4: "Exportierbare Regeln",
+    geoQa1: "Policy-zu-Regeln",
+    geoQa2: "Compliance-Checkliste",
+    geoQa3: "EU-AI-Act-Mapping",
+    geoQa4: "Exportierbare Regeln",
+    geoQa5: "Preise ab $0 (Free).",
+    geoLt1: "was ist CostLens",
+    geoLt2: "wie funktioniert CostLens",
+    geoLt3: "was kostet CostLens",
+    geoLt4: "ist CostLens kostenlos",
+    geoLt5: "CostLens vs. manuell",
+    geoWhenNot: "Nutzen Sie qualifizierte menschliche Prüfung — Entwurfshilfe. Policies müssen von Counsel und Risk Ownern geprüft werden.",
+    demo1Title: "Willkommen bei {{name}}",
+    demo1Detail: "60 Sekunden: wie {{name}} Policy in Agent-Checks verwandelt.",
+    demo2Title: "Live-Studio öffnen",
+    demo2Detail: "Policy-Text einfügen und Domain wählen.",
+    demo3Title: "„Generate checks“ klicken",
+    demo3Detail: "Policy-zu-Regeln und Compliance-Checklisten.",
+    demo4Title: "Policy-Checks-Vorschau",
+    demo4Detail: "Beispielausgabe der regelbasierten Pipeline:",
+    demo4DetailEmpty: "Ihre Policy-Checks erscheinen hier.",
+    demo5Title: "Sie sind dran",
+    demo5Detail: "Studio testen oder mit {{name}} starten.",
+  },
+  chat: {
+    typing: 'Assistent tippt…',
+    placeholder: 'Frage eingeben… (Enter zum Senden)',
+    send: 'Senden',
+    openAria: 'KI-Assistent öffnen',
+    openTitle: 'Unseren KI-Assistenten fragen',
+    closeAria: 'Schließen',
+    escalated: 'Wir haben Sie mit einem Menschen verbunden. Wir melden uns per E-Mail.',
+    s1: 'Was macht dieses Tool?',
+    s2: 'Was kostet es?',
+    s3: 'Gibt es einen Free-Plan?',
+  },
+  pages: {
+    howTitle: 'CostLens — So funktioniert’s',
+    howDesc: 'So funktioniert CostLens in drei Schritten.',
+    howEyebrow: 'So funktioniert’s',
+    howH1: 'Vom Input zum Ergebnis in 3 Schritten',
+    how1Title: 'Einfügen',
+    how1Body: 'Policy-Text einfügen und Domäne wählen.',
+    how2Title: 'Kodieren',
+    how2Body: 'Agent-aufrufbare Checks und eine Compliance-Checkliste erzeugen.',
+    how3Title: 'Durchsetzen',
+    how3Body: 'Regeln in die Agent-Laufzeit einbinden; Menschen für Ausnahmen behalten.',
+    subscribe: 'Abonnieren',
+    ucTitle: 'CostLens — Anwendungsfälle',
+    ucDesc: 'Wie CostLens Compliance- und Agent-Plattform-Teams hilft.',
+    ucEyebrow: 'Anwendungsfälle',
+    ucH1: 'Für Compliance- und Agent-Plattform-Teams gebaut',
+    ucIntro: 'Wählen Sie Ihr Segment, um die wichtigsten Workflows zu sehen.',
+    uc1Title: 'Finance-Policies',
+    uc1Pain: 'Rückerstattungen und Freigaben müssen maschinenprüfbar sein.',
+    uc1Help: 'Bedingungen + Aktionen extrahieren, die Agents auswerten können.',
+    uc2Title: 'HR-/Safety-Policies',
+    uc2Pain: 'Brauchen Checklisten, die Agents aufrufen können.',
+    uc2Help: 'Domänenwahl fokussiert die Extraktion.',
+    uc3Title: 'EU-KI-Features',
+    uc3Pain: 'Hochrisiko-Regeln auf KI-Verordnungs-Themen mappen.',
+    uc3Help: 'Nur Entscheidungshilfe-Mapping.',
+    uc4Title: 'Plattform-Teams',
+    uc4Pain: 'Policy-PDFs erreichen nie die Laufzeit.',
+    uc4Help: 'Exportierbare Regeln für Agent-Tools.',
+    painLabel: 'Schmerzpunkt:',
+    helpLabel: 'So hilft CostLens:',
+    ucRefs: 'Quellen: EU AI Act Regulation (EU) 2024/1689 · NIST AI RMF · OWASP Top 10 for AI Agents',
+    intTitle: 'CostLens — Integrationen',
+    intDesc: 'Exportziele, API und BYOK-Optionen von CostLens.',
+    intEyebrow: 'Integrationen',
+    intH1: 'In Ihren Stack einbinden',
+    intIntro: 'Nur ehrliche Integrationen. Wir bewerben keine noch nicht gelieferten Konnektoren.',
+    int1Title: 'Exportierbare Regeln',
+    int1Body: 'JSON-/Checklisten-Export für Agent-Tools.',
+    int2Title: 'API',
+    int2Body: 'Neu erzeugen, wenn sich Policies ändern.',
+    int3Title: 'EU-KI-Verordnungs-Mapping',
+    int3Body: 'Hinweise zu Hochrisiko-Themen.',
+    int4Title: 'BYOK',
+    int4Body: 'Schlüssel serverseitig, wenn angeboten.',
+    intHonesty: 'Ehrlichkeitshinweis: Laufzeit-Enforcement ist Aufgabe Ihres Systems; wir erzeugen Kandidaten-Checks.',
+    secTitle: 'CostLens — Sicherheit & Compliance',
+    secDesc: 'Wie CostLens Ihre Daten verarbeitet und welche ehrliche Compliance-Haltung gilt.',
+    secEyebrow: 'Sicherheit & Compliance',
+    secH1: 'Ihre Daten, unsere Haltung',
+    secIntro: 'CostLens verarbeitet die von Ihnen zur Analyse eingereichten Eingaben. Diese Seite sagt klar, was wir verarbeiten und was wir nicht behaupten.',
+    secHandleH2: 'Was wir verarbeiten',
+    secHandleBody: 'Unternehmens-Policy-Text und Domänenauswahl zur Erzeugung agent-durchsetzbarer Checks.',
+    secDataH2: 'Zusagen zur Datenverarbeitung',
+    secData1: 'Einreichungen durchlaufen die Produkt-Pipeline und werden nur so lange wie für Ihr Audit-Log nötig (Paid-Tiers) oder bis zum Löschen des Laufs aufbewahrt.',
+    secData2: 'Wir wenden Zugriffskontrollen im Sinne von DSGVO Art. 32 an, soweit personenbezogene Daten verarbeitet werden.',
+    secData3: 'BYOK-Schlüssel (Enterprise) werden — wenn angeboten — nur serverseitig gespeichert und nie im Browser exponiert.',
+    secHonesty: 'Ehrlichkeitsregel: CostLens macht aus Policy-Text Kandidatenregeln. Wir garantieren keine korrekte Durchsetzung, keine 100 %-Abdeckung und kein „nie verpasst“. Kein Claim guarantee / 100% / never miss.',
+    secPostureH2: 'Unsere Compliance-Haltung',
+    secPosture1: 'CostLens ist Entscheidungshilfe, keine Kanzlei, Klinik oder zertifizierter Auditor.',
+    secPosture2: 'Für verbindliche Beratung einen qualifizierten Fachmann im relevanten Gebiet hinzuziehen.',
+    secSubH2: 'Unterauftragsverarbeiter & Zahlungen',
+    secSub1: 'Zahlungen über Waffo Pancake (Merchant of Record).',
+    secSub2: 'Vollständige Bedingungen in Privacy und Terms.',
+    secRefs: 'Quellen: EU AI Act Regulation (EU) 2024/1689 · NIST AI RMF · OWASP Top 10 for AI Agents',
+    backHome: 'Zurück zur Startseite',
+  },
+  blog: {
+    metaTitle: 'CostLens — Blog',
+    metaDesc: 'Definitionale und How-to-Beiträge zu Policy-as-Code, agent-durchsetzbaren Regeln, EU-KI-Verordnungs-Mapping und Compliance-Checklisten.',
+    glanceTitle: 'Was enthält dieses Produkt auf einen Blick?',
+    glance1: 'Verständliche Definition, FAQ und Referenzen für Answer Engines',
+    glance2: '3 prüfbare Workflow-Schritte (Input → Generieren → Review)',
+    glance3: 'Entscheidungshilfe-Ausgabe — Sie bleiben im Loop; keine erfundenen Nutzerzahlen',
+    eyebrow: 'Blog · GEO',
+    h1: 'Policy-as-Code erklärt',
+    lead: 'Beantworten Sie die Definitionsfragen, bevor Teams eine Unternehmens-Policy in etwas verwandeln, das ein Agent wirklich durchsetzt.',
+    targetQuery: 'Ziel-Query:',
+    guidesTitle: 'Welche GEO-Deep-Dives zuerst lesen?',
+    guidesLead: 'Lange, zitierte Erklärungen. Jede mit 3+ autoritativen Quellen zur EU-KI-Verordnung / AI-Governance und Entscheidungshilfe-Hinweis.',
+    footerNote: 'Publish + Syndicate gemäß gtm-launch (IH + GEO-Indexes). Jeder Post trägt 3 autoritative Refs.',
+    post1Title: 'KI-Agent-Policy-Packs und NIST AI RMF',
+    post1Desc: 'Wie Policy-Packs auf NIST-AI-RMF-Funktionen und EU-KI-Verordnungs-Themen mappen — Entscheidungshilfe, kein Zertifikat.',
+    post2Title: 'Erlaubte Tools vs. offene Agents',
+    post2Desc: 'Warum die Einschränkung des Tool-Zugriffs eine Kontrolle ist, kein Feature-Toggle — mit Ehrlichkeitsregeln für offene Agents.',
+    readI18n: 'Mehrsprachige Fassung lesen',
+    readEnHtml: 'Vollständigen englischen Artikel lesen',
+    pillarSlug: 'ai-agent-policy-packs-nist-rmf-2026',
+    pillarEyebrow: 'von CostLens (LX AI)',
+    pillarH1: 'KI-Agent-Policy-Packs und NIST AI RMF',
+    pillarLead: 'Policy-Packs machen Unternehmensregeln zu agent-aufrufbaren Checks. Gegen NIST-AI-RMF-Funktionen und EU-KI-Verordnungs-Themen gemappt sind sie Entscheidungshilfe — kein Konformitätszertifikat.',
+    pillarH2a: 'Was ein Policy-Pack enthält',
+    pillarPa1: 'Ein Pack ist ein Satz Bedingung+Aktion-Regeln aus Policy-Text plus eine Checkliste, die Hochrisiko-Regeln Aufsichts- und Logging-Erwartungen zuordnet. Agents werten zur Laufzeit aus; Menschen behandeln Ausnahmen.',
+    pillarH2b: 'NIST-AI-RMF-Ausrichtung',
+    pillarPb1: 'Govern: Besitz darüber, welche Policies Agents binden. Map: Inventar der Tools und Daten. Measure: Policy-Entscheidungen loggen. Manage: Eskalation bei Block oder Human Approval.',
+    pillarH2c: 'EU-KI-Verordnungs-Berührungspunkte',
+    pillarPc1: 'Bei Anhang-III-Hochrisiko-Nutzungen können Deployer-Pflichten wie Art. 9 und Art. 14 durch Policy-Checks belegt werden — sie ersetzen keine Konformitätsbewertung.',
+    pillarH2d: 'Ehrlichkeitsgrenze',
+    pillarPd1: 'CostLens entwirft Kandidatenregeln. Verkabelung, Durchsetzungsqualität und rechtliche Konformität bleiben Ihre Verantwortung. Kein Claim auf Garantie, 100 % oder never-miss.',
+    pillarDisclaimer: 'Nur Entscheidungshilfe — keine Rechtsberatung und kein Konformitätszertifikat.',
+    pillarFaq1Q: 'Zertifiziert ein Policy-Pack die EU-KI-Verordnungs-Konformität?',
+    pillarFaq1A: 'Nein. Es hilft, Kontrollen zu belegen; Konformität bleibt Verantwortung der deployenden Organisation über das Gesamtsystem.',
+    pillarFaq2Q: 'Wie hängt NIST AI RMF zusammen?',
+    pillarFaq2A: 'RMF-Funktionen liefern Vokabular für Governance und Messung; Policy-Packs operationalisieren Checks, die Agents in diesen Funktionen aufrufen können.',
+    pillar2Slug: 'allowed-tools-vs-open-ended-agents-2026',
+    pillar2Eyebrow: 'Guardrail-Design',
+    pillar2H1: 'Erlaubte Tools vs. offene Agenten',
+    pillar2Lead: 'Warum Allow-Lists sicherer fail-closed sind als offene Agenten — und wie Policy-Packs diese Grenzen als Runtime-Checks kodieren.',
+    pillar2H2a: 'Offene Agenten vergrößern den Blast Radius',
+    pillar2Pa1: 'Uneingeschränkte Tool-Wahl plus Langzeitgedächtnis: eine Prompt Injection kann E-Mail, Code und Datenexfil verketten.',
+    pillar2H2b: 'Allow-Lists als Default-Deny',
+    pillar2Pb1: 'Erlaubte Tools, Argumente und Ziele auflisten. Alles andere fail-closed — analog zu NIST AI RMF Govern/Map.',
+    pillar2H2c: 'Policy als Checks kodieren',
+    pillar2Pc1: 'Prosatext in agent-aufrufbare Checks: Tool-Scope, Datenklassen, Eskalations-Owner und Audit-Felder.',
+    pillar2H2d: 'Wann Offenheit noch passt',
+    pillar2Pd1: 'Research-Sandboxes ohne Produktions-Credentials dürfen breitere Tools nutzen — isoliert von Kundendatenpfaden.',
+    pillar2Disclaimer: 'Entscheidungshilfe-Entwürfe. Keine Rechtsberatung und keine Zertifizierung.',
+    pillar2Faq1Q: 'Reicht eine Allow-List?',
+    pillar2Faq1A: 'Nein. Kombinieren Sie mit Argument-Validierung, menschlicher Freigabe für irreversible Aktionen und Logging.',
+    pillar2Faq2Q: 'Bezug zu NIST AI RMF?',
+    pillar2Faq2A: 'Allow-Lists stützen Govern und Map: beabsichtigte Nutzung und Kontrollen vor Measure/Manage in Produktion definieren.',
+    pillar2Back: 'Zurück zum Blog',
+    pillarBack: 'Zurück zum Blog',
+    card1Title: 'Was ist Policy-as-Code?',
+    card1Body: 'Policy-as-Code drückt eine Unternehmens-Policy als maschinenprüfbare Regeln aus, die ein Agent zur Laufzeit auswertet — z. B. wenn Refund > $50 dann manager_approval. Entscheidungshilfe, keine Rechtsmeinung und kein Compliance-Zertifikat.',
+    card2Title: 'Unternehmens-Policy in agent-durchsetzbare Regeln verwandeln',
+    card2Body: 'Jeden Policy-Satz als Bedingung + Aktion extrahieren, Hochrisiko-Regeln auf EU-KI-Verordnungs-Themen (Art. 9, 14, 26) mappen und eine Regeldatei exportieren, die der Agent bei jedem Lauf auswertet. Die Regeln sind eine Sicht auf Ihre Pflichten, keine Konformitätsgarantie.',
+  },
+} as const
+
+export default de as unknown as Messages

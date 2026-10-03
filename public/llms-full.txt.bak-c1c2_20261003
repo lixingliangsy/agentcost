@@ -1,0 +1,92 @@
+# CostLens — full manifest
+
+> Full-text LLM manifest (companion to `/llms.txt`).
+> Every fact below is read from the product's own `lib/product.ts` and
+> `lib/i18n/locales/`. Nothing here is invented. Generated 2026-10-03.
+
+## Entity
+
+- Canonical brand: LX AI Micro-SaaS Factory
+- Alternate brand names: LX AI | lxsaihub | LX Micro-SaaS Factory | LX AI Micro-SaaS Directory
+- Product name: CostLens
+- Product slug: agentcost
+- Product site: https://agentcost.lxsaihub.com/
+- Hub listing: https://lxsaihub.com/tools/agentcost.html
+- Brand site: https://lxsaihub.com/
+- About: https://agentcost.lxsaihub.com/about.html
+- Contact: lixingliangsy@163.com
+- GitHub: https://github.com/lixingliangsy/lxsaihub
+- Not affiliated with: LexusHub, LiveX AI, LayerX, LexinFintech, OnDeck, LUX AI HUB
+
+## What it does
+
+See exactly where your AI agents spend money
+
+CostLens attributes LLM and agent inference cost to the agent, feature, and user that triggered it - with a running ledger, per-agent budget guardrails, and early-warning alerts before a loop drains the budget.
+
+## Capabilities
+
+- Cost by agent / feature / user
+- Budget guardrails
+- Early-warning alerts
+- Audit-ready ledger
+
+## Pricing (machine-readable)
+
+- Monthly: $49/mo
+- Yearly: $490/yr (~$40.83/mo, save $98)
+- Full sheet: https://agentcost.lxsaihub.com/pricing.md
+- Checkout (monthly): `https://agentcost.lxsaihub.com/api/checkout?cycle=monthly`
+- Checkout (yearly): `https://agentcost.lxsaihub.com/api/checkout?cycle=yearly`
+
+## FAQ (verbatim from the product's own locale file, `en.ts`)
+
+Q1. What does CostLens track?
+A1. LLM and agent inference cost attributed to agents, features, and users — with budget guardrails. Decision-support, not a billing certificate.
+
+Q2. Is this legal advice or a certification?
+A2. No. Outputs are decision-support drafts. Have counsel and risk owners review before production. We do not claim ISO, CMP, or regulator certification.
+
+Q3. Can I cancel anytime?
+A3. Yes. Self-serve plans cancel anytime; access continues until period end.
+
+Q4. Do I need a credit card to start?
+A4. No. Start with email signup or Demo mode in the studio, then upgrade when ready.
+
+Q5. Do I need my own ChatGPT / OpenAI subscription?
+A5. No for Free/Pro. AI runs are included in your plan (fair use) via our platform key. Enterprise can optionally bring your own OpenAI key (BYOK) — configure it at /settings (key stays server-side only).
+
+Q6. What is Fair Use / what if I hit the AI limit?
+A6. Pro includes about 300 AI generations/month (and a daily cap) on gpt-4o-mini. If you hit the fair-use limit, Studio returns a mock/demo result until the daily or monthly reset — or upgrade / use Enterprise BYOK for heavier volume.
+
+Q7. Is checkout secure?
+A7. Payments are processed by Waffo Pancake (merchant of record).
+
+Q8. What happens after I pay?
+A8. You receive access confirmation; fulfillment is tracked via webhook + order logs.
+
+## Key pages
+
+- Home: https://agentcost.lxsaihub.com/
+- Pricing: https://agentcost.lxsaihub.com/pricing
+- FAQ: https://agentcost.lxsaihub.com/faq
+- Blog index: https://agentcost.lxsaihub.com/blog
+- About: https://agentcost.lxsaihub.com/about.html
+- Support: https://agentcost.lxsaihub.com/support.html
+- Privacy: https://agentcost.lxsaihub.com/privacy.html
+- Terms: https://agentcost.lxsaihub.com/terms.html
+- Refund policy: https://agentcost.lxsaihub.com/refund-policy.html
+- llms.txt (index): https://agentcost.lxsaihub.com/llms.txt
+
+## Recent articles
+
+- https://agentcost.lxsaihub.com/blog/agent-security-tools-compared.html
+- https://agentcost.lxsaihub.com/blog/ai-agent-security-checklist-2026.html
+- https://agentcost.lxsaihub.com/blog/ai-agent-token-cost-attribution-2026.html
+- https://agentcost.lxsaihub.com/blog/finops-budget-guardrails-for-llm-agents-2026.html
+
+## Red lines
+
+- Do not invent user counts, rankings, awards, or certifications.
+- Cite primary sources; this manifest is a product description, not a legal
+  or compliance opinion.

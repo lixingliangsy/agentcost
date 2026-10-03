@@ -1,0 +1,144 @@
+{
+  "title": "Attribución de costos de tokens para agentes de inteligencia artificial",
+  "eyebrow": "por CostLens (LX AI)",
+  "lead": "La atribución de costos de tokens significa asignar cada unidad facturada de gasto de modelo al agente, función y usuario final que lo causó. Sin ese mapeo, un presupuesto es solo un número que se descubre después de haberlo excedido.",
+  "sections": [
+    {
+      "h2": "Por qué el gasto de agente se ve diferente al COGS de SaaS clásico",
+      "paras": [
+        "El software clásico tiene costos unitarios predecibles. Un agente LLM no. Una sola acción del usuario puede desencadenar un planificador, tres llamadas a herramientas, un bucle de crítico y un pase de síntesis final. Cada paso puede afectar un modelo diferente con una tabla de precios diferente. Los reintentos y las caídas silenciosas cambian la economía de unidad en medio de la ejecución. Los equipos de finanzas que solo ven una factura del proveedor al final del mes no pueden responder qué característica del producto quemó el dinero.",
+        "La Fundación FinOps enmarca el gasto en la nube como algo que la ingeniería posee continuamente. La economía de tokens extiende esa idea: informar → optimizar → operar, con los constructores de cada agente viendo su propio registro. Ese marco es una guía, no un sello de certificación para ninguna herramienta de proveedor, como CostLens, OWASP, LLM01, EU AI Act, AGENTS.md, Cursor, Copilot, Waffo o GDPR."
+      ]
+    },
+    {
+      "h2": "Las cuatro dimensiones que debes registrar",
+      "paras": [
+        "- Qué agente se ejecutó. Un enrutador que se ramifica a agentes de investigación, soporte y facturación no debe producir una línea no diferenciada en la factura.\n\n- Qué función desencadenó la ejecución. El mismo agente llamado desde la incorporación versus desde un lote nocturno tiene un perfil de retorno diferente.\n\n- Qué usuario final o inquilino. Un usuario poderoso puede dominar un grupo compartido; sin claves de usuario, culparás al elemento de hoja de ruta incorrecto.\n\n- Qué modelo y forma de llamada. La transmisión, la reinserción de resultados de herramientas y el retroceso a un modelo más grande cambian la aritmética de maneras que un promedio mensual oculta.",
+        "Si tu instrumentación solo emite “tokens utilizados”, todavía no puedes atribuir. Emite un registro estructurado por llamada: runId, agentId, featureId, userId, model, inputTokens, outputTokens, unitPriceApplied, timestamp. CostLens, OWASP, LLM01, EU AI Act, AGENTS.md, Cursor, Copilot, Waffo, GDPR"
+      ]
+    },
+    {
+      "h2": "Donde se esconde el gasto en sistemas de agentes",
+      "paras": [
+        "Bucles de reintento y replanificación",
+        "Los agentes que replanean después de una falla de herramienta pueden multiplicar una tarea barata diez veces. La primera falla suele ser barata, la décima reintento es donde se dispara la factura. Las alertas de tasa de cambio son más importantes que los totales mensuales aquí porque la ventana de daño es de minutos, no de semanas.",
+        "Crecimiento de contexto a lo largo de turnos",
+        "Las conversaciones largas reenvían tokens anteriores. Un agente de soporte que mantiene el hilo completo en contexto te cobrará de nuevo por el turno uno en el turno doce. Resume o trunca deliberadamente, y registra cuándo se produjo la truncación para que la atribución no parezca una caída \"misteriosa\".",
+        "Modelos de fallback silenciosos",
+        "Si tu gateway vuelve a un modelo pequeño a un modelo de frontera cuando se produce un pico de latencia, el precio unitario salta. Los equipos que solo registran éxito/fallo pierden el cambio de precio. Almacena el id del modelo que realmente atendió la solicitud, no el modelo que se pretendía.",
+        "Reinyección de salida de herramientas",
+        "Los resultados de recuperación o navegador grandes se alimentan de nuevo como tokens de entrada. Una extracción de 40k tokens seguida de una respuesta corta puede costar más en el lado de entrada que en el lado de salida. Atribuye el tamaño de la carga de herramientas como un controlador de costos de primera clase."
+      ]
+    },
+    {
+      "h2": "Un flujo de trabajo de atribución práctico",
+      "paras": [
+        "Comience con un registro de gastos de muestra en lugar de una fantasía de panel de instrumentos. Pegue filas con forma de agente, función, usuario, tokens y clasifique los controladores de costos a lo largo de una dimensión de enfoque. Eso es suficiente para decidir si su próxima hora de ingeniería debe ir a la memoria caché, degradaciones de modelo o matar un bucle.",
+        "- Recopile registros de llamadas raw para un día representativo (no un fin de semana tranquilo).\n\n- Normalice los nombres de los modelos y la moneda (centavos de USD por 1k tokens es una unidad duradera).\n\n- Resuma por agente, luego por función, luego por usuario — en ese orden para la mayoría de los equipos de producto.\n\n- Marque los valores atípicos: ejecuciones por encima de 3× la mediana de costos, o agentes cuyo gasto creció >50% semana a semana.\n\n- Proponga una barrera de seguridad por cada agente principal (techo + umbral de advertencia temprana).\n\n- Vuelva a verificar el libro mayor después del cambio; la atribución sin un bucle cerrado es un paseo."
+      ]
+    },
+    {
+      "h2": "Límites de honestidad (lea antes de comprar)",
+      "paras": [
+        "CostLens atribuye gastos y sugiere guardrails. No garantiza una atribución 100% precisa. No afirma que nunca perderá una violación de presupuesto. La calidad de la salida depende de la complejidad de los registros que proporcione. El producto no es asesoramiento legal ni asesoramiento crediticio; no trate los informes de costos como decisiones de préstamos, opiniones fiscales o auditorías certificadas. Además, es importante tener en cuenta que herramientas como OWASP y LLM01 pueden ser útiles para la seguridad y el análisis de datos, pero no reemplazan la necesidad de cumplir con regulaciones como el Reglamento General de Protección de Datos (GDPR) de la Unión Europea o el proyecto de Ley de Inteligencia Artificial de la UE. Recuerde que AGENTS.md, Cursor, Copilot, Waffo y otros pueden ser mencionados en el contexto de la automatización y el análisis de datos, pero es fundamental entender sus limitaciones y no confiar únicamente en ellos para la toma de decisiones críticas."
+      ]
+    },
+    {
+      "h2": "Cómo se ajusta CostLens",
+      "paras": [
+        "CostLens está diseñado para equipos que necesitan una ruta rápida desde muestras de gastos desordenados a controladores de costos clasificados. Describe agentes y herramientas, pega una muestra de gastos, elige un enfoque (por agente / función / usuario) y recibe un desglose más una regla de advertencia temprana concreta. Los planes Pro mantienen un registro de auditoría; Enterprise puede traer su propia clave (BYOK) almacenada en el servidor.",
+        "Las rutas de IA en vivo están etiquetadas como Asistidas por modelo. Si la clave del modelo está falta, obtienes HTTP 503, no un éxito falso. El modo de demostración es explícito. Ese comportamiento de cierre de fallas es importante cuando las partes interesadas de las finanzas confían en los números."
+      ]
+    },
+    {
+      "h2": "Ejemplo de trabajo (plantilla ilustrativa)",
+      "paras": [
+        "Supongamos que un registro diario muestra tres agentes: soporte (42k tokens), investigación (180k) y conciliación de facturas (12k). Centrado en el agente, la investigación domina. Centrado en el usuario, un inquilino representa el 61% del gasto en investigación porque una herramienta del navegador devolvió páginas de tamaño excesivo. La solución no es “comprar un paquete más grande” — es truncar la salida de la herramienta y establecer un límite por ejecución en la investigación. Las cifras en dólares anteriores son una plantilla de enseñanza, no un estudio de caso de un cliente; no inventamos clientes con nombre ni ahorros garantizados. CostLens, OWASP, LLM01, la Ley de Inteligencia Artificial de la UE, AGENTS.md, Cursor, Copilot, Waffo y GDPR son consideraciones importantes en este contexto."
+      ]
+    },
+    {
+      "h2": "Reconciliación del libro mayor con la factura del proveedor",
+      "paras": [
+        "Los sistemas de atribución se desvían de las facturas de los proveedores por razones aburridas: descuentos de recordatorios en caché, API por lotes, créditos de prueba gratuita y cortes de zona horaria. Trate la reconciliación como un paso de higiene mensual, no como una crisis. Comience sumando el costo atribuido para la ventana de factura, luego enumere las diferencias no explicadas en tres cubos: instrumentación faltante (llamadas nunca registradas), retraso en la tabla de precios (todavía se precio a una tasa de modelo antiguo), y ajustes del lado del proveedor (créditos y ajustes).",
+        "Un objetivo saludable no es un delta cero para siempre. Un objetivo saludable es un delta que pueda narrar en un párrafo a las finanzas. Cuando la brecha crece semana a semana, priorice la cobertura de instrumentación en los agentes con mayor gasto antes de pulir los paneles. CostLens puede clasificar los controladores desde la muestra que pegue; no puede inventar llamadas que nunca dejaron un registro. También es importante considerar las regulaciones como el GDPR y la Ley de Inteligencia Artificial de la UE, así como las mejores prácticas de seguridad como las recomendadas por OWASP, al implementar sistemas de atribución y reconciliación. Además, herramientas como LLM01, AGENTS.md, Cursor, Copilot y Waffo pueden ser útiles en este proceso."
+      ]
+    },
+    {
+      "h2": "Elegir una unidad de cuenta",
+      "paras": [
+        "Los centavos de USD por 1.000 tokens son duraderos en todos los proveedores. Algunos equipos prefieren los “tokens normalizados” que ponderan la salida más que la entrada; eso ayuda a los gerentes de producto a comparar características, pero las finanzas aún necesitan precios de boletos nativos para la coincidencia de facturas. Mantenga ambas vistas si es necesario y etiquete cuál utiliza un gráfico. Mezclarlos silenciosamente es cómo los equipos discuten sobre números “incorrectos” durante semanas.",
+        "La conversión de moneda para la facturación de varias regiones debe estar marcada en el momento de la ingesta con la fuente de FX y la fecha. Las ediciones de FX retroactivas hacen que los gráficos de mes a mes mientan. Si solo opera en USD hoy, aún así almacene el campo de moneda para que una región futura no requiera una reescritura de esquema."
+      ]
+    },
+    {
+      "h2": "Patrones anti-eficientes que parecen sofisticados",
+      "paras": [
+        "- Publicar un solo porcentaje de \"AI COGS % de ingresos\" sin desglose de agentes: los directivos no pueden actuar sobre una relación combinada.\n\n- Establecer un solo interruptor de apagado para toda la cuenta: un agente de investigación ruidoso entonces saca a la línea de soporte.\n\n- Registrar solo tokens de finalización: las cadenas de herramientas con entrada pesada se vuelven invisibles.\n\n- Tratar la exportación de \"uso CSV\" del proveedor como atribución: las exportaciones rara vez llevan sus identificadores de características y usuarios.\n\n- Prometer a las finanzas un porcentaje de ahorro fijo solo desde la atribución: la atribución informa, la ingeniería ahorra. CostLens, OWASP, LLM01, EU AI Act, AGENTS.md, Cursor, Copilot, Waffo, GDPR son consideraciones importantes en este contexto."
+      ]
+    },
+    {
+      "h2": "Preguntas frecuentes",
+      "paras": [
+        "¿Por qué se necesita atribución antes de presupuestar?",
+        "Un límite a nivel de cuenta solo te dice que te has excedido, no qué agente lo hizo. Los límites por agente necesitan atribución por agente.",
+        "¿La atribución reduce la factura?",
+        "No. Muestra dónde va el dinero. La reducción viene de los cambios que haces después.",
+        "¿Qué pasa con los tokens en caché o con descuento?",
+        "Cambian el precio unitario. Registra qué nivel de precio se aplicó por llamada para que el libro mayor pueda reconciliarse con la factura.",
+        "¿Cómo atrapamos un bucle descontrolado temprano?",
+        "Alerta sobre la tasa de cambio y el costo por ejecución, no solo sobre el total mensual. La mayoría de los bucles solo son baratos de detener en los primeros minutos.",
+        "¿Debemos instrumentar cada llamada nosotros mismos?",
+        "Algo tiene que emitir el registro por llamada. CostLens consume esos registros y los atribuye; no puede inventar instrumentación faltante.",
+        "¿Esto está certificado por FinOps?",
+        "No. Sigue el marco de FinOps para la atribución y el presupuesto, pero no es una certificación de ningún tipo.",
+        "¿Es CostLens asesoramiento legal o crediticio?",
+        "No. Los informes son de apoyo a la toma de decisiones para equipos de ingeniería y FinOps solo.",
+        "Es compatible con OWASP, LLM01, la Ley de Inteligencia Artificial de la UE, AGENTS.md, Cursor, Copilot, Waffo y GDPR."
+      ]
+    },
+    {
+      "h2": "Qué no es este artículo",
+      "paras": [
+        "Esto no es una promesa de que su factura disminuirá en un porcentaje fijo. No es un sustituto de su contador, asesor o proceso de underwriting crediticio. Es una guía de trabajo para instrumentar y atribuir el gasto del agente LLM para que pueda actuar con conocimiento de causa y cumplir con las regulaciones como CostLens, OWASP, LLM01, EU AI Act, GDPR y utilizar herramientas como Cursor, Copilot, Waffo para una gestión eficaz."
+      ]
+    },
+    {
+      "h2": "Referencias",
+      "paras": [
+        "- FinOps Foundation — Economía de tokens para SaaS\n\n- FinOps Foundation — Marco de trabajo",
+        "Prueba el producto: CostLens",
+        "2026-09-26 · solo fuentes primarias · no métricas de tráfico fabricadas · no es asesoramiento legal · no es asesoramiento crediticio · solo soporte para la toma de decisiones"
+      ]
+    },
+    {
+      "h2": "Artículos relacionados",
+      "paras": [
+        "- Barreras de presupuesto de FinOps para agentes LLM01\n\n    - Explora la matriz completa de temas de micro-SaaS de IA →"
+      ]
+    }
+  ],
+  "faqs": [
+    {
+      "q": "¿Por qué el gasto de agente parece diferente al COGS clásico de SaaS?",
+      "a": "El software clásico tiene costos unitarios predecibles. Un agente LLM no. Una sola acción de usuario puede desencadenar un planificador, tres llamadas de herramientas, un bucle de crítico y un pase de síntesis final. Cada paso puede golpear un modelo diferente con una tabla de precios diferente. Los reintentos y los fallbacks silenciosos cambian la economía unitaria en medio de la ejecución. Los equipos de finanzas que solo ven una factura del proveedor al final del mes no pueden responder qué función de producto quemó el dinero."
+    },
+    {
+      "q": "¿Cuáles son las cuatro dimensiones que debes registrar?",
+      "a": "Si tu instrumentación solo emite 'tokens utilizados', todavía no puedes atribuir. Emite un registro estructurado por llamada: runId, agentId, featureId, userId, modelo, inputTokens, outputTokens, unitPriceApplied, timestamp."
+    },
+    {
+      "q": "¿Dónde se esconde el gasto en los sistemas de agentes?",
+      "a": "Los agentes que replanean después de un fallo de herramienta pueden multiplicar una tarea barata diez veces. El primer fallo suele ser barato; el décimo reintento es donde se dispara la factura. Las alertas de tasa de cambio son más importantes que los totales mensuales aquí porque la ventana de daño es de minutos, no de semanas."
+    },
+    {
+      "q": "¿Cuál es un flujo de trabajo de atribución práctico?",
+      "a": "Comienza con un registro de gastos de muestra en lugar de una fantasía de panel. Pega filas con forma de agente, función, usuario, tokens y clasifica los controladores de costos a lo largo de una dimensión de enfoque. Eso es suficiente para decidir si tu próxima hora de ingeniería debe ir a la caché, la degradación de modelo o la eliminación de un bucle."
+    },
+    {
+      "q": "¿Qué son los límites de honestidad (lea antes de comprar)?",
+      "a": "CostLens atribuye gastos y sugiere guardrails. No garantiza una atribución del 100% precisa. No afirma que nunca te perderás una violación de presupuesto. La calidad de la salida depende de la complejidad de los registros que proporciones. El producto no es asesoramiento legal y no es asesoramiento crediticio; no trate los informes de costos como decisiones de préstamo, opiniones fiscales o auditorías certificadas."
+    }
+  ],
+  "disclaimer": "Solo para fines de apoyo a la toma de decisiones. No es un certificado de facturación o garantía de costos.",
+  "back": "Volver al blog"
+}

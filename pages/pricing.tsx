@@ -1,0 +1,109 @@
+import React, { useEffect, useState } from 'react'
+import Head from 'next/head'
+import Layout from '../components/Layout'
+import { PRODUCT } from '../lib/product'
+
+const SITE = `https://${PRODUCT.slug}.lxsaihub.com`
+
+export default function PricingPage() {
+  const [cycle, setCycle] = useState<'monthly' | 'yearly'>('monthly')
+
+  useEffect(() => {
+    try {
+      if (new URLSearchParams(window.location.search).get('cycle') === 'yearly') setCycle('yearly')
+    } catch {
+      /* ignore */
+    }
+  }, [])
+
+  const monthly = Number(PRODUCT.priceMonthly || 49)
+  const yearly = Number(PRODUCT.priceYearly || 490)
+  const monthlyEq = cycle === 'yearly' ? Math.round((yearly / 12) * 100) / 100 : monthly
+  const save = monthly * 12 - yearly
+
+  return (
+    <Layout>
+      <Head>
+        <title>{PRODUCT.name} — Pricing</title>
+        <meta
+          name="description"
+          content={`Pro $${monthly}/mo or $${yearly}/year. Agent cost attribution and budget guardrails — decision-support, not legal or credit advice.`}
+        />
+      </Head>
+      <article className="max-w-5xl mx-auto px-6 py-12">
+        <h1 className="text-3xl font-bold text-slate-900 mb-2">Pricing</h1>
+        <p className="text-slate-600 mb-6">
+          Attribute LLM and agent spend by agent, feature, and user. Annual billing saves about two months.
+          Displayed cycle always matches the checkout link.
+        </p>
+
+        <div className="inline-flex rounded-lg border border-slate-200 p-1 mb-8 bg-slate-50">
+          <button
+            type="button"
+            className={`px-4 py-2 text-sm font-medium rounded-md ${cycle === 'monthly' ? 'bg-[#4f46e5] text-white' : 'text-slate-600'}`}
+            onClick={() => setCycle('monthly')}
+          >
+            Monthly
+          </button>
+          <button
+            type="button"
+            className={`px-4 py-2 text-sm font-medium rounded-md ${cycle === 'yearly' ? 'bg-[#4f46e5] text-white' : 'text-slate-600'}`}
+            onClick={() => setCycle('yearly')}
+          >
+            Yearly
+          </button>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-6">
+          <div className="rounded-xl border border-slate-200 p-6">
+            <div className="text-sm font-semibold text-slate-500 uppercase">Free</div>
+            <div className="mt-3 text-3xl font-bold">$0</div>
+            <p className="mt-4 text-sm text-slate-600">Limited runs · watermarked export · labeled demo</p>
+            <a href="/#studio" className="mt-6 block text-center py-2.5 rounded-lg border border-[#4f46e5] text-[#4f46e5] font-semibold text-sm">
+              Try the studio
+            </a>
+          </div>
+
+          <div className="rounded-xl border border-[#4f46e5] shadow-md p-6">
+            <div className="text-sm font-semibold text-slate-500 uppercase">Pro</div>
+            <div className="mt-3 text-3xl font-bold">
+              ${monthlyEq}
+              <span className="text-base font-semibold text-slate-500">/mo</span>
+            </div>
+            <div className="mt-1 text-sm text-slate-500 min-h-[1.25rem]">
+              {cycle === 'yearly' && save > 0
+                ? `Billed $${yearly}/year — save $${save} (≈2 months free)`
+                : '\u00a0'}
+            </div>
+            <p className="mt-4 text-sm text-slate-600">Higher run caps · audit ledger · budget alerts</p>
+            <a
+              href={cycle === 'yearly' ? '/api/checkout?cycle=yearly' : '/api/checkout?cycle=monthly'}
+              className="mt-6 block text-center py-2.5 rounded-lg bg-[#4f46e5] text-white font-semibold text-sm hover:bg-indigo-700"
+            >
+              Choose Pro
+            </a>
+          </div>
+
+          <div className="rounded-xl border border-slate-200 p-6">
+            <div className="text-sm font-semibold text-slate-500 uppercase">Enterprise</div>
+            <div className="mt-3 text-3xl font-bold">Custom</div>
+            <p className="mt-4 text-sm text-slate-600">BYOK · DPA/NDA · shared rulesets · higher caps</p>
+            <a
+              href="mailto:lixingliangsy@163.com?subject=CostLens%20Enterprise"
+              className="mt-6 block text-center py-2.5 rounded-lg border border-[#4f46e5] text-[#4f46e5] font-semibold text-sm"
+            >
+              Contact sales
+            </a>
+          </div>
+        </div>
+
+        <p className="mt-10 text-sm text-slate-500">
+          Honesty note: CostLens is <strong>decision-support</strong> for FinOps-style agent cost attribution. It is{' '}
+          <strong>not legal advice</strong>, <strong>not credit advice</strong>, and not a certified financial audit.
+          We do not guarantee 100% attribution accuracy or that you will never miss a budget breach. Live AI paths are
+          labeled Model-assisted and never silent-mocked.
+        </p>
+      </article>
+    </Layout>
+  )
+}

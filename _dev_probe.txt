@@ -1,0 +1,23 @@
+﻿200 /
+200 /pricing
+200 /how-it-works
+200 /use-cases
+200 /integrations
+200 /security
+200 /blog
+200 /feedback
+200 /admin/feedback
+200 /faq.html
+200 /llms.txt
+200 /robots.txt
+200 /sitemap.xml
+200 /privacy.html
+200 /terms.html
+200 /refund-policy.html
+200 /support.html
+200 /og.png
+200 /og-cover.svg
+--- API ---
+tool no-key: 503 
+tool demo: 200 {"ok":true,"result":"COST ATTRIBUTION (By agent)\n\n  support: 42,000 tokens\n\nTOP DRIVER: support\nGUARDRAIL: cap supp
+admin: 403 (expect 403)

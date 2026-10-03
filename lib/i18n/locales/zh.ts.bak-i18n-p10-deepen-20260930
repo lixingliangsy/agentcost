@@ -1,0 +1,654 @@
+// locales/zh.ts — Chinese catalog (main path). Shape matches en.ts.
+
+import type { Messages } from '../types'
+
+const catalog = {
+  meta: {
+    title: 'CostLens · 决策支持工作室',
+    description: 'CostLens 把公司策略与工具白名单编译成可执行的智能体规则包，并附引用与审计轨迹。',
+  },
+  common: {
+    appName: 'CostLens',
+    tagline: '把公司策略变成智能体可执行的规则。',
+    microSaas: '微 SaaS',
+    menu: '菜单',
+  },
+  nav: {
+    backToHub: '返回门户',
+    home: '首页',
+    features: '功能',
+    useCases: '用例',
+    integrations: '集成',
+    howItWorks: '工作原理',
+    studio: '工作室',
+    security: '安全',
+    pricing: '定价',
+    blog: '博客',
+    faq: '常见问题',
+    feedback: '反馈',
+    support: '支持',
+    signIn: '登录',
+    subscribe: '订阅',
+    getStarted: '开始使用',
+  },
+  hero: {
+    badge: '微 SaaS',
+    title: '把公司策略变成智能体可执行的规则。',
+    subtitle: 'CostLens 把公司策略与工具白名单编译成可执行的智能体规则包，并附引用与审计轨迹。',
+    keyTakeaways: '关键要点',
+    takeaway1: '把政策文本编译成可执行的智能体规则与工具约束。',
+    takeaway2: '带引用与审计轨迹的确定性检查，外加模型辅助策略包。',
+    takeaway3: '先开始使用；完整策略执行能力可按套餐升级。',
+    ctaPrimary: '订阅',
+    ctaSecondary: '观看演示',
+    note: '无需信用卡 · 随时取消',
+    playDemo: '播放演示 ▶',
+    walkthrough: '点击观看导览',
+  },
+  stats: {
+    builders: '建设者',
+    avgRating: '平均评分',
+    uptime: '可用性',
+    timeToValue: '见效时间',
+  },
+  pricing: {
+    heading: '定价',
+    monthly: '按月',
+    yearly: '按年',
+    perMonth: '/月',
+    mostPopular: '最受欢迎',
+    getPro: '获取 Pro',
+    orYearly: '或按年付 — ${{amount}}/月',
+    custom: '定制',
+    contactSales: '联系销售',
+    configureByok: '配置 BYOK',
+    getStarted: '开始使用',
+    freeForever: '永久免费',
+    billedMonthly: '按月计费',
+    save: '节省',
+    freeFeat1: '每日限额内的策略检查',
+    freeFeat2: '工作室演示（无额外 LLM 费用）',
+    proFeat1: '更高配额与审计日志',
+    proFeat2: 'CSV/JSON 导出 · 公平使用成本护栏',
+    proFeat3: '优先支持 · 年付省 2 个月',
+    entFeat1: 'SSO / DPA / 更高上限',
+    entFeat2: '可选 BYOK（自带 OpenAI 密钥）',
+  },
+  faq: {
+    items: [
+      {
+        q: 'CostLens 会生成什么？',
+        a: 'CostLens 提供 JSON Schema 和 OpenAPI 验证功能，帮助您确保 API 和数据的准确性和一致性。您可以轻松地上传和验证您的 Schema，获取详细的错误报告和建议。',
+      },
+      {
+        q: '这是法律意见或认证吗？',
+        a: '不。CostLens 的输出仅供参考，请在生产环境中使用前咨询律师和风险所有者进行审查。我们不声称提供 ISO、CMP 或监管机构认证。',
+      },
+      {
+        q: 'Can I cancel anytime?',
+        a: '是的。自助服务计划可以随时取消，访问权限将继续有效直到期末。',
+      },
+      {
+        q: '开始使用需要信用卡吗？',
+        a: '不。您可以通过电子邮件注册或在工作室中使用 Demo 模式开始使用，然后在准备好升级时进行升级。',
+      },
+      {
+        q: '我是否需要自己的 ChatGPT / OpenAI 订阅?',
+        a: '免费/专业版无限制。AI运行次数包含在您的计划中（合理使用）通过我们的平台密钥。企业版可以选择自带OpenAI密钥（BYOK）— 在/settings中配置（密钥仅存储在服务器端）。',
+      },
+      {
+        q: '什么是合理使用/如果我达到AI限制?',
+        a: '专业版包含大约 300 次 AI 生成/月（以及每日限制）在 gpt-4o-mini 上。如果您达到公平使用限制，工作室将返回模拟/演示结果，直到每日或每月重置 —— 或升级到企业版自带密钥（BYOK）以支持更大容量。',
+      },
+      {
+        q: 'Is checkout secure?',
+        a: '付款递当用 Waffo Pancake (商品依资)。',
+      },
+      {
+        q: '我付款后么个发现？',
+        a: '你当前获取认论确认，带户于了webhook + 订单日志。',
+      },
+    ],
+    title: '常见问题',
+    geoTitle: 'CostLens — 常见问题',
+  
+    geoItems: [
+      {
+        q: 'CostLens 产出什么？',
+        a: '覆盖工具、数据处理与升级路径的结构化策略草稿，可继续编辑。',
+      },
+      {
+        q: '算法律意见吗？',
+        a: '不算。它是起草辅助。策略须由法务与风险负责人审阅。',
+      },
+      {
+        q: '演示模式如何工作？',
+        a: '切换演示可不调用在线 AI；在线模式需配置密钥。',
+      },
+      {
+        q: '会映射到欧盟《人工智能法案》吗？',
+        a: '叙述可引用治理主题；不证明法案符合性。',
+      },
+      {
+        q: '策略可以版本化吗？',
+        a: '运行会保存 rulesetVersion 与 runId 以便变更追踪。',
+      },
+      {
+        q: '谁该使用？',
+        a: '在生产前定义智能体护栏的平台与合规工程师。',
+      },
+      {
+        q: '哪些国家/地区可用？',
+        a: '云端全球可达；Waffo Pancake 支付可用性因地区而异。',
+      },
+      {
+        q: '是否符合 GDPR/隐私要求？',
+        a: '输入仅用于生成输出，从不出售。见隐私页；企业版可含 DPA/NDA。',
+      },
+      {
+        q: '支持哪些语言？',
+        a: '界面支持十种语言。配置在线 AI 时，草稿跟随所选界面语言。',
+      },
+    ],
+},
+  footer: {
+    product: '产品',
+    company: '公司',
+    resources: '资源',
+    legal: '法务',
+    about: '关于',
+    contact: '联系',
+    privacy: '隐私',
+    terms: '条款',
+    refund: '退款',
+    support: '支持',
+    feedback: '反馈',
+    rights: '保留所有权利。',
+    partOfFleet: 'LX AI 微 SaaS 舰队的一部分。',
+  },
+  signup: {
+    title: '今天就开始执行智能体策略',
+    subtitle: '加入使用 CostLens 的团队。可免费试用 — 无需银行卡。',
+    emailPlaceholder: '输入邮箱',
+    saving: '保存中…',
+    cta: '开始使用',
+    trust: '可信 · 随时取消',
+  },
+  feedback: {
+    open: '反馈',
+    title: '发送反馈',
+    blurb: '告诉我们哪里好用、哪里坏了，或你还想要什么。',
+    fullPage: '更喜欢完整页面？',
+    openPage: '打开 /feedback',
+    close: '关闭反馈',
+    helpful: '这次结果有帮助吗？',
+    yes: '有',
+    no: '没有',
+    thanks: '感谢反馈。',
+    commentPlaceholder: '可选：一句话补充',
+    generalTitle: '一般反馈',
+    generalSub: '说说你的想法',
+    generalPh: '使用中你喜欢、不喜欢或注意到了什么？',
+    ideaTitle: '我有个想法',
+    ideaSub: '建议功能或改进',
+    ideaPh: '描述你的想法，以及它能解决什么问题…',
+    issueTitle: '我发现了问题',
+    issueSub: '报告缺陷或故障',
+    issuePh: '发生了什么、你期望什么、如何复现？',
+    submit: '提交反馈',
+    submitting: '发送中…',
+    done: '感谢 — 已收到反馈。',
+    emailOptional: '邮箱（可选）',
+    category: '分类',
+    yourFeedback: '你的反馈',
+    attachment: '附件',
+
+    back: '返回',
+    pickTitle: '你想反馈什么？',
+    pickSub: '选一类开始，下一步可补充细节。',
+    thanksTitle: '感谢你的反馈！',
+    thanksBody: '我们已收到，团队会尽快跟进。欢迎随时再提交。',
+    submitAnother: '再提交一条',
+    detailed: '详细反馈',
+    send: '发送',
+    sending: '发送中…',
+    thanksInline: '已记录，谢谢 — 我们会认真阅读。',
+    errorInline: '暂时无法发送。请使用反馈按钮或 /feedback。',
+    inlineCommentPh: '一句话：我们该改进什么？（可选）',
+  },
+  legal: {
+    privacyPolicy: '隐私政策',
+    generatePolicy: '生成政策',
+    controller: '控制者',
+    processor: '处理者',
+    processing: '处理',
+    personalData: '个人数据',
+    dataSubject: '数据主体',
+    dpo: 'DPO',
+    checklist: '清单',
+    policyChecks: '政策检查',
+    encodePolicy: '编码政策',
+    definitionTitle: 'CostLens — 定义',
+    whatItIs: '它是什么',
+    whatNotTitle: '它不是什么',
+    whatNot1: '不是律所或监管机构。',
+    whatNot2: '不保证通过每一次审计或执法检查。',
+    whatNot3: '不是法律意见 — 高风险决策请咨询合格顾问。',
+    rolesHint: '当策略包提到隐私角色时，我们使用 GDPR 第 4 条标签：控制者与处理者（决策支持 — 不是法律意见）。',
+  },
+  benchmark: {
+    frameworksEyebrow: '框架映射',
+    frameworksTitle: '基准 / 对照',
+    frameworksNote: '决策支持主题 — 不是认证、CMP 徽章或法律意见。',
+    fw1: '欧盟 AI 法案',
+    fw2: 'NIST AI RMF',
+    fw3: 'OWASP LLM Top 10',
+    fw4: 'GDPR 第 4 条角色',
+    painEyebrow: '为什么策略包会卡住',
+    painTitle: '基准 / 对照',
+    pain1Title: '基准 / 对照',
+    pain1Body: '每次监管更新都可能让智能体工具、数据类别与升级路径不同步。',
+    pain2Title: '基准 / 对照',
+    pain2Body: '当 PDF 与智能体运行时分离时，盲点会在生产中暴露。',
+    pain3Title: '基准 / 对照',
+    pain3Body: '为每个领域手工改清单，会悄悄消耗工程与合规时间。',
+    pain4Title: '基准 / 对照',
+    pain4Body: '缺口往往要到审计、事故或客户问卷时才暴露。',
+    getEyebrow: '你会得到什么',
+    getTitle: '基准 / 对照',
+    getLead: '面向智能体治理的生成式交付物 — 上线前请与顾问审阅。',
+    get1Title: '基准 / 对照',
+    get1Body: '智能体运行时可评估的条件 + 动作规则。',
+    get2Title: '基准 / 对照',
+    get2Body: '人类可读的职责，便于负责人在上线前发现缺口。',
+    get3Title: '基准 / 对照',
+    get3Body: '高风险义务的主题指针 — 不是合格认证。',
+    get4Title: '基准 / 对照',
+    get4Body: '可接入护栏或中间件的结构化输出。',
+    featuresEyebrow: '为什么选择 CostLens',
+    featuresTitle: '基准 / 对照',
+    featuresBlurb: '面向需要可执行检查、不想折腾学习曲线的平台与合规团队。',
+    howTitle: '基准 / 对照',
+    how1Title: '基准 / 对照',
+    how1Body: '粘贴公司政策文本并选择领域（财务、HR、安全、通用）。',
+    how2Title: '基准 / 对照',
+    how2Body: '生成可供智能体调用的检查，以及合规清单与框架主题。',
+    how3Title: '基准 / 对照',
+    how3Body: '将规则导出到智能体运行时；例外与法律审阅仍由人完成。',
+    allPlansTitle: '基准 / 对照',
+    allPlans1: '策略到规则工作室',
+    allPlans2: '合规清单导出',
+    allPlans3: '欧盟 AI 法案主题映射（决策支持）',
+    allPlans4: '付费方案含邮件支持 — 核心工作室无隐藏附加费',
+    honestyTitle: '基准 / 对照',
+    honestyLead: '像专业政策生成器一样，CostLens 是起草辅助：请定制、审阅，并随法规变化更新。',
+    ctaStudio: '打开工作室',
+  },
+  home: {
+    whyEyebrow: '为什么选择 {{name}}',
+    featuresHeading: '落实智能体策略所需的一切',
+    featuresCardBlurb: '面向需要可执行智能体规则、不想折腾学习曲线的合规与平台工程师。',
+    howHeading: '从策略文本到可执行规则，三步完成',
+    how1Title: '粘贴策略',
+    how1Desc: '放入公司策略、工具白名单或智能体操作手册。',
+    how2Title: '编译规则',
+    how2Desc: '确定性检查，加上模型辅助的策略包。',
+    how3Title: '执行',
+    how3Desc: '导出可给智能体用的规则，附引用与审计轨迹。',
+    studioEyebrow: '在线工作室',
+    studioHeading: '就在本页试用',
+    studioWatchDemo: '观看演示',
+    studioOrRun: '或在下方运行一次检查。',
+    studioFormTitle: '智能体策略检查',
+    demoMode: '演示模式（非在线 AI）',
+    socialHeading: '合规工程师的信赖',
+    socialNote: '社会证明在获得真实、经同意的证言前使用模板。已获 [X]+ 合规与智能体平台团队信赖。',
+    quickAnswers: '快速解答',
+    howCompares: '对比说明',
+    dimension: '维度',
+    manual: '人工',
+    whenNotToUse: '不建议使用的情形：',
+    peopleAlsoSearch: '人们还在搜',
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    leadsInbox: "线索收件箱（演示 CRUD）",
+    filterEmail: "筛选邮箱…",
+    allPlans: "全部套餐",
+    noLeads: "暂无线索 — 请先提交注册表单。",
+    colEmail: "邮箱",
+    colPlan: "套餐",
+    colSource: "来源",
+    delete: "删除",
+    deleteLeadTitle: "删除线索",
+    deleteLeadWarn: "此操作无法撤销。",
+    deleteLeadBody: "确定删除该线索？其邮箱将从联系人中永久移除。",
+    cancel: "取消",
+    relatedReading: "相关阅读",
+    productTour: "产品导览",
+    productDemo: "产品演示",
+    stepOf: "步骤 {{n}}/{{total}}",
+    replay: "重播",
+    tryStudio: "试用工作室",
+    leadsCount: "{{n}} 条线索",
+    leadsFiltered: "{{n}} 条已筛选",
+    geoCmpDim: "维度",
+    geoCmpManual: "人工",
+    geoCmp1Dim: "速度",
+    geoCmp1Manual: "数小时到数天",
+    geoCmp1Tool: "每次运行数分钟",
+    geoCmp2Dim: "一致性",
+    geoCmp2Manual: "因人而异",
+    geoCmp2Tool: "每次同一规则集",
+    geoCmp3Dim: "输出",
+    geoCmp3Manual: "自由格式",
+    geoCmp3Tool: "结构化、可导出结果",
+    geoCmp4Dim: "最适合",
+    geoCmp4Manual: "最终签核",
+    geoCmp4Tool: "首轮决策支持",
+    related1Title: "AI 套壳 vs 护城河",
+    related1Desc: "策略执行为持久护城河。",
+    related2Title: "欧盟 AI 法案合规清单",
+    related2Desc: "将智能体义务映射到法案主题。",
+    related3Title: "Wave 1 发布",
+    related3Desc: "CostLens 随治理集群上线。",
+    feat1: "策略转规则",
+    feat2: "合规清单",
+    feat3: "欧盟 AI 法案映射",
+    feat4: "可导出规则",
+    geoQa1: "策略转规则",
+    geoQa2: "合规清单",
+    geoQa3: "欧盟 AI 法案映射",
+    geoQa4: "可导出规则",
+    geoQa5: "价格从 $0（Free）起。",
+    geoLt1: "什么是 CostLens",
+    geoLt2: "CostLens 如何工作",
+    geoLt3: "CostLens 多少钱",
+    geoLt4: "CostLens 免费吗",
+    geoLt5: "CostLens 对比人工",
+    geoWhenNot: "请改用合格人工复核 — 仅为起草辅助。策略须由法务与风险负责人审阅。",
+    demo1Title: "欢迎使用 {{name}}",
+    demo1Detail: "60 秒导览：{{name}} 如何把策略变成智能体检查。",
+    demo2Title: "打开实时工作室",
+    demo2Detail: "粘贴策略文本并选择领域。",
+    demo3Title: "点击 Generate checks",
+    demo3Detail: "由策略转规则与合规清单驱动。",
+    demo4Title: "策略检查预览",
+    demo4Detail: "规则流水线示例输出：",
+    demo4DetailEmpty: "策略检查将显示在此。",
+    demo5Title: "轮到你了",
+    demo5Detail: "试用工作室，或开始使用 {{name}}。",
+  },
+  chat: {
+    typing: '助手正在输入…',
+    placeholder: '输入问题…（回车发送）',
+    send: '发送',
+    openAria: '打开 AI 助手',
+    openTitle: '询问我们的 AI 助手',
+    closeAria: '关闭',
+    escalated: '已为你转接人工，我们会通过邮件跟进。',
+    s1: '这个工具做什么？',
+    s2: '怎么收费？',
+    s3: '有免费方案吗？',
+  },
+  pages: {
+    howTitle: 'CostLens — 工作原理',
+    howDesc: 'CostLens 三步如何运作。',
+    howEyebrow: '工作原理',
+    howH1: '从输入到结果的三步',
+    how1Title: '粘贴',
+    how1Body: '粘贴政策文本并选择领域。',
+    how2Title: '编码',
+    how2Body: '生成智能体可调用的检查与合规清单。',
+    how3Title: '执行',
+    how3Body: '把规则接入智能体运行时；例外留给人工。',
+    subscribe: '订阅',
+    ucTitle: 'CostLens — 使用场景',
+    ucDesc: 'CostLens 如何帮助合规与智能体平台团队。',
+    ucEyebrow: '使用场景',
+    ucH1: '为合规与智能体平台团队而建',
+    ucIntro: '选择你的细分，查看最重要的工作流。',
+    uc1Title: '财务政策',
+    uc1Pain: '退款与审批必须可机器检查。',
+    uc1Help: '提取智能体可评估的条件+动作。',
+    uc2Title: 'HR / 安全政策',
+    uc2Pain: '需要智能体可调用的清单。',
+    uc2Help: '领域选择器聚焦抽取。',
+    uc3Title: '欧盟 AI 功能',
+    uc3Pain: '把高风险规则映射到 AI 法案主题。',
+    uc3Help: '仅决策支持映射。',
+    uc4Title: '平台团队',
+    uc4Pain: '政策 PDF 从未到达运行时。',
+    uc4Help: '可导出规则供智能体工具使用。',
+    painLabel: '痛点：',
+    helpLabel: 'CostLens 如何帮助：',
+    ucRefs: 'refs: 歡版 AI 投譢管理 (政)编号 2024/1689 　 NIST AI RMF 　 OWASP 三十个之中的 AI 主亲',
+    intTitle: 'CostLens — 集成',
+    intDesc: 'CostLens 导出目标、API 与 BYOK 选项。',
+    intEyebrow: '集成',
+    intH1: '接入你的技术栈',
+    intIntro: '只列出诚实的集成。我们不宣传尚未上线的连接器。',
+    int1Title: '可导出规则',
+    int1Body: '供智能体工具使用的 JSON/清单导出。',
+    int2Title: 'API',
+    int2Body: '政策变更时重新生成。',
+    int3Title: '欧盟 AI 法案映射',
+    int3Body: '高风险主题指针。',
+    int4Title: 'BYOK',
+    int4Body: '提供时密钥仅存服务端。',
+    intHonesty: '诚实说明：运行时执行为你方系统职责；我们生成候选检查。',
+    secTitle: 'CostLens — 安全与合规',
+    secDesc: 'CostLens 如何处理你的数据及其诚实合规立场。',
+    secEyebrow: '安全与合规',
+    secH1: '你的数据，我们的立场',
+    secIntro: 'CostLens 处理你提交用于分析的输入。本页清楚说明我们处理什么、不声称什么。',
+    secHandleH2: '我们处理什么',
+    secHandleBody: '用于生成智能体可执行检查的公司政策文本与领域选择。',
+    secDataH2: '数据处理承诺',
+    secData1: '提交进入产品流水线，仅在审计日志所需期间（付费档）保留，或直到你删除该次运行。',
+    secData2: '在处理个人数据时，我们采用与 GDPR 第 32 条（处理安全）一致的访问控制。',
+    secData3: 'BYOK 密钥（企业版）在提供时仅存服务端，从不暴露给浏览器。',
+    secHonesty: '诚实规则：CostLens 把政策文本变成候选规则。我们不保证执行正确、100% 政策覆盖，或智能体永不遗漏违规。我们不声称保证/100%/永不遗漏。',
+    secPostureH2: '我们的合规立场',
+    secPosture1: 'CostLens 是决策支持，不是律所、诊所或认证审计方。',
+    secPosture2: '需要有约束力的建议时，请咨询相关领域合格专业人士。',
+    secSubH2: '子处理方与支付',
+    secSub1: '支付由 Waffo Pancake（商户记录方）处理。',
+    secSub2: '完整条款见隐私政策与服务条款。',
+    secRefs: 'refs: 歡版 AI 投譢管理 (政)编号 2024/1689 　 NIST AI RMF 　 OWASP 三十个之中的 AI 主亲',
+    backHome: '返回首页',
+  },
+  blog: {
+    metaTitle: 'CostLens — 博客',
+    metaDesc: '关于政策即代码、将公司政策变为智能体可执行规则、欧盟 AI 法案义务映射与合规清单的定义性与操作指南文章。',
+    glanceTitle: '本产品一览包含什么？',
+    glance1: '面向回答引擎的白话定义、FAQ 与引用',
+    glance2: '3 个可审阅工作流步骤（输入 → 生成 → 审阅）',
+    glance3: '决策支持输出——你保持在环；无虚构用户数',
+    eyebrow: '博客 · GEO',
+    h1: '解读政策即代码',
+    lead: '先回答团队在把公司政策变成智能体真正会执行的规则之前会问的定义性问题。',
+    targetQuery: '目标查询：',
+    guidesTitle: '应先读哪些 GEO 深度文章？',
+    guidesLead: '长文、带引用的解说。每篇附 3+ 权威欧盟 AI 法案/AI 治理来源与决策支持免责声明。',
+    footerNote: '按 gtm-launch 发布与联合分发（IH + GEO 索引）。每篇带 3 个权威引用。',
+    post1Title: 'AI 智能体政策包与 NIST AI RMF',
+    post1Desc: '政策包如何映射到 NIST AI RMF 职能与欧盟 AI 法案主题——决策支持，非证书。',
+    post2Title: '允许工具 vs 开放式智能体',
+    post2Desc: '为何限制智能体工具访问是一种控制而非功能开关——附开放式智能体的诚实规则。',
+    readI18n: '阅读多语版本',
+    readEnHtml: '阅读完整英文原文',
+    pillarSlug: 'ai-agent-policy-packs-nist-rmf-2026',
+    pillarEyebrow: '作者：CostLens（LX AI）',
+    pillarH1: 'AI 智能体政策包与 NIST AI RMF',
+    pillarLead: '政策包把公司规则变成智能体可调用的检查。对照 NIST AI RMF 职能（治理、映射、度量、管理）与欧盟 AI 法案主题，它们是决策支持——不是符合性证书。',
+    pillarH2a: '政策包包含什么',
+    pillarPa1: '一个包是从政策文本抽取的条件+动作规则集，外加把高风险规则映射到监督与日志期望的清单。智能体在运行时评估规则；例外由人工处理。',
+    pillarH2b: '与 NIST AI RMF 对齐',
+    pillarPb1: '治理：哪些政策必须约束智能体。映射：盘点智能体可触及的工具与数据。度量：记录政策决策。管理：规则阻断或需人工批准时升级。',
+    pillarH2c: '欧盟 AI 法案触点',
+    pillarPc1: '对附件三高风险用途，部署方义务如第 9 条风险管理与第 14 条人工监督是政策检查可佐证的主题——它们不取代符合性评估。',
+    pillarH2d: '诚实边界',
+    pillarPd1: 'CostLens 起草候选规则。接线、执行质量与法律符合性仍由你负责。我们不声称保证、100% 覆盖或永不遗漏检测。',
+    pillarDisclaimer: '仅决策支持——非法律意见，非符合性证书。',
+    pillarFaq1Q: '政策包能否证明符合欧盟 AI 法案？',
+    pillarFaq1A: '不能。它有助于佐证控制措施；符合性仍是部署组织对整个系统的责任。',
+    pillarFaq2Q: '与 NIST AI RMF 有何关系？',
+    pillarFaq2A: 'RMF 职能提供治理与度量词汇；政策包把智能体可调用的检查落实到这些职能中。',
+    pillar2Slug: 'allowed-tools-vs-open-ended-agents-2026',
+    pillar2Eyebrow: '护栏设计',
+    pillar2H1: '允许工具 vs 开放式智能体',
+    pillar2Lead: '为何白名单比开放式智能体更安全地默认拒绝——以及策略包如何把边界编码为运行时检查。',
+    pillar2H2a: '开放式智能体放大爆炸半径',
+    pillar2Pa1: '无约束工具选择加长记忆：一次提示注入可串联邮件、代码与数据外泄。',
+    pillar2H2b: '白名单即默认拒绝',
+    pillar2Pb1: '枚举允许的工具、参数与目标。其余一律失败关闭——对齐 NIST AI RMF Govern/Map。',
+    pillar2H2c: '把策略编码为检查',
+    pillar2Pc1: '将散文策略变为可调用检查：工具范围、数据类别、升级负责人与审计字段。',
+    pillar2H2d: '开放式仍适用的场景',
+    pillar2Pd1: '无生产凭证的研究沙箱可用更宽工具——须与客户数据路径隔离。',
+    pillar2Disclaimer: '决策支持草稿。非法律意见或认证。',
+    pillar2Faq1Q: '仅有白名单够吗？',
+    pillar2Faq1A: '不够。需叠加参数校验、不可逆动作的人工审批与日志。',
+    pillar2Faq2Q: '与 NIST AI RMF 的关系？',
+    pillar2Faq2A: '白名单支撑 Govern 与 Map：在生产 Measure/Manage 前定义预期用途与控制。',
+    pillar2Back: '返回博客',
+    pillarBack: '返回博客',
+    card1Title: '什么是政策即代码？',
+    card1Body: '政策即代码把公司政策表达为智能体可在运行时评估的机器可检查规则——例如若退款 > $50 则需经理批准。它是决策支持，不是法律意见或合规证书。',
+    card2Title: '把公司政策变成智能体可执行规则',
+    card2Body: '把每句政策抽成条件+动作，把高风险规则映射到欧盟 AI 法案主题（第 9、14、26 条），并导出智能体每次运行都会评估的规则文件。规则是义务视图，不是符合性保证。',
+  },
+}
+
+export default catalog as unknown as Messages

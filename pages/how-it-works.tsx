@@ -1,49 +1,36 @@
-import React from 'react'
 import Head from 'next/head'
 import Layout from '../components/Layout'
-import { PRODUCT } from '../lib/product'
+import { useT } from '../lib/i18n/provider'
 
-const steps = [
-  {
-    n: '1',
-    t: 'Ingest spend log',
-    d: 'Paste or connect your agent\'s spend data — tokens, calls, and associated context (agent name, feature, user).',
-  },
-  {
-    n: '2',
-    t: 'Attribute cost',
-    d: 'CostLens processes the data and breaks down spend by agent, feature, and user. See the top cost drivers at a glance.',
-  },
-  {
-    n: '3',
-    t: 'Guardrail report',
-    d: 'Get a recommended per-agent budget cap and an early-warning rule to catch runaway loops before they drain your budget.',
-  },
-]
+const SITE = 'https://agentcost.lxsaihub.com'
 
 export default function HowItWorksPage() {
+  const { t, locale } = useT()
+  const title = t('pages.howTitle')
+  const desc = t('pages.howDesc')
+  const steps = [1, 2, 3].map((n) => ({ title: t(`pages.how${n}Title`), body: t(`pages.how${n}Body`) }))
+  const ld = { '@context': 'https://schema.org', '@type': 'WebPage', name: title, url: SITE + '/how-it-works', description: desc, inLanguage: locale }
   return (
     <Layout>
       <Head>
-        <title>{`${PRODUCT.name} — How it works`}</title>
-        <meta name="description" content="From spend log to budget guardrails in three steps." />
+        <title>{title}</title>
+        <meta name="description" content={desc} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
       </Head>
       <div className="max-w-4xl">
-        <div className="text-xs font-bold tracking-widest uppercase text-indigo-600 mb-3">How it works</div>
-        <h1 className="text-4xl font-extrabold tracking-tight mb-4">From spend log to guardrails in 3 steps</h1>
-
+        <div className="text-xs font-bold tracking-widest uppercase text-indigo-600 mb-3">{t('pages.howEyebrow')}</div>
+        <h1 className="text-4xl font-extrabold tracking-tight mb-4">{t('pages.howH1')}</h1>
         <div className="grid md:grid-cols-3 gap-6 mt-8">
-          {steps.map((s) => (
-            <div key={s.n} className="bg-white rounded-2xl border border-slate-200 p-6">
-              <div className="w-10 h-10 rounded-full bg-indigo-600 text-white grid place-items-center font-black mb-4">{s.n}</div>
-              <h3 className="font-bold text-lg mb-2 text-slate-900">{s.t}</h3>
-              <p className="text-slate-600 text-sm">{s.d}</p>
+          {steps.map((s, i) => (
+            <div key={i} className="bg-white rounded-2xl border border-slate-200 p-6">
+              <div className="w-10 h-10 rounded-full bg-indigo-600 text-white grid place-items-center font-black mb-4">{i + 1}</div>
+              <h3 className="font-bold text-lg mb-2 text-slate-900">{s.title}</h3>
+              <p className="text-slate-600 text-sm">{s.body}</p>
             </div>
           ))}
         </div>
-
         <div className="text-center mt-10">
-          <a href="/#signup" className="px-6 py-3 rounded-full bg-indigo-600 text-white font-bold inline-block">Start free trial</a>
+          <a href="/#signup" className="px-6 py-3 rounded-full bg-indigo-600 text-white font-bold inline-block">{t('pages.subscribe')}</a>
         </div>
       </div>
     </Layout>

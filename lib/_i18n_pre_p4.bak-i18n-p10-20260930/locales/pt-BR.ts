@@ -1,0 +1,655 @@
+// locales/pt-BR.ts — CostLens full main-path catalog (batch2)
+// Batch2 full main-path translations 2026-09-29. Shape mirrors en.ts.
+
+import type { Messages } from '../types'
+
+const pt_BR = {
+  meta: {
+    title: 'CostLens · Transforme política da empresa em regras aplicadas por agents',
+    description: 'O CostLens lê o texto da sua política da empresa e gera checagens invocáveis por agents mais uma checklist de conformidade, mapeada às obrigações do AI Act da UE — para que a política seja executável, não só um PDF.',
+  },
+  common: {
+    appName: 'CostLens',
+    tagline: 'Transforme política da empresa em regras aplicadas por agents',
+    microSaas: 'Micro SaaS',
+    menu: 'Menu',
+  },
+  nav: {
+    backToHub: 'Voltar ao hub',
+    home: 'Início',
+    features: 'Recursos',
+    useCases: 'Casos de uso',
+    integrations: 'Integrações',
+    howItWorks: 'Como funciona',
+    studio: 'Studio',
+    security: 'Segurança',
+    pricing: 'Preços',
+    blog: 'Blog',
+    faq: 'FAQ',
+    feedback: 'Feedback',
+    support: 'Suporte',
+    signIn: 'Entrar',
+    subscribe: 'Assinar',
+    getStarted: 'Começar',
+  },
+  hero: {
+    badge: 'Micro SaaS',
+    title: 'Transforme política da empresa em regras aplicadas por agents',
+    subtitle: 'O CostLens lê o texto da sua política da empresa e gera checagens invocáveis por agents mais uma checklist de conformidade, mapeada às obrigações do AI Act da UE — para que a política seja executável, não só um PDF.',
+    keyTakeaways: 'Principais conclusões',
+    takeaway1: 'Transforme política da empresa em regras aplicadas por agents — sem código.',
+    takeaway2: 'Guardrails se ligam aos workflows do agent e falham fechados em violações.',
+    takeaway3: 'Comece; Pro a partir de US$ 29/mês.',
+    ctaPrimary: 'Assinar',
+    ctaSecondary: 'Ver demo',
+    note: 'Sem cartão de crédito · Cancele quando quiser',
+    playDemo: 'Reproduzir demo ▶',
+    walkthrough: 'Clique para ver o passo a passo',
+  },
+  stats: {
+    builders: 'Builders',
+    avgRating: 'Avaliação média',
+    uptime: 'Uptime',
+    timeToValue: 'Tempo até valor',
+  },
+  pricing: {
+    heading: 'Planos simples que escalam',
+    monthly: 'Mensal',
+    yearly: 'Anual',
+    perMonth: '/mês',
+    mostPopular: 'Mais popular',
+    getPro: 'Obter Pro',
+    orYearly: 'Ou pague anualmente — ${{amount}}/mês',
+    custom: 'Personalizado',
+    contactSales: 'Falar com vendas',
+    configureByok: 'Configurar BYOK',
+    getStarted: 'Começar',
+    freeForever: 'grátis para sempre',
+    billedMonthly: 'cobrado mensalmente',
+    save: 'economize',
+    freeFeat1: 'Execuções diárias de IA limitadas (10/dia · 50/mês)',
+    freeFeat2: 'Demo do Studio (sem taxa extra de LLM)',
+    proFeat1: 'IA incluída: 300 gens/mês · fair use (gpt-4o-mini)',
+    proFeat2: 'Sem assinatura separada do ChatGPT',
+    proFeat3: 'Suporte prioritário · 2 meses grátis no anual',
+    entFeat1: 'Assentos de equipe · Acesso à API (roadmap)',
+    entFeat2: 'BYOK opcional (sua chave OpenAI)',
+  },
+  faq: {
+    title: 'Suas perguntas, respondidas',
+    geoTitle: 'CostLens — perguntas frequentes',
+    items: [
+      {
+        q: 'O que o CostLens gera?',
+        a: 'Checagens de política invocáveis por agents, uma checklist de conformidade e mapeamento temático do AI Act da UE exportável — fluxo semelhante a um gerador de políticas (colar → gerar → revisar), mas voltado a guardrails de agents em vez de uma página pública de privacidade.',
+      },
+      {
+        q: 'Isto é aconselhamento jurídico ou uma certificação?',
+        a: 'Não. As saídas são rascunhos de apoio à decisão. Peça revisão de counsel e donos de risco antes da produção. Não reivindicamos certificação ISO, CMP ou de regulador.',
+      },
+      {
+        q: 'Posso cancelar a qualquer momento?',
+        a: 'Sim. Planos self-serve cancelam quando quiser; o acesso continua até o fim do período.',
+      },
+      {
+        q: 'Preciso de cartão de crédito para começar?',
+        a: 'Não. Comece com cadastro por e-mail ou modo Demo no studio e faça upgrade quando estiver pronto.',
+      },
+      {
+        q: 'Preciso da minha própria assinatura ChatGPT / OpenAI?',
+        a: 'Não para Free/Pro. As execuções de IA estão incluídas no plano (fair use) via nossa chave de plataforma. Enterprise pode opcionalmente trazer a própria chave OpenAI (BYOK) — configure em /settings (a chave permanece só no servidor).',
+      },
+      {
+        q: 'O que é Fair Use / e se eu atingir o limite de IA?',
+        a: 'O Pro inclui cerca de 300 gerações de IA/mês (mais um teto diário) no gpt-4o-mini. Se atingir o limite fair use, o Studio devolve um resultado mock/demo até o reset diário ou mensal — ou faça upgrade / use Enterprise BYOK para maior volume.',
+      },
+      {
+        q: 'O checkout é seguro?',
+        a: 'Os pagamentos são processados pela Waffo Pancake (merchant of record).',
+      },
+      {
+        q: 'O que acontece depois que eu pago?',
+        a: 'Você recebe confirmação de acesso; o fulfillment é rastreado via webhook + logs de pedido.',
+      },
+    ],
+  
+    geoItems: [
+      {
+        q: 'O que o CostLens produz?',
+        a: 'Um rascunho de política estruturado sobre ferramentas, dados e caminhos de escalonamento que você pode editar.',
+      },
+      {
+        q: 'É aconselhamento jurídico?',
+        a: 'Não. É ajuda de redação. Políticas devem ser revisadas por counsel e risk owners.',
+      },
+      {
+        q: 'Como funciona o modo Demo?',
+        a: 'Ative Demo sem IA ao vivo; o modo ao vivo precisa de uma chave configurada.',
+      },
+      {
+        q: 'Mapeia o AI Act da UE?',
+        a: 'Narrativas podem citar temas de governança; não certifica conformidade com a Lei.',
+      },
+      {
+        q: 'Políticas podem ser versionadas?',
+        a: 'Execuções armazenam rulesetVersion e runId para rastreamento de mudanças.',
+      },
+      {
+        q: 'Quem deveria usar?',
+        a: 'Engenheiros de plataforma e compliance que definem guardrails de agentes antes da produção.',
+      },
+      {
+        q: 'Em quais países/regiões?',
+        a: 'Acessível mundialmente; pagamentos Waffo Pancake podem variar por região.',
+      },
+      {
+        q: 'Conforme GDPR/privacidade?',
+        a: 'Entradas geram só sua saída e nunca são vendidas. Ver Privacy; Enterprise pode incluir DPA/NDA.',
+      },
+      {
+        q: 'Quais idiomas?',
+        a: 'A UI cobre dez locales. Rascunhos seguem o idioma da UI quando a IA ao vivo está configurada.',
+      },
+    ],
+},
+  footer: {
+    product: 'Produto',
+    company: 'Empresa',
+    resources: 'Recursos',
+    legal: 'Jurídico',
+    about: 'Sobre',
+    contact: 'Contato',
+    privacy: 'Privacidade',
+    terms: 'Termos',
+    refund: 'Reembolso',
+    support: 'Suporte',
+    feedback: 'Feedback',
+    rights: 'Todos os direitos reservados.',
+    partOfFleet: 'Parte da frota LX AI Micro-SaaS.',
+  },
+  signup: {
+    title: 'Comece de forma mais inteligente hoje',
+    subtitle: 'Junte-se a builders que usam o CostLens. Grátis para testar — sem cartão.',
+    emailPlaceholder: 'Digite seu e-mail',
+    saving: 'Salvando…',
+    cta: 'Começar',
+    trust: 'Confiável · Cancele quando quiser',
+  },
+  feedback: {
+    open: 'Feedback',
+    title: 'Enviar feedback',
+    blurb: 'Diga o que funcionou, o que quebrou ou o que você quer a seguir.',
+    fullPage: 'Prefere uma página completa?',
+    openPage: 'Abrir /feedback',
+    close: 'Fechar feedback',
+    helpful: 'Este resultado foi útil?',
+    yes: 'Sim',
+    no: 'Não',
+    thanks: 'Obrigado pelo feedback.',
+    commentPlaceholder: 'Comentário opcional de uma linha',
+    generalTitle: 'Feedback geral',
+    generalSub: 'Diga o que você acha',
+    generalPh: 'O que você gostou, não gostou ou notou ao usar o produto?',
+    ideaTitle: 'Tenho uma ideia',
+    ideaSub: 'Sugira um recurso ou melhoria',
+    ideaPh: 'Descreva sua ideia e o problema que ela resolveria…',
+    issueTitle: 'Encontrei um problema',
+    issueSub: 'Relate um bug ou problema',
+    issuePh: 'O que aconteceu, o que você esperava e como podemos reproduzir?',
+    submit: 'Enviar feedback',
+    submitting: 'Enviando…',
+    done: 'Obrigado — feedback recebido.',
+    emailOptional: 'E-mail (opcional)',
+    category: 'Categoria',
+    yourFeedback: 'Seu feedback',
+    attachment: 'Anexo (opcional)',
+
+    back: '← Voltar ao tipo de feedback',
+    pickTitle: 'Que feedback você tem?',
+    pickSub: 'Escolha um para começar. Você pode adicionar detalhes e uma categoria precisa na próxima etapa.',
+    thanksTitle: 'Obrigado pelo feedback!',
+    thanksBody: 'Recebemos e nossa equipe fará o acompanhamento em breve. Sinta-se à vontade para enviar de novo a qualquer momento.',
+    submitAnother: 'Enviar outro',
+    detailed: 'Feedback detalhado',
+    send: 'Enviar',
+    sending: 'Enviando...',
+    thanksInline: 'Obrigado - registrado. Lemos cada um.',
+    errorInline: 'Não foi possível enviar agora. Use o botão Feedback ou /feedback.',
+    inlineCommentPh: 'Uma linha: o que devemos melhorar? (opcional)',
+  },
+  legal: {
+    privacyPolicy: 'Política de privacidade',
+    generatePolicy: 'Gerar política',
+    controller: 'Controlador',
+    processor: 'Operador',
+    processing: 'Tratamento',
+    personalData: 'Dados pessoais',
+    dataSubject: 'Titular dos dados',
+    dpo: 'Encarregado de proteção de dados',
+    checklist: 'Checklist de conformidade',
+    policyChecks: 'Checagens de política',
+    encodePolicy: 'Codifique sua política',
+    definitionTitle: 'CostLens — definição',
+    whatItIs: 'O que é',
+    whatNotTitle: 'O que isto NÃO é',
+    whatNot1: 'Não é um escritório de advocacia, plataforma GRC nem organismo de certificação ISO.',
+    whatNot2: 'Não é garantia de que políticas redigidas satisfaçam todo regulador ou auditor.',
+    whatNot3: 'Não é aconselhamento jurídico — peça revisão de counsel para packs de política de agents de alto risco.',
+    rolesHint: 'Quando os packs mencionam papéis de privacidade, usamos rótulos do GDPR Art.4: Controlador e Operador (apenas apoio à decisão).',
+  },
+  benchmark: {
+    frameworksEyebrow: 'Mapeamento de frameworks',
+    frameworksTitle: 'Leis complexas. Packs de política simples.',
+    frameworksNote: 'Temas de apoio à decisão — não uma certificação, selo CMP ou parecer jurídico.',
+    fw1: 'EU AI Act',
+    fw2: 'NIST AI RMF',
+    fw3: 'OWASP LLM Top 10',
+    fw4: 'Papéis GDPR Art.4',
+    painEyebrow: 'Por que os packs travam',
+    painTitle: 'Políticas mudam. Lacunas do agent aparecem tarde.',
+    pain1Title: 'Novas regras, novo risco',
+    pain1Body: 'Cada atualização regulatória pode deixar ferramentas do agent, classes de dados e caminhos de escalonamento fora de sincronia.',
+    pain2Title: 'Docs vs runtime',
+    pain2Body: 'Quando o PDF vive separado do runtime do agent, pontos cegos aparecem em produção.',
+    pain3Title: 'Reescritas manuais',
+    pain3Body: 'Editar checklists à mão para cada domínio drena em silêncio o tempo de engenharia e conformidade.',
+    pain4Title: 'Problemas após o ship',
+    pain4Body: 'Lacunas costumam surgir só após uma auditoria, incidente ou questionário de cliente.',
+    getEyebrow: 'O que você recebe',
+    getTitle: 'Colar. Gerar. Exportar.',
+    getLead: 'Entregáveis no estilo gerador para governança de agents — revise com counsel antes da produção.',
+    get1Title: 'Checagens de política',
+    get1Body: 'Regras condição + ação que um runtime de agent pode avaliar.',
+    get2Title: 'Checklist de conformidade',
+    get2Body: 'Deveres legíveis para que donos vejam lacunas antes do go-live.',
+    get3Title: 'Mapeamento do AI Act da UE',
+    get3Body: 'Ponteiros temáticos para obrigações de alto risco — não certificação de conformidade.',
+    get4Title: 'Regras exportáveis',
+    get4Body: 'Saída estruturada que você pode ligar a guardrails ou middleware.',
+    featuresEyebrow: 'Por que CostLens',
+    featuresTitle: 'Tudo para codificar packs de política',
+    featuresBlurb: 'Para equipes de plataforma e conformidade que precisam de checagens aplicáveis sem curva de aprendizado.',
+    howTitle: 'Do texto de política a checagens aplicáveis em 3 etapas',
+    how1Title: 'Colar',
+    how1Body: 'Cole o texto da política da empresa e escolha um domínio (Finance, HR, Safety, General).',
+    how2Title: 'Gerar',
+    how2Body: 'Crie checagens invocáveis por agents mais checklist de conformidade e temas de framework.',
+    how3Title: 'Conectar',
+    how3Body: 'Exporte regras para o runtime do agent; mantenha humanos para exceções e revisão jurídica.',
+    allPlansTitle: 'Todos os planos pagos incluem',
+    allPlans1: 'Studio de política para regras',
+    allPlans2: 'Exportação da checklist de conformidade',
+    allPlans3: 'Mapeamento temático do AI Act da UE (apoio à decisão)',
+    allPlans4: 'Suporte por e-mail em planos pagos — sem add-ons ocultos para o uso central do studio',
+    honestyTitle: 'Limites honestos',
+    honestyLead: 'Como um gerador profissional de políticas, o CostLens é um auxílio de redação: personalize, revise e atualize com seu counsel.',
+    ctaStudio: 'Abrir studio',
+  },
+  home: {
+    whyEyebrow: 'Por que {{name}}',
+    featuresHeading: 'Tudo para aplicar a política do agent',
+    featuresCardBlurb: 'Para engenheiros de conformidade e plataforma que precisam de regras de agent aplicáveis sem curva de aprendizado.',
+    howHeading: 'Do texto de política a regras aplicáveis em 3 etapas',
+    how1Title: 'Colar política',
+    how1Desc: 'Inclua política da empresa, allow-lists de ferramentas ou runbooks de agent.',
+    how2Title: 'Compilar regras',
+    how2Desc: 'Checagens determinísticas mais packs de política assistidos por modelo.',
+    how3Title: 'Aplicar',
+    how3Desc: 'Exporte regras prontas para o agent com citações e trilha de auditoria.',
+    studioEyebrow: 'Studio ao vivo',
+    studioHeading: 'Experimente nesta página',
+    studioWatchDemo: 'Ver demo',
+    studioOrRun: 'ou execute uma checagem abaixo.',
+    studioFormTitle: 'Checagem de política do agent',
+    demoMode: 'Modo demo (sem IA ao vivo)',
+    socialHeading: 'Confiado por engenheiros de conformidade',
+    socialNote: 'A prova social usa modelos até existirem depoimentos reais e consentidos. Confiado por [X]+ equipes de conformidade e plataformas de agents.',
+    quickAnswers: 'Respostas rápidas',
+    howCompares: 'Comparação',
+    dimension: 'Dimensão',
+    manual: 'Manual',
+    whenNotToUse: 'Quando não usar:',
+    peopleAlsoSearch: 'As pessoas também pesquisam',
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    leadsInbox: "Caixa de leads (CRUD demo)",
+    filterEmail: "Filtrar e-mail…",
+    allPlans: "Todos os planos",
+    noLeads: "Ainda sem leads — envie o formulário de inscrição.",
+    colEmail: "E-mail",
+    colPlan: "Plano",
+    colSource: "Fonte",
+    delete: "Excluir",
+    deleteLeadTitle: "Excluir lead",
+    deleteLeadWarn: "Esta ação não pode ser desfeita.",
+    deleteLeadBody: "Excluir este lead? O e-mail será removido permanentemente dos seus contatos.",
+    cancel: "Cancelar",
+    relatedReading: "Leitura relacionada",
+    productTour: "Tour do produto",
+    productDemo: "DEMO DO PRODUTO",
+    stepOf: "passo {{n}}/{{total}}",
+    replay: "Repetir",
+    tryStudio: "Experimentar studio",
+    leadsCount: "{{n}} leads",
+    leadsFiltered: "{{n}} filtrados",
+    geoCmpDim: "Dimensão",
+    geoCmpManual: "Manual",
+    geoCmp1Dim: "Velocidade",
+    geoCmp1Manual: "Horas a dias",
+    geoCmp1Tool: "Minutos por execução",
+    geoCmp2Dim: "Consistência",
+    geoCmp2Manual: "Varia por pessoa",
+    geoCmp2Tool: "Mesmo conjunto de regras sempre",
+    geoCmp3Dim: "Saída",
+    geoCmp3Manual: "Texto livre",
+    geoCmp3Tool: "Resultado estruturado e exportável",
+    geoCmp4Dim: "Melhor para",
+    geoCmp4Manual: "Aprovação final",
+    geoCmp4Tool: "Apoio à decisão de primeira passagem",
+    related1Title: "Envolvente de IA vs fosso",
+    related1Desc: "aplicação de política como um fosso duradouro.",
+    related2Title: "lista de verificação de conformidade com o EU AI Act",
+    related2Desc: "mapear as funções dos agentes para os temas da Lei.",
+    related3Title: "Lançamento da Wave 1",
+    related3Desc: "CostLens é fornecido com o cluster de governança.",
+    feat1: "Política-para-regras",
+    feat2: "Lista de verificação de conformidade",
+    feat3: "Mapeamento do EU AI Act",
+    feat4: "Regras exportáveis",
+    geoQa1: "Política-para-regras",
+    geoQa2: "Lista de verificação de conformidade",
+    geoQa3: "Mapeamento do EU AI Act",
+    geoQa4: "Regras exportáveis",
+    geoQa5: "Os preços começam em $0 (Free).",
+    geoLt1: "O que é CostLens",
+    geoLt2: "Como o CostLens funciona",
+    geoLt3: "Quanto custa o CostLens",
+    geoLt4: "O CostLens é Free",
+    geoLt5: "CostLens vs fazendo manualmente",
+    geoWhenNot: "Use revisão humana qualificada em vez disso — é um auxílio de redação. As políticas devem ser revisadas por seu conselho jurídico e pelos proprietários de risco.",
+    demo1Title: "Bem-vindo ao {{name}}",
+    demo1Detail: "Um tour de 60 segundos de como o {{name}} transforma política em verificações de agente.",
+    demo2Title: "Abrir o estúdio ao vivo",
+    demo2Detail: "Cole o texto da política e escolha um domínio.",
+    demo3Title: "Clique em Generate checks",
+    demo3Detail: "Alimentado por Política-para-regras e listas de verificação de conformidade.",
+    demo4Title: "Pré-visualização das verificações de política",
+    demo4Detail: "Saída de exemplo do pipeline baseado em regras deste produto:",
+    demo4DetailEmpty: "Suas verificações de política aparecem aqui — copie ou refine.",
+    demo5Title: "Sua vez",
+    demo5Detail: "Experimente o estúdio ao vivo, ou comece com {{name}}.",
+  },
+  chat: {
+    typing: 'O assistente está digitando…',
+    placeholder: 'Digite sua pergunta… (Enter para enviar)',
+    send: 'Enviar',
+    openAria: 'Abrir assistente de IA',
+    openTitle: 'Pergunte ao nosso assistente de IA',
+    closeAria: 'Fechar',
+    escalated: 'Conectamos você a um agente humano. Faremos o acompanhamento por e-mail.',
+    s1: 'O que esta ferramenta faz?',
+    s2: 'Quanto custa?',
+    s3: 'Existe um plano gratuito?',
+  },
+  pages: {
+    howTitle: 'CostLens — Como funciona',
+    howDesc: 'Como o CostLens funciona em três etapas.',
+    howEyebrow: 'Como funciona',
+    howH1: 'Da entrada ao resultado em 3 etapas',
+    how1Title: 'Colar',
+    how1Body: 'Cole o texto da política e escolha o domínio.',
+    how2Title: 'Codificar',
+    how2Body: 'Gere verificações acionáveis pelo agente e uma checklist de conformidade.',
+    how3Title: 'Aplicar',
+    how3Body: 'Conecte as regras ao runtime do agente; mantenha humanos para exceções.',
+    subscribe: 'Assinar',
+    ucTitle: 'CostLens — Casos de uso',
+    ucDesc: 'Como o CostLens ajuda equipes de conformidade e plataformas de agentes.',
+    ucEyebrow: 'Casos de uso',
+    ucH1: 'Feito para conformidade e plataformas de agentes',
+    ucIntro: 'Escolha seu segmento para ver os fluxos que mais importam.',
+    uc1Title: 'Políticas financeiras',
+    uc1Pain: 'Reembolsos e aprovações devem ser verificáveis por máquina.',
+    uc1Help: 'Extrair condições + ações que os agentes possam avaliar.',
+    uc2Title: 'Políticas de RH / segurança',
+    uc2Pain: 'Precisam de checklists que os agentes possam chamar.',
+    uc2Help: 'O seletor de domínio foca a extração.',
+    uc3Title: 'Recursos de IA da UE',
+    uc3Pain: 'Mapear regras de alto risco para temas do Regulamento de IA.',
+    uc3Help: 'Apenas mapeamento de apoio à decisão.',
+    uc4Title: 'Equipes de plataforma',
+    uc4Pain: 'PDFs de política nunca chegam ao runtime.',
+    uc4Help: 'Regras exportáveis para ferramentas de agente.',
+    painLabel: 'Dor:',
+    helpLabel: 'Como o CostLens ajuda:',
+    ucRefs: 'Referências: EU AI Act Regulation (EU) 2024/1689 · NIST AI RMF · OWASP Top 10 for AI Agents',
+    intTitle: 'CostLens — Integrações',
+    intDesc: 'Destinos de exportação, API e opções BYOK do CostLens.',
+    intEyebrow: 'Integrações',
+    intH1: 'Conecte-se ao seu stack',
+    intIntro: 'Somente integrações honestas são listadas. Não anunciamos conectores ainda não entregues.',
+    int1Title: 'Regras exportáveis',
+    int1Body: 'Exportação JSON/checklist para ferramentas de agente.',
+    int2Title: 'API',
+    int2Body: 'Regenerar quando as políticas mudarem.',
+    int3Title: 'Mapeamento do Regulamento de IA da UE',
+    int3Body: 'Ponteiros para temas de alto risco.',
+    int4Title: 'BYOK',
+    int4Body: 'Chaves apenas no servidor quando oferecidas.',
+    intHonesty: 'Nota de honestidade: a aplicação em runtime é trabalho do seu sistema; geramos verificações candidatas.',
+    secTitle: 'CostLens — Segurança e conformidade',
+    secDesc: 'Como o CostLens trata seus dados e sua postura de conformidade honesta.',
+    secEyebrow: 'Segurança e conformidade',
+    secH1: 'Seus dados, nossa postura',
+    secIntro: 'O CostLens processa as entradas que você envia para análise. Esta página diz claramente o que tratamos e o que não reivindicamos.',
+    secHandleH2: 'O que tratamos',
+    secHandleBody: 'texto de política da empresa e seleções de domínio usados para gerar verificações executáveis pelo agente.',
+    secDataH2: 'Compromissos de tratamento de dados',
+    secData1: 'Os envios passam pelo pipeline do produto e são retidos apenas pelo tempo necessário ao seu log de auditoria (planos pagos) ou até você excluir a execução.',
+    secData2: 'Aplicamos controles de acesso consistentes com o GDPR Art. 32 quando dados pessoais são processados.',
+    secData3: 'Chaves BYOK (Enterprise), quando oferecidas, são armazenadas apenas no servidor e nunca expostas ao navegador.',
+    secHonesty: 'Regra de honestidade: o CostLens transforma texto de política em regras candidatas. Não garantimos aplicação correta, cobertura de 100% nem que agentes nunca deixem passar uma violação.',
+    secPostureH2: 'Nossa postura de conformidade',
+    secPosture1: 'O CostLens é apoio à decisão, não um escritório de advocacia, clínica ou auditor certificado.',
+    secPosture2: 'Para aconselhamento vinculante, consulte um profissional qualificado no domínio.',
+    secSubH2: 'Subprocessadores e pagamentos',
+    secSub1: 'Pagamentos processados pela Waffo Pancake (merchant of record).',
+    secSub2: 'Veja Privacy e Terms para os termos completos.',
+    secRefs: 'Referências: EU AI Act Regulation (EU) 2024/1689 · NIST AI RMF · OWASP Top 10 for AI Agents',
+    backHome: 'Voltar ao início',
+  },
+  blog: {
+    metaTitle: 'CostLens — Blog',
+    metaDesc: 'Artigos definicionais e práticos sobre policy-as-code, regras aplicadas por agentes, mapeamento do Regulamento de IA da UE e checklists de conformidade.',
+    glanceTitle: 'O que este produto inclui em um relance?',
+    glance1: 'Definição em linguagem clara, FAQ e referências para motores de resposta',
+    glance2: '3 etapas de fluxo revisáveis (entrada → gerar → revisar)',
+    glance3: 'Saída de apoio à decisão — você permanece no loop; sem contagens de usuários inventadas',
+    eyebrow: 'Blog · GEO',
+    h1: 'Policy-as-code, explicado',
+    lead: 'Domine as perguntas definicionais antes de transformar uma política da empresa em algo que um agente realmente aplica.',
+    targetQuery: 'Consulta alvo:',
+    guidesTitle: 'Quais deep-dives GEO ler primeiro?',
+    guidesLead: 'Explicações longas e citadas. Cada uma traz 3+ fontes autoritativas do Regulamento de IA da UE / governança de IA e um aviso de apoio à decisão.',
+    footerNote: 'Publicar + sindicar conforme gtm-launch (IH + índices GEO). Cada post traz 3 refs autoritativas.',
+    post1Title: 'Pacotes de política de agentes de IA e NIST AI RMF',
+    post1Desc: 'Como os pacotes de política mapeiam para funções NIST AI RMF e temas do Regulamento de IA da UE — apoio à decisão, não um certificado.',
+    post2Title: 'Ferramentas permitidas vs agentes abertos',
+    post2Desc: 'Por que restringir o acesso a ferramentas é um controle, não um interruptor de recurso — com regras de honestidade para agentes abertos.',
+    readI18n: 'Ler versão multilíngue',
+    readEnHtml: 'Ler artigo completo em inglês',
+    pillarSlug: 'ai-agent-policy-packs-nist-rmf-2026',
+    pillarEyebrow: 'por CostLens (LX AI)',
+    pillarH1: 'Pacotes de política de agentes de IA e NIST AI RMF',
+    pillarLead: 'Pacotes de política transformam regras da empresa em verificações acionáveis pelo agente. Alinhados às funções NIST AI RMF e aos temas do Regulamento de IA da UE, são apoio à decisão — não um certificado de conformidade.',
+    pillarH2a: 'O que um pacote de política contém',
+    pillarPa1: 'Um pacote é um conjunto de regras condição+ação extraídas do texto da política, mais uma checklist que mapeia regras de alto risco para expectativas de supervisão e registro. Agentes avaliam em runtime; humanos tratam exceções.',
+    pillarH2b: 'Alinhamento NIST AI RMF',
+    pillarPb1: 'Govern: propriedade de quais políticas devem vincular agentes. Map: inventário de ferramentas e dados. Measure: registrar decisões de política. Manage: escalar quando uma regra bloqueia ou é necessária aprovação humana.',
+    pillarH2c: 'Pontos de contato do Regulamento de IA da UE',
+    pillarPc1: 'Para usos de alto risco do Anexo III, deveres do implantador como Art. 9 e Art. 14 podem ser evidenciados por verificações de política — não substituem a avaliação de conformidade.',
+    pillarH2d: 'Limite de honestidade',
+    pillarPd1: 'O CostLens redige regras candidatas. A ligação, a qualidade da aplicação e a conformidade legal continuam sendo sua responsabilidade. Sem claim de garantia / 100% / never-miss.',
+    pillarDisclaimer: 'Apenas apoio à decisão — não é aconselhamento jurídico nem um certificado de conformidade.',
+    pillarFaq1Q: 'Um pacote de política certifica a conformidade com o Regulamento de IA da UE?',
+    pillarFaq1A: 'Não. Ajuda a evidenciar controles; a conformidade continua sendo responsabilidade da organização que implanta sobre o sistema completo.',
+    pillarFaq2Q: 'Como se relaciona com o NIST AI RMF?',
+    pillarFaq2A: 'As funções RMF dão vocabulário de governança e medição; os pacotes operacionalizam verificações que os agentes podem chamar dentro dessas funções.',
+    pillar2Slug: 'allowed-tools-vs-open-ended-agents-2026',
+    pillar2Eyebrow: 'Design de guardrails',
+    pillar2H1: 'Ferramentas permitidas vs agentes abertos',
+    pillar2Lead: 'Por que allow-lists falham fechadas com mais segurança do que agentes abertos — e como policy packs codificam esses limites em checks de runtime.',
+    pillar2H2a: 'Agentes abertos ampliam o blast radius',
+    pillar2Pa1: 'Escolha ilimitada de ferramentas + memória longa: uma injeção de prompt pode encadear e-mail, código e exfiltração.',
+    pillar2H2b: 'Allow-lists como deny-by-default',
+    pillar2Pb1: 'Enumere ferramentas, argumentos e destinos permitidos. Todo o resto falha fechado — alinhado ao NIST AI RMF Govern/Map.',
+    pillar2H2c: 'Codificar política como checks',
+    pillar2Pc1: 'Transforme prosa em checks invocáveis: escopo de ferramentas, classes de dados, owners de escalonamento e campos de auditoria.',
+    pillar2H2d: 'Quando a abertura ainda cabe',
+    pillar2Pd1: 'Sandboxes de pesquisa sem credenciais de produção podem usar ferramentas mais amplas — isoladas de caminhos de dados de clientes.',
+    pillar2Disclaimer: 'Rascunhos de apoio à decisão. Não é aconselhamento jurídico nem certificação.',
+    pillar2Faq1Q: 'Uma allow-list basta?',
+    pillar2Faq1A: 'Não. Combine com validação de argumentos, aprovação humana para ações irreversíveis e logging.',
+    pillar2Faq2Q: 'Relação com NIST AI RMF?',
+    pillar2Faq2A: 'Allow-lists sustentam Govern e Map: definir uso pretendido e controles antes de Measure/Manage em produção.',
+    pillar2Back: 'Voltar ao blog',
+    pillarBack: 'Voltar ao blog',
+    card1Title: 'O que é policy-as-code?',
+    card1Body: 'Policy-as-code expressa uma política da empresa como regras verificáveis por máquina que um agente avalia em runtime — por exemplo, se reembolso > $50 então exigir manager_approval. É apoio à decisão, não uma opinião jurídica nem um certificado.',
+    card2Title: 'Transformar a política da empresa em regras aplicadas pelo agente',
+    card2Body: 'Extraia cada frase como condição + ação, mapeie regras de alto risco para temas do Regulamento de IA da UE (Art. 9, 14, 26) e exporte um arquivo de regras que o agente avalia a cada execução. As regras são uma visão das suas obrigações, não uma garantia de conformidade.',
+  },
+} as const
+
+export default pt_BR as unknown as Messages

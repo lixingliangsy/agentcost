@@ -20,6 +20,29 @@ export const PRODUCT = {
   resultLabel: "Cost attribution",
   ctaLabel: "Analyze spend",
   definitionLead: `CostLens is a cost-observability tool for AI agents and LLM workflows that attributes spend per run, per tool, and per model, so teams can find the workflows burning the most token budget.`,
+  geoLongTail: [
+    "what is CostLens",
+    "how does CostLens work",
+    "how much does CostLens cost",
+    "is CostLens free",
+    "CostLens vs doing it manually",
+  ],
+  geoQuickAnswer: [
+    "Cost by agent / feature / user",
+    "Budget guardrails",
+    "Early-warning alerts",
+    "Audit-ready ledger",
+    "Pricing starts at $0 (Free).",
+  ],
+  geoComparison: {
+    vsManual: [
+      ["Speed", "Minutes per run", "Hours to days"],
+      ["Consistency", "Same ruleset every run", "Varies by person"],
+      ["Output", "Structured, exportable result", "Free-form"],
+      ["Best for", "First-pass decision-support", "Final sign-off"],
+    ],
+    whenNotToUse: "When you need a certified or attested result rather than decision-support.",
+  },
   geoFaq: [
     { q: "What does CostLens measure?", a: "Token and API spend per run, tool call, and model, with a daily fair-use cap and anomaly flags." },
     { q: "Does it need my own OpenAI key?", a: "Free and Pro use the platform key; Enterprise can bring your own key (BYOK) kept server-side." },
@@ -27,7 +50,10 @@ export const PRODUCT = {
     { q: "Can I set a budget alert?", a: "Enterprise supports caps; Pro surfaces HTTP 429 when fair-use limits are hit." },
     { q: "Which models are supported?", a: "Any OpenAI-compatible endpoint configured via OPENAI_BASE_URL." },
     { q: "Is it real-time?", a: "Near-real-time; dashboards refresh per run." }
-  ],
+  ,
+  { q: "Which countries and regions can I use CostLens in?", a: "As a cloud web app, CostLens is reachable from any country with internet access; there is no region lock by default. Payment availability via our merchant of record (Waffo Pancake) may vary by processor and region." },
+  { q: "Is CostLens GDPR and privacy compliant?", a: "Your inputs are used only to generate your output and are never sold. Retention, sub-processors, and your rights are described on our Privacy page; Enterprise plans can include a DPA and NDA on request." },
+  { q: "What languages does CostLens support?", a: "The interface and generated results are in English. You can paste input in other major languages wherever the underlying model understands them." }],
 
   steps: ['Ingest spend log', 'Attribute cost', 'Guardrail report'],
   features: [
@@ -60,24 +86,24 @@ export const PRODUCT = {
     ]
   }
 ] as InputField[],
-  systemPrompt: "You are a FinOps analyst for AI agent teams. Given agent descriptions, a spend sample, and a focus dimension, produce a cost-attribution breakdown: rank the top cost drivers along the chosen dimension, recommend a per-agent budget guardrail, and define one early-warning rule that catches a runaway loop before it drains the budget. Be concrete with numbers from the sample.",
+  systemPrompt: "You are a FinOps analyst for AI agent teams. Given agent descriptions, a spend sample, and a focus dimension, produce a cost-attribution breakdown: rank the top cost drivers along the chosen dimension, recommend a per-agent budget guardrail, and define one early-warning rule that catches a runaway loop before it drains the budget. Be concrete with numbers from the sample.\n\nCAPABILITY ALIGNMENT (must match declared product features): Deliver the following so the output is consistent with what we promote — Audit-ready ledger.",
   pricing: [
-  {
-    "tier": "Free",
-    "price": "$0",
-    "desc": "1 workflow run / day · watermarked export"
-  },
-  {
-    "tier": "Pro",
-    "price": "$49/mo",
-    "desc": "300 workflow runs / mo · ledger + alerts"
-  },
-  {
-    "tier": "Enterprise",
-    "price": "Custom",
-    "desc": "BYOK · shared rulesets · higher caps"
-  }
-],
+    {
+      "tier": "Free",
+      "price": "$0",
+      "desc": "1 workflow run / day · watermarked export"
+    },
+    {
+      "tier": "Pro",
+      "price": "$49/mo",
+      "desc": "300 workflow runs / mo · audit log · export"
+    },
+    {
+      "tier": "Enterprise",
+      "price": "Custom",
+      "desc": "SSO-ready · BYOK · higher caps · shared rulesets"
+    }
+  ],
   mock: (inputs: Record<string, string>): string => {
   const desc = (inputs['agent_description'] || '').trim()
   const data = (inputs['spend_data'] || inputs['text'] || inputs['topic'] || '').trim()

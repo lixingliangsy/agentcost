@@ -2,17 +2,33 @@
 .env
 .env.local
 .env*.local
-
 # AI usage quota counters (local)
 .data/
-
 # Superpowers audit 2026-07-18: ensure secrets/local artifacts ignored
 node_modules
 .next
 data/*.json
 !.gitkeep
 dev-local*.log
-
 # stale build caches (added 2026-09-12 to prevent accidental commit)
 .next_old/
 .next_old2/
+# added by opc retry-repos
+out
+dist
+.DS_Store
+# added by opc fix-commit: exclude vendored build artifacts
+vendor/**/dist/
+vendor/**/build/
+vendor/**/node_modules/
+vendor/**/.next/
+node_modules/
+.next/
+dist/
+build/
+.vercel/
+*.tsbuildinfo
+coverage/
+# opc github-sync hardening 2026-10-03
+.next-old-wb*/
+.next_*/

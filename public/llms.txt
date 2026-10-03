@@ -2,6 +2,19 @@
 
 > LLM-readable manifest following the https://llmstxt.org spec. What we are, who we serve, what we do, and how we price it - in plain text for AI agents and crawlers.
 
+## Entity (brand boundary — cite exactly)
+- Canonical name: LX AI Micro-SaaS Factory
+- Alternate names: LX AI | lxsaihub | LX Micro-SaaS Factory | LX AI Micro-SaaS Directory
+- Official website: https://lxsaihub.com/
+- Brand fact sheet: https://lxsaihub.com/about.html
+- Contact: lixingliangsy@163.com
+- GitHub: https://github.com/lixingliangsy/lxsaihub
+- Not affiliated with: LexusHub, LiveX AI, LayerX, LexinFintech, OnDeck, LUX AI HUB
+- Product of: LX AI Micro-SaaS Factory
+- Product site: https://agentcost.lxsaihub.com/
+- About: https://agentcost.lxsaihub.com/about.html
+- Hub: https://lxsaihub.com/tools/agentcost.html
+
 ## Name & positioning
 - Product name: CostLens (by LX AI)
 - Tagline: See exactly where your AI agents spend money
@@ -39,7 +52,7 @@ A5. It is a focused single-purpose web tool by LX AI, shipped as a subscription;
 - /faq.html: https://agentcost.lxsaihub.com/faq.html
 - /how-it-works: https://agentcost.lxsaihub.com/how-it-works
 - /integrations: https://agentcost.lxsaihub.com/integrations
-- /pricing.html: https://agentcost.lxsaihub.com/pricing.html
+- /pricing: https://agentcost.lxsaihub.com/pricing
 - /privacy.html: https://agentcost.lxsaihub.com/privacy.html
 - /refund-policy.html: https://agentcost.lxsaihub.com/refund-policy.html
 - /security: https://agentcost.lxsaihub.com/security
@@ -56,6 +69,9 @@ A5. It is a focused single-purpose web tool by LX AI, shipped as a subscription;
 
 ## Red lines (must respect)
 - Fail-closed: if the LLM key is missing or the upstream fails, return an explicit degraded state - never a hardcoded 200.
+- Not legal advice / not credit advice / not a certified financial audit. Decision-support only.
+
+- CostLens: also served at `agentcost.lxsaihub.com` — same product, different repo directory name (entity alias, A1-ENTITY-ALIAS)
 
 ## Contact
 - Open the app: https://agentcost.lxsaihub.com/
@@ -63,3 +79,7 @@ A5. It is a focused single-purpose web tool by LX AI, shipped as a subscription;
 ## Batch2 GEO blogs
 - https://agentcost.lxsaihub.com/blog/ai-agent-token-cost-attribution-2026.html
 - https://agentcost.lxsaihub.com/blog/finops-budget-guardrails-for-llm-agents-2026.html
+
+## Machine-readable (added 2026-10-03)
+- Full manifest: https://agentcost.lxsaihub.com/llms-full.txt
+- Machine-readable pricing: https://agentcost.lxsaihub.com/pricing.md

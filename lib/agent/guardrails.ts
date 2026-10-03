@@ -38,7 +38,7 @@ const UNCERTAINTY_MARKER: RegExp =
   /(i'?m not sure|cannot (confirm|guarantee|verify)|not certain|i recommend (you )?(consult|contact|verify)|for reference|you may want to (check|verify)|beyond my|i don'?t (know|have))/i;
 
 const COMPLIANCE_DISCLAIMER =
-  "(The above is for reference only and is not legal, tax, or professional advice, and it is not a compliance certification.)";
+  "(The above is for reference only. It is not legal advice, not credit advice, and not tax or professional financial advice. It is not a compliance or audit certification.)";
 
 const LOW_CONFIDENCE_THRESHOLD = 2;
 

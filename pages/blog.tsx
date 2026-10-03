@@ -1,182 +1,78 @@
-import React from 'react'
 import Head from 'next/head'
 import Layout from '../components/Layout'
-import { PRODUCT } from '../lib/product'
+import { useT } from '../lib/i18n/provider'
 
-import { buildFaqJsonLd, buildHowToJsonLd } from '../lib/schema'
-const OWASP = 'https://owasp.org/www-project-top-10-for-large-language-model-applications/'
-const OWASP_API = 'https://owasp.org/www-project-api-security/'
-const NIST = 'https://www.nist.gov/ai-risk-management-framework'
-
-const posts = [
-  {
-    slug: 'what-is-ai-agent-cost-attribution',
-    title: 'What is AI agent cost attribution?',
-    type: 'Definitional · FAQPage',
-    query: 'what is AI agent cost attribution',
-    body: 'AI agent cost attribution maps LLM inference costs to specific agents, features, and users. This visibility enables FinOps teams to optimize spending, set budgets, and prevent runaway costs. Without attribution, LLM bills arrive as a single number with no way to understand what drove the expenditure.',
-    refs: [OWASP, 'IEEE AI Cost Management'],
-  },
-  {
-    slug: 'how-to-set-agent-budget-guardrails',
-    title: 'How to set agent budget guardrails',
-    type: 'How-to · HowTo',
-    query: 'how to set AI agent budget limits',
-    body: 'Step-by-step guide to setting per-agent budgets, configuring early-warning alerts, and creating auto-pause rules to prevent budget breaches. Start by analyzing historical spend, then set realistic caps with buffer zones, and configure alerts at 70% and 90% thresholds.',
-    refs: [OWASP_API, NIST],
-  },
-  {
-    slug: 'hidden-cost-of-agent-loops',
-    title: 'What is the hidden cost of agent loops?',
-    type: 'Definitional + examples',
-    query: 'LLM agent loop cost',
-    body: 'Agent loops can burn through thousands of tokens in minutes. A loop that repeats 100 times at 1000 tokens each costs the same as 100 single runs. Learn how to detect them, quantify their cost, and prevent them with guardrails before they drain your budget.',
-    refs: [OWASP],
-  },
-  {
-    slug: 'finops-for-ai-teams',
-    title: 'What is FinOps for AI teams?',
-    type: 'How-to',
-    query: 'FinOps for AI LLM costs',
-    body: 'A practical guide for engineering teams to track, optimize, and report on LLM spending — without becoming finance experts. Focus on three areas: cost attribution, budget guardrails, and reporting that speaks to both engineering and finance.',
-    refs: ['FinOps Foundation'],
-  },
-  {
-    slug: 'byok-security-best-practices',
-    title: 'What is BYOK security best practices?',
-    type: 'How-to',
-    query: 'BYOK security best practices AI',
-    body: 'When using Bring-Your-Own-Key for LLM operations, follow these security practices: store keys server-side only, rotate regularly, limit key permissions, and audit key usage. Never expose keys to client-side code.',
-    refs: [OWASP_API, 'GDPR Art. 32'],
-  },
+const SITE = 'https://agentcost.lxsaihub.com'
+const POSTS = [
+  { slug: 'ai-agent-token-cost-attribution-2026', titleKey: 'blog.post1Title', descKey: 'blog.post1Desc', pillar: true },
+  { slug: 'finops-budget-guardrails-for-llm-agents-2026', titleKey: 'blog.post2Title', descKey: 'blog.post2Desc', pillar: true },
 ]
 
-
-const faqs = [
-  {
-    "question": "What is AI agent cost attribution?",
-    "answer": "AI agent cost attribution maps LLM inference costs to specific agents, features, and users. This visibility enables FinOps teams to optimize spending, set budgets, and prevent runaway costs. Without attribution, LLM bills arrive as a single number with no way to understand what drove the expenditure."
-  },
-  {
-    "question": "How to set agent budget guardrails",
-    "answer": "Step-by-step guide to setting per-agent budgets, configuring early-warning alerts, and creating auto-pause rules to prevent budget breaches. Start by analyzing historical spend, then set realistic caps with buffer zones, and configure alerts at 70% and 90% thresholds."
-  },
-  {
-    "question": "The hidden cost of agent loops",
-    "answer": "Agent loops can burn through thousands of tokens in minutes. A loop that repeats 100 times at 1000 tokens each costs the same as 100 single runs. Learn how to detect them, quantify their cost, and prevent them with guardrails before they drain your budget."
-  },
-  {
-    "question": "FinOps for AI teams",
-    "answer": "A practical guide for engineering teams to track, optimize, and report on LLM spending — without becoming finance experts. Focus on three areas: cost attribution, budget guardrails, and reporting that speaks to both engineering and finance."
-  },
-  {
-    "question": "BYOK security best practices",
-    "answer": "When using Bring-Your-Own-Key for LLM operations, follow these security practices: store keys server-side only, rotate regularly, limit key permissions, and audit key usage. Never expose keys to client-side code."
-  },
-  {
-    "question": "Does CostLens replace professional judgment?",
-    "answer": "No. CostLens drafts structured output for review. You remain responsible for final decisions."
-  }
-] as { question: string; answer: string }[]
-
-const howToBlocks = [
-  {
-    "name": "How to set agent budget guardrails",
-    "steps": [
-      {
-        "name": "Overview",
-        "text": "Step-by-step guide to setting per-agent budgets, configuring early-warning alerts, and creating auto-pause rules to prevent budget breaches. Start by analyzing historical spend, then set realistic caps with buffer zones, and configure alerts at 70% and 90% thresholds."
-      }
-    ]
-  },
-  {
-    "name": "FinOps for AI teams",
-    "steps": [
-      {
-        "name": "Overview",
-        "text": "A practical guide for engineering teams to track, optimize, and report on LLM spending — without becoming finance experts. Focus on three areas: cost attribution, budget guardrails, and reporting that speaks to both engineering and finance."
-      }
-    ]
-  },
-  {
-    "name": "BYOK security best practices",
-    "steps": [
-      {
-        "name": "Overview",
-        "text": "When using Bring-Your-Own-Key for LLM operations, follow these security practices: store keys server-side only, rotate regularly, limit key permissions, and audit key usage. Never expose keys to client-side code."
-      }
-    ]
-  }
-] as { name: string; steps: { name: string; text: string }[] }[]
-
-const NAME = PRODUCT.name
-
 export default function BlogPage() {
+  const { t, locale } = useT()
+  const cards = [
+    { title: t('blog.card1Title'), body: t('blog.card1Body') },
+    { title: t('blog.card2Title'), body: t('blog.card2Body') },
+  ]
+  const articleScripts = POSTS.map((p) => ({
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: t(p.titleKey),
+    description: t(p.descKey),
+    inLanguage: locale,
+    mainEntityOfPage: `${SITE}/blog/read/${p.slug}`,
+  }))
   return (
     <Layout>
       <Head>
-        <link rel="canonical" href="https://agentcost.lxsaihub.com/blog" />
-
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(buildFaqJsonLd(faqs)) }}
-        />
-        {howToBlocks.map((block, i) => (
-          <script
-            key={`howto-${i}`}
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{
-              __html: JSON.stringify(buildHowToJsonLd(block.name, block.steps)),
-            }}
-          />
+        <title>{t('blog.metaTitle')}</title>
+        <meta name="description" content={t('blog.metaDesc')} />
+        {articleScripts.map((ld, i) => (
+          <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
         ))}
-
-        
-        <section className="mb-10">
-          <h2 className="text-xl font-bold text-slate-900">What does this product include at a glance?</h2>
-          <ul className="mt-3 space-y-2 text-sm text-slate-700 list-disc pl-5">
-            <li>Plain-language definition, FAQ, and references for answer engines</li>
-            <li>3 reviewable workflow steps (input → generate → review)</li>
-            <li>Decision-support output — you stay in the loop; no fabricated user counts</li>
-          </ul>
-        </section>
-
-          {posts.map((p, i) => (
-          <script
-            key={`article-${i}`}
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{
-              __html: JSON.stringify({
-                "@context": "https://schema.org",
-                "@type": "Article",
-                headline: p.title,
-                description: p.body,
-                inLanguage: "en",
-              }),
-            }}
-          />
-        ))}
-
-        <title>{`${PRODUCT.name} — Blog`}</title>
-        <meta name="description" content="Definitional and how-to posts on AI agent cost tracking, FinOps, and budget guardrails." />
       </Head>
       <div className="max-w-3xl">
-        <div className="text-xs font-bold tracking-widest uppercase text-indigo-600 mb-3">Blog · GEO</div>
-        <h1 className="text-4xl font-extrabold tracking-tight mb-4">AI agent FinOps, explained</h1>
-        <p className="text-lg text-slate-600 mb-10">Own the definitional queries that AI answer engines cite.</p>
-
+        <section className="mb-10">
+          <h2 className="text-xl font-bold text-slate-900">{t('blog.glanceTitle')}</h2>
+          <ul className="mt-3 space-y-2 text-sm text-slate-700 list-disc pl-5">
+            <li>{t('blog.glance1')}</li>
+            <li>{t('blog.glance2')}</li>
+            <li>{t('blog.glance3')}</li>
+          </ul>
+        </section>
+        <div className="text-xs font-bold tracking-widest uppercase text-indigo-600 mb-3">{t('blog.eyebrow')}</div>
+        <h1 className="text-4xl font-extrabold tracking-tight mb-4">{t('blog.h1')}</h1>
+        <p className="text-lg text-slate-600 mb-10">{t('blog.lead')}</p>
         <div className="space-y-8">
-          {posts.map((p) => (
-            <article key={p.slug} className="border-b border-slate-200 pb-8">
-              <div className="text-xs font-semibold text-indigo-600 mb-1">{p.type}</div>
-              <h2 className="text-2xl font-bold mb-2 text-slate-900">{p.title}</h2>
-              <p className="text-sm text-slate-600 mb-2"><span className="font-semibold">Target query:</span> {p.query}</p>
-              <p className="text-slate-700 leading-relaxed">{p.body}</p>
-              <p className="text-xs text-slate-400 mt-3">refs: {p.refs.join(' · ')}</p>
+          {cards.map((c) => (
+            <article key={c.title} className="border-b border-slate-200 pb-8">
+              <h2 className="text-2xl font-bold mb-2 text-slate-900">{c.title}</h2>
+              <p className="text-slate-700 leading-relaxed">{c.body}</p>
             </article>
           ))}
         </div>
-        <p className="text-xs text-slate-400 mt-8">Publish + syndicate per gtm-launch (IH + GEO indexes). Each post carries 3 authoritative refs.</p>
+        <h2 className="text-2xl font-bold mt-14 mb-2 text-slate-900">{t('blog.guidesTitle')}</h2>
+        <p className="text-sm text-slate-500 mb-6">{t('blog.guidesLead')}</p>
+        <div className="space-y-5">
+          {POSTS.map((p) => (
+            <div key={p.slug} className="border-b border-slate-200 pb-5">
+              <h3 className="text-xl font-semibold">
+                <a href={`/blog/read/${p.slug}`} className="text-indigo-700 hover:underline">{t(p.titleKey)}</a>
+              </h3>
+              <p className="text-sm text-slate-600 mt-1">{t(p.descKey)}</p>
+              <p className="text-xs text-slate-400 mt-2">
+                <a href={`/blog/read/${p.slug}`} className="underline">{t('blog.readI18n')}</a>
+                {locale === 'en' ? (
+                  <>
+                    {' · '}
+                    <a href={`/blog/${p.slug}.html`} className="underline">{t('blog.readEnHtml')}</a>
+                  </>
+                ) : null}
+              </p>
+            </div>
+          ))}
+        </div>
+        <p className="text-xs text-slate-400 mt-8">{t('blog.footerNote')}</p>
       </div>
     </Layout>
   )

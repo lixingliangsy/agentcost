@@ -1,0 +1,625 @@
+// locales/pt-BR.ts — CostLens full main-path catalog (batch2)
+// Batch2 full main-path translations 2026-09-29. Shape mirrors en.ts.
+
+import type { Messages } from '../types'
+
+const pt_BR = {
+  meta: {
+    title: 'Enviar feedback',
+    description: 'Atribuir custo de inferência LLM e agentcost ao agente, recurso e usuário que o acionou — com guardrails orçamentários.',
+  },
+  common: {
+    appName: 'CostLens',
+    tagline: 'Veja exatamente onde os agentes de IA gastam dinheiro',
+    microSaas: 'Micro SaaS',
+    menu: 'Menu',
+  },
+  nav: {
+    backToHub: 'Voltar ao hub',
+    home: 'Início',
+    features: 'Recursos',
+    useCases: 'Casos de uso',
+    integrations: 'Integrações',
+    howItWorks: 'Como funciona',
+    studio: 'Studio',
+    security: 'Segurança',
+    pricing: 'Preços',
+    blog: 'Blog',
+    faq: 'FAQ',
+    feedback: 'Feedback',
+    support: 'Suporte',
+    signIn: 'Entrar',
+    subscribe: 'Assinar',
+    getStarted: 'Começar',
+  },
+  hero: {
+    badge: 'Micro SaaS',
+    title: 'Transforme política da empresa em regras aplicadas por agents',
+    subtitle: 'Junte-se aos construtores que usam CostLens. Gratuito para testar — sem cartão necessário.',
+    keyTakeaways: 'Principais conclusões',
+    takeaway1: 'Atribuição de custo de token por agente, recurso e usuário.',
+    takeaway2: 'Guardrails orçamentários por agente com alertas antecipados.',
+    takeaway3: 'Honestidade: Suporte de decisão FinOps — não um certificado de faturamento ou garantia de custo.',
+    ctaPrimary: 'Assinar',
+    ctaSecondary: 'Ver demo',
+    note: 'Sem cartão de crédito · Cancele quando quiser',
+    playDemo: 'Reproduzir demo ▶',
+    walkthrough: 'Clique para ver o passo a passo',
+  },
+  stats: {
+    builders: 'Builders',
+    avgRating: 'Avaliação média',
+    uptime: 'Uptime',
+    timeToValue: 'Tempo até valor',
+  },
+  pricing: {
+    heading: 'Planos simples que escalam',
+    monthly: 'Mensal',
+    yearly: 'Anual',
+    perMonth: '/mês',
+    mostPopular: 'Mais popular',
+    getPro: 'Obter Pro',
+    orYearly: 'Ou pague anualmente — ${{amount}}/mês',
+    custom: 'Personalizado',
+    contactSales: 'Falar com vendas',
+    configureByok: 'Configurar BYOK',
+    getStarted: 'Começar',
+    freeForever: 'grátis para sempre',
+    billedMonthly: 'cobrado mensalmente',
+    save: 'economize',
+    freeFeat1: 'Execuções diárias de IA limitadas (10/dia · 50/mês)',
+    freeFeat2: 'Demo do Studio (sem taxa extra de LLM)',
+    proFeat1: 'IA incluída: 300 gens/mês · fair use (gpt-4o-mini)',
+    proFeat2: 'Sem assinatura separada do ChatGPT',
+    proFeat3: 'Suporte prioritário · 2 meses grátis no anual',
+    entFeat1: 'Assentos de equipe · Acesso à API (roadmap)',
+    entFeat2: 'BYOK opcional (sua chave OpenAI)',
+  },
+  faq: {
+    title: 'Suas perguntas, respondidas',
+    geoTitle: 'CostLens — perguntas frequentes',
+    items: [
+      {
+        q: 'O que o CostLens acompanha?',
+        a: 'Custo de inferência de LLM e agente atribuído a agentes, recursos e usuários — com limites orçamentários. Suporte à tomada de decisões, não um certificado de cobrança.',
+      },
+      {
+        q: 'Isto é aconselhamento jurídico ou uma certificação?',
+        a: 'Não. As saídas são rascunhos de apoio à decisão. Peça revisão de counsel e donos de risco antes da produção. Não reivindicamos certificação ISO, CMP ou de regulador.',
+      },
+      {
+        q: 'Posso cancelar a qualquer momento?',
+        a: 'Sim. Planos self-serve cancelam quando quiser; o acesso continua até o fim do período.',
+      },
+      {
+        q: 'Preciso de cartão de crédito para começar?',
+        a: 'Não. Comece com cadastro por e-mail ou modo Demo no studio e faça upgrade quando estiver pronto.',
+      },
+      {
+        q: 'Preciso da minha própria assinatura ChatGPT / OpenAI?',
+        a: 'Não para Free/Pro. As execuções de IA estão incluídas no plano (fair use) via nossa chave de plataforma. Enterprise pode opcionalmente trazer a própria chave OpenAI (BYOK) — configure em /settings (a chave permanece só no servidor).',
+      },
+      {
+        q: 'O que é Fair Use / e se eu atingir o limite de IA?',
+        a: 'O Pro inclui cerca de 300 gerações de IA/mês (mais um teto diário) no gpt-4o-mini. Se atingir o limite fair use, o Studio devolve um resultado mock/demo até o reset diário ou mensal — ou faça upgrade / use Enterprise BYOK para maior volume.',
+      },
+      {
+        q: 'O checkout é seguro?',
+        a: 'Os pagamentos são processados pela Waffo Pancake (merchant of record).',
+      },
+      {
+        q: 'O que acontece depois que eu pago?',
+        a: 'Você recebe confirmação de acesso; o fulfillment é rastreado via webhook + logs de pedido.',
+      },
+    ],
+  
+    geoItems: [
+      { q: 'Quais sinais?', a: 'Uso de token mapeado para agente, recurso e usuário.' },
+      { q: 'Substitui sua fatura?', a: 'Não. Atribuição de suporte à decisão — não uma garantia de faturamento.' },
+      { q: 'Alertas de orçamento?', a: 'Guardrails por agente com alertas precoces antes que os loops esgotem o gasto.' },
+      { q: 'Demonstração vs ao vivo?', a: 'Demonstração é rotulada; narrativa ao vivo precisa de uma chave de IA configurada.' },
+      { q: 'Para quem é?', a: 'Equipes de plataforma e FinOps que enviam pilhas de vários agentes.' },
+      { q: 'Fontes primárias?', a: 'Notas de prática de atribuição de token / FinOps de LLM.' },
+    ],
+},
+  footer: {
+    product: 'Produto',
+    company: 'Empresa',
+    resources: 'Recursos',
+    legal: 'Jurídico',
+    about: 'Sobre',
+    contact: 'Contato',
+    privacy: 'Privacidade',
+    terms: 'Termos',
+    refund: 'Reembolso',
+    support: 'Suporte',
+    feedback: 'Feedback',
+    rights: 'Todos os direitos reservados.',
+    partOfFleet: 'Parte da frota LX AI Micro-SaaS.',
+  },
+  signup: {
+    title: 'Comece de forma mais inteligente hoje',
+    subtitle: 'Junte-se a builders que usam o CostLens. Grátis para testar — sem cartão.',
+    emailPlaceholder: 'Digite seu e-mail',
+    saving: 'Salvando…',
+    cta: 'Começar',
+    trust: 'Confiável · Cancele quando quiser',
+  },
+  feedback: {
+    open: 'Feedback',
+    title: 'Enviar feedback',
+    blurb: 'Diga o que funcionou, o que quebrou ou o que você quer a seguir.',
+    fullPage: 'Prefere uma página completa?',
+    openPage: 'Abrir /feedback',
+    close: 'Fechar feedback',
+    helpful: 'Este resultado foi útil?',
+    yes: 'Sim',
+    no: 'Não',
+    thanks: 'Obrigado pelo feedback.',
+    commentPlaceholder: 'Comentário opcional de uma linha',
+    generalTitle: 'Feedback geral',
+    generalSub: 'Diga o que você acha',
+    generalPh: 'O que você gostou, não gostou ou notou ao usar o produto?',
+    ideaTitle: 'Tenho uma ideia',
+    ideaSub: 'Sugira um recurso ou melhoria',
+    ideaPh: 'Descreva sua ideia e o problema que ela resolveria…',
+    issueTitle: 'Encontrei um problema',
+    issueSub: 'Relate um bug ou problema',
+    issuePh: 'O que aconteceu, o que você esperava e como podemos reproduzir?',
+    submit: 'Enviar feedback',
+    submitting: 'Enviando…',
+    done: 'Obrigado — feedback recebido.',
+    emailOptional: 'E-mail (opcional)',
+    category: 'Categoria',
+    yourFeedback: 'Seu feedback',
+    attachment: 'Anexo (opcional)',
+
+    back: '← Voltar ao tipo de feedback',
+    pickTitle: 'Que feedback você tem?',
+    pickSub: 'Escolha um para começar. Você pode adicionar detalhes e uma categoria precisa na próxima etapa.',
+    thanksTitle: 'Obrigado pelo feedback!',
+    thanksBody: 'Recebemos e nossa equipe fará o acompanhamento em breve. Sinta-se à vontade para enviar de novo a qualquer momento.',
+    submitAnother: 'Enviar outro',
+    detailed: 'Feedback detalhado',
+    send: 'Enviar',
+    sending: 'Enviando...',
+    thanksInline: 'Obrigado - registrado. Lemos cada um.',
+    errorInline: 'Não foi possível enviar agora. Use o botão Feedback ou /feedback.',
+    inlineCommentPh: 'Uma linha: o que devemos melhorar? (opcional)',
+  },
+  legal: {
+    privacyPolicy: 'Política de privacidade',
+    generatePolicy: 'Gerar política',
+    controller: 'Controlador',
+    processor: 'Operador',
+    processing: 'Tratamento',
+    personalData: 'Dados pessoais',
+    dataSubject: 'Titular dos dados',
+    dpo: 'Encarregado de proteção de dados',
+    checklist: 'Checklist de conformidade',
+    policyChecks: 'Checagens de política',
+    encodePolicy: 'Codifique sua política',
+    definitionTitle: 'CostLens — definição',
+    whatItIs: 'O que é',
+    whatNotTitle: 'O que isto NÃO é',
+    whatNot1: 'Não é um escritório de advocacia, plataforma GRC nem organismo de certificação ISO.',
+    whatNot2: 'Não é garantia de que políticas redigidas satisfaçam todo regulador ou auditor.',
+    whatNot3: 'Não é aconselhamento jurídico — peça revisão de counsel para packs de política de agents de alto risco.',
+    rolesHint: 'Quando os packs mencionam papéis de privacidade, usamos rótulos do GDPR Art.4: Controlador e Operador (apenas apoio à decisão).',
+  },
+  benchmark: {
+    frameworksEyebrow: 'Mapeamento de frameworks',
+    frameworksTitle: 'Leis complexas. Packs de política simples.',
+    frameworksNote: 'Temas de apoio à decisão — não uma certificação, selo CMP ou parecer jurídico.',
+    fw1: 'EU AI Act',
+    fw2: 'NIST AI RMF',
+    fw3: 'OWASP LLM Top 10',
+    fw4: 'Papéis GDPR Art.4',
+    painEyebrow: 'Por que as contas de agentes surpreendem',
+    painTitle: 'Agentes em loop. Orçamentos desaparecem.',
+    pain1Title: 'Novas regras, novo risco',
+    pain1Body: 'Cada atualização regulatória pode deixar ferramentas do agent, classes de dados e caminhos de escalonamento fora de sincronia.',
+    pain2Title: 'Docs vs runtime',
+    pain2Body: 'Quando o PDF vive separado do runtime do agent, pontos cegos aparecem em produção.',
+    pain3Title: 'Reescritas manuais',
+    pain3Body: 'Editar checklists à mão para cada domínio drena em silêncio o tempo de engenharia e conformidade.',
+    pain4Title: 'Problemas após o ship',
+    pain4Body: 'Lacunas costumam surgir só após uma auditoria, incidente ou questionário de cliente.',
+    getEyebrow: 'O que você obtém',
+    getTitle: 'Ingerir. Atribuir. Proteger.',
+    getLead: 'Suporte de decisão FinOps — não é um certificado de fatura.',
+    get1Title: 'Checagens de política',
+    get1Body: 'Regras condição + ação que um runtime de agent pode avaliar.',
+    get2Title: 'Checklist de conformidade',
+    get2Body: 'Deveres legíveis para que donos vejam lacunas antes do go-live.',
+    get3Title: 'Mapeamento do AI Act da UE',
+    get3Body: 'Ponteiros temáticos para obrigações de alto risco — não certificação de conformidade.',
+    get4Title: 'Regras exportáveis',
+    get4Body: 'Saída estruturada que você pode ligar a guardrails ou middleware.',
+    featuresEyebrow: 'Por que CostLens',
+    featuresTitle: 'Tudo o que você precisa para FinOps de agente',
+    featuresBlurb: 'Construído para equipes de plataforma que precisam de clareza de gastos sem superdeclaração.',
+    howTitle: 'CostLens — Como funciona',
+    how1Title: 'Colar',
+    how1Body: 'Cole o texto da política e escolha o domínio.',
+    how2Title: 'Codificar',
+    how2Body: 'Gere verificações chamáveis por agentes e uma lista de erros de validação.',
+    how3Title: 'Implementar',
+    how3Body: 'Conecte regras ao tempo de execução do agente; mantenha humanos para exceções.',
+    allPlansTitle: 'Todos os planos pagos incluem',
+    allPlans1: 'Studio de política para regras',
+    allPlans2: 'Exportação da checklist de conformidade',
+    allPlans3: 'Mapeamento temático do AI Act da UE (apoio à decisão)',
+    allPlans4: 'Suporte por e-mail em planos pagos — sem add-ons ocultos para o uso central do studio',
+    honestyTitle: 'Limites honestos',
+    honestyLead: 'CostLens atribui gastos. Não é um certificado de fatura ou garantia de custo.',
+    ctaStudio: 'Abrir studio',
+  },
+  home: {
+    whyEyebrow: 'Por que {{name}}',
+    featuresHeading: 'Tudo o que você precisa para atribuição de token',
+    featuresCardBlurb: 'Construído para ledger e guardrails sem garantias de fatura.',
+    howHeading: 'De execuções para clareza de gastos em 3 etapas',
+    how1Title: 'Colar política',
+    how1Desc: 'Tokens + ids de agentcost.',
+    how2Title: 'Compilar regras',
+    how2Desc: 'Linhas do ledger.',
+    how3Title: 'Aplicar',
+    how3Desc: 'FinOps possui ação.',
+    studioEyebrow: 'Studio ao vivo',
+    studioHeading: 'Experimente nesta página',
+    studioWatchDemo: 'Ver demo',
+    studioOrRun: 'ou execute uma checagem abaixo.',
+    studioFormTitle: 'Verificação de política de agentes',
+    demoMode: 'Modo demo (sem IA ao vivo)',
+    socialHeading: 'Confiado por engenheiros de conformidade',
+    socialNote: 'Prova social usa modelos até que existam depoimentos reais e consentidos. Confiado por [X]+ equipes de conformidade e plataformas de agentes.',
+    quickAnswers: 'Respostas rápidas',
+    howCompares: 'Comparação',
+    dimension: 'Dimensão',
+    manual: 'Manual',
+    whenNotToUse: 'Quando não usar:',
+    peopleAlsoSearch: 'As pessoas também pesquisam',
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    leadsInbox: "Caixa de leads (CRUD demo)",
+    filterEmail: "Filtrar e-mail…",
+    allPlans: "Todos os planos",
+    noLeads: "Ainda sem leads — envie o formulário de inscrição.",
+    colEmail: "E-mail",
+    colPlan: "Plano",
+    colSource: "Fonte",
+    delete: "Excluir",
+    deleteLeadTitle: "Excluir lead",
+    deleteLeadWarn: "Esta ação não pode ser desfeita.",
+    deleteLeadBody: "Excluir este lead? O e-mail será removido permanentemente dos seus contatos.",
+    cancel: "Cancelar",
+    relatedReading: "Leitura relacionada",
+    productTour: "Tour do produto",
+    productDemo: "DEMO DO PRODUTO",
+    stepOf: "passo {{n}}/{{total}}",
+    replay: "Repetir",
+    tryStudio: "Experimentar studio",
+    leadsCount: "{{n}} leads",
+    leadsFiltered: "{{n}} filtrados",
+    geoCmpDim: "Dimensão",
+    geoCmpManual: "Manual",
+    geoCmp1Dim: "Velocidade",
+    geoCmp1Manual: "Horas a dias",
+    geoCmp1Tool: "Minutos por execução",
+    geoCmp2Dim: "Consistência",
+    geoCmp2Manual: "Varia por pessoa",
+    geoCmp2Tool: "Mesmo conjunto de regras sempre",
+    geoCmp3Dim: "Saída",
+    geoCmp3Manual: "Texto livre",
+    geoCmp3Tool: "Resultado estruturado e exportável",
+    geoCmp4Dim: "Melhor para",
+    geoCmp4Manual: "Aprovação final",
+    geoCmp4Tool: "Apoio à decisão de primeira passagem",
+    related1Title: "Envolvente de IA vs fosso",
+    related1Desc: "aplicação de política como um fosso duradouro.",
+    related2Title: "lista de verificação de conformidade com o EU AI Act",
+    related2Desc: "mapear as funções dos agentes para os temas da Lei.",
+    related3Title: "Lançamento da Wave 1",
+    related3Desc: "CostLens é fornecido com o cluster de governança.",
+    feat1: "Política-para-regras",
+    feat2: "Lista de verificação de conformidade",
+    feat3: "Mapeamento do EU AI Act",
+    feat4: "Regras exportáveis",
+    geoQa1: "Política-para-regras",
+    geoQa2: "Lista de verificação de conformidade",
+    geoQa3: "Mapeamento do EU AI Act",
+    geoQa4: "Regras exportáveis",
+    geoQa5: "Os preços começam em $0 (Free).",
+    geoLt1: "O que é CostLens",
+    geoLt2: "Como o CostLens funciona",
+    geoLt3: "Quanto custa o CostLens",
+    geoLt4: "O CostLens é Free",
+    geoLt5: "CostLens vs fazendo manualmente",
+    geoWhenNot: "Use revisão humana qualificada em vez disso — é um auxílio de redação. As políticas devem ser revisadas por seu conselho jurídico e pelos proprietários de risco.",
+    demo1Title: "Bem-vindo ao {{name}}",
+    demo1Detail: "Um tour de 60 segundos de como o {{name}} transforma política em verificações de agente.",
+    demo2Title: "Abrir o estúdio ao vivo",
+    demo2Detail: "Cole o texto da política e escolha um domínio.",
+    demo3Title: "Clique em Generate checks",
+    demo3Detail: "Alimentado por Política-para-regras e listas de verificação de conformidade.",
+    demo4Title: "Pré-visualização das verificações de política",
+    demo4Detail: "Saída de exemplo do pipeline baseado em regras deste produto:",
+    demo4DetailEmpty: "Suas verificações de política aparecem aqui — copie ou refine.",
+    demo5Title: "Sua vez",
+    demo5Detail: "Experimente o estúdio ao vivo, ou comece com {{name}}.",
+  },
+  chat: {
+    typing: 'O assistente está digitando…',
+    placeholder: 'Digite sua pergunta… (Enter para enviar)',
+    send: 'Enviar',
+    openAria: 'Abrir assistente de IA',
+    openTitle: 'Pergunte ao nosso assistente de IA',
+    closeAria: 'Fechar',
+    escalated: 'Conectamos você a um agente humano. Faremos o acompanhamento por e-mail.',
+    s1: 'O que esta ferramenta faz?',
+    s2: 'Quanto custa?',
+    s3: 'Existe um plano gratuito?',
+  },
+  pages: {
+    howTitle: 'CostLens — Como funciona',
+    howDesc: 'Como o CostLens funciona em três etapas.',
+    howEyebrow: 'Como funciona',
+    howH1: 'Da entrada ao resultado em 3 etapas',
+    how1Title: 'Colar',
+    how1Body: 'Cole o texto da política e escolha o domínio.',
+    how2Title: 'Codificar',
+    how2Body: 'Gere verificações acionáveis pelo agente e uma checklist de conformidade.',
+    how3Title: 'Aplicar',
+    how3Body: 'Conecte as regras ao runtime do agente; mantenha humanos para exceções.',
+    subscribe: 'Assinar',
+    ucTitle: 'CostLens — Casos de uso',
+    ucDesc: 'Como o CostLens ajuda equipes de conformidade e plataformas de agentes.',
+    ucEyebrow: 'Casos de uso',
+    ucH1: 'Feito para conformidade e plataformas de agentes',
+    ucIntro: 'Escolha seu segmento para ver os fluxos que mais importam.',
+    uc1Title: 'Políticas financeiras',
+    uc1Pain: 'Reembolsos e aprovações devem ser verificáveis por máquina.',
+    uc1Help: 'Extrair condições + ações que os agentes possam avaliar.',
+    uc2Title: 'Políticas de RH / segurança',
+    uc2Pain: 'Precisam de checklists que os agentes possam chamar.',
+    uc2Help: 'O seletor de domínio foca a extração.',
+    uc3Title: 'Recursos de IA da UE',
+    uc3Pain: 'Mapear regras de alto risco para temas do Regulamento de IA.',
+    uc3Help: 'Apenas mapeamento de apoio à decisão.',
+    uc4Title: 'Equipes de plataforma',
+    uc4Pain: 'PDFs de política nunca chegam ao runtime.',
+    uc4Help: 'Regras exportáveis para ferramentas de agente.',
+    painLabel: 'Dor:',
+    helpLabel: 'Como o CostLens ajuda:',
+    ucRefs: 'Referências: EU AI Act Regulation (EU) 2024/1689 · NIST AI RMF · OWASP Top 10 for AI Agents',
+    intTitle: 'CostLens — Integrações',
+    intDesc: 'Destinos de exportação, API e opções BYOK do CostLens.',
+    intEyebrow: 'Integrações',
+    intH1: 'Conecte-se ao seu stack',
+    intIntro: 'Somente integrações honestas são listadas. Não anunciamos conectores ainda não entregues.',
+    int1Title: 'Regras exportáveis',
+    int1Body: 'Exportação JSON/checklist para ferramentas de agente.',
+    int2Title: 'API',
+    int2Body: 'Regenerar quando as políticas mudarem.',
+    int3Title: 'Mapeamento do Regulamento de IA da UE',
+    int3Body: 'Ponteiros para temas de alto risco.',
+    int4Title: 'BYOK',
+    int4Body: 'Chaves apenas no servidor quando oferecidas.',
+    intHonesty: 'Nota de honestidade: a aplicação em runtime é trabalho do seu sistema; geramos verificações candidatas.',
+    secTitle: 'CostLens — Segurança e conformidade',
+    secDesc: 'Como o CostLens trata seus dados e sua postura de conformidade honesta.',
+    secEyebrow: 'Segurança e conformidade',
+    secH1: 'Seus dados, nossa postura',
+    secIntro: 'O CostLens processa as entradas que você envia para análise. Esta página diz claramente o que tratamos e o que não reivindicamos.',
+    secHandleH2: 'O que tratamos',
+    secHandleBody: 'texto de política da empresa e seleções de domínio usados para gerar verificações executáveis pelo agente.',
+    secDataH2: 'Compromissos de tratamento de dados',
+    secData1: 'Os envios passam pelo pipeline do produto e são retidos apenas pelo tempo necessário ao seu log de auditoria (planos pagos) ou até você excluir a execução.',
+    secData2: 'Aplicamos controles de acesso consistentes com o GDPR Art. 32 quando dados pessoais são processados.',
+    secData3: 'Chaves BYOK (Enterprise), quando oferecidas, são armazenadas apenas no servidor e nunca expostas ao navegador.',
+    secHonesty: 'Regra de honestidade: o CostLens transforma texto de política em regras candidatas. Não garantimos aplicação correta, cobertura de 100% nem que agentes nunca deixem passar uma violação.',
+    secPostureH2: 'Nossa postura de conformidade',
+    secPosture1: 'O CostLens é apoio à decisão, não um escritório de advocacia, clínica ou auditor certificado.',
+    secPosture2: 'Para aconselhamento vinculante, consulte um profissional qualificado no domínio.',
+    secSubH2: 'Subprocessadores e pagamentos',
+    secSub1: 'Pagamentos processados pela Waffo Pancake (merchant of record).',
+    secSub2: 'Veja Privacy e Terms para os termos completos.',
+    secRefs: 'Referências: EU AI Act Regulation (EU) 2024/1689 · NIST AI RMF · OWASP Top 10 for AI Agents',
+    backHome: 'Voltar ao início',
+  },
+  blog: {
+    metaTitle: 'CostLens — Blog',
+    metaDesc: 'Postagens definicionais sobre atribuição de custo de tokens de agente.',
+    glanceTitle: 'O que este produto inclui em um relance?',
+    glance1: 'Definição em linguagem clara, FAQ e referências para motores de resposta',
+    glance2: '3 etapas de fluxo revisáveis (entrada → gerar → revisar)',
+    glance3: 'Saída de apoio à decisão — você permanece no loop; sem contagens de usuários inventadas',
+    eyebrow: 'Blog · GEO',
+    h1: 'Veja onde os agentes de IA gastam dinheiro',
+    lead: 'Ledger por agente, guardrails de orçamento e alertas — antes que um loop esgote o gasto.',
+    targetQuery: 'Consulta alvo:',
+    guidesTitle: 'Quais deep-dives GEO ler primeiro?',
+    guidesLead: 'Explicadores de longa forma sobre atribuição de token e guardrails de FinOps.',
+    footerNote: 'Publicar + sindicar conforme gtm-launch (IH + índices GEO). Cada post traz 3 refs autoritativas.',
+    post1Title: 'Atribuição de custo de token de agente de IA (2026)',
+    post1Desc: 'Como atribuir custo de inferência ao agente e recurso que o gastou.',
+    post2Title: 'Guardrails de orçamento FinOps para agentes LLM (2026)',
+    post2Desc: 'Guardrails de orçamento que capturam loops de agente descontrolados precocemente.',
+    readI18n: 'Ler versão multilíngue',
+    readEnHtml: 'Ler artigo completo em inglês',
+    pillarSlug: 'ai-agent-token-cost-attribution-2026',
+    pillarEyebrow: 'por CostLens (LX AI) com FinOps, LLM, Waffo, BYOK e agentcost',
+    pillarH1: 'Como funciona o CostLens',
+    pillarLead: 'Ingesta sinais de gastos. Atribua. Alerta.',
+    pillarH2a: 'O que um pacote de política contém',
+    pillarPa1: 'Um pacote é um conjunto de regras condição+ação extraídas do texto da política, mais uma checklist que mapeia regras de alto risco para expectativas de supervisão e registro. Agentes avaliam em runtime; humanos tratam exceções.',
+    pillarH2b: 'Alinhamento NIST AI RMF',
+    pillarPb1: 'Govern: propriedade de quais políticas devem vincular agentes. Map: inventário de ferramentas e dados. Measure: registrar decisões de política. Manage: escalar quando uma regra bloqueia ou é necessária aprovação humana.',
+    pillarH2c: 'Pontos de contato do Regulamento de IA da UE',
+    pillarPc1: 'Para usos de alto risco do Anexo III, deveres do implantador como Art. 9 e Art. 14 podem ser evidenciados por verificações de política — não substituem a avaliação de conformidade.',
+    pillarH2d: 'Limite de honestidade',
+    pillarPd1: 'O CostLens redige regras candidatas. A ligação, a qualidade da aplicação e a conformidade legal continuam sendo sua responsabilidade. Sem claim de garantia / 100% / never-miss.',
+    pillarDisclaimer: 'Apenas apoio à decisão — não é aconselhamento jurídico nem um certificado de conformidade.',
+    pillarFaq1Q: 'Um pacote de política certifica a conformidade com o Regulamento de IA da UE?',
+    pillarFaq1A: 'Não. Ajuda a evidenciar controles; a conformidade continua sendo responsabilidade da organização que implanta sobre o sistema completo.',
+    pillarFaq2Q: 'Como se relaciona com o NIST AI RMF?',
+    pillarFaq2A: 'As funções RMF dão vocabulário de governança e medição; os pacotes operacionalizam verificações que os agentes podem chamar dentro dessas funções.',
+    pillar2Slug: 'allowed-tools-vs-open-ended-agents-2026',
+    pillar2Eyebrow: 'Design de guardrails',
+    pillar2H1: 'Ferramentas permitidas vs agentes abertos',
+    pillar2Lead: 'Por que allow-lists falham fechadas com mais segurança do que agentes abertos — e como policy packs codificam esses limites em checks de runtime.',
+    pillar2H2a: 'Agentes abertos ampliam o blast radius',
+    pillar2Pa1: 'Escolha ilimitada de ferramentas + memória longa: uma injeção de prompt pode encadear e-mail, código e exfiltração.',
+    pillar2H2b: 'Allow-lists como deny-by-default',
+    pillar2Pb1: 'Enumere ferramentas, argumentos e destinos permitidos. Todo o resto falha fechado — alinhado ao NIST AI RMF Govern/Map.',
+    pillar2H2c: 'Codificar política como checks',
+    pillar2Pc1: 'Transforme prosa em checks invocáveis: escopo de ferramentas, classes de dados, owners de escalonamento e campos de auditoria.',
+    pillar2H2d: 'Quando a abertura ainda cabe',
+    pillar2Pd1: 'Sandboxes de pesquisa sem credenciais de produção podem usar ferramentas mais amplas — isoladas de caminhos de dados de clientes.',
+    pillar2Disclaimer: 'Rascunhos de apoio à decisão. Não é aconselhamento jurídico nem certificação.',
+    pillar2Faq1Q: 'Uma allow-list basta?',
+    pillar2Faq1A: 'Não. Combine com validação de argumentos, aprovação humana para ações irreversíveis e logging.',
+    pillar2Faq2Q: 'Relação com NIST AI RMF?',
+    pillar2Faq2A: 'Allow-lists sustentam Govern e Map: definir uso pretendido e controles antes de Measure/Manage em produção.',
+    pillar2Back: 'Voltar ao blog',
+    pillarBack: 'Voltar ao blog',
+    card1Title: 'O que é atribuição de custo de agente?',
+    card1Body: 'Mapeie tokens para o agente, recurso e usuário que os gastaram — não uma profecia de faturamento.',
+    card2Title: 'Limites orçamentários',
+    card2Body: 'Avisos antecipados quando um loop de agente consome o orçamento.',
+  },
+} as const
+
+export default pt_BR as unknown as Messages
